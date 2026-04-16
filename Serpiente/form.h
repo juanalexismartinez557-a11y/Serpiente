@@ -114,11 +114,11 @@ namespace MiProyecto {
             this->lblCoin->Size = System::Drawing::Size(50, 46);
             this->lblCoin->Text = L"💰";
 
-            // Conteador de menedas
+            // Conteador de menedas //740
             this->lblCoinCount->AutoSize = true;
             this->lblCoinCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, FontStyle::Bold);
             this->lblCoinCount->ForeColor = System::Drawing::Color::White;
-            this->lblCoinCount->Location = System::Drawing::Point(740, 25);
+            this->lblCoinCount->Location = System::Drawing::Point(940, 25);
             this->lblCoinCount->Name = L"lblCoinCount";
             this->lblCoinCount->Size = System::Drawing::Size(39, 41);
             this->lblCoinCount->Text = L"0";
