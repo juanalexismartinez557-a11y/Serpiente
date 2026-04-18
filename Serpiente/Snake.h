@@ -72,20 +72,41 @@ namespace MiProyecto {
 
         Apple() : Position(GridPoint(0, 0)) {}
 
-        // Aunque uses los mismos nombres, DEBES poner 'int' antes de cada uno
-        void Generate(Random^ rnd, int CurrentCols, int CurrentRows) {
-            int min = 1;
-            int maxC = CurrentCols - 1;
-            int maxR = CurrentRows - 1;
+        void Generate(Random^ rnd, int CurrentCols, int CurrentRows, List<GridPoint>^ occupiedCells) {
+            int minX = 1;
+            int maxX = CurrentCols - 1;
+            int minY = 1;
+            int maxY = CurrentRows - 1;
 
-            // Asegurar que max > min para evitar ArgumentOutOfRangeException
-            if (maxC <= min) maxC = min + 1;
-            if (maxR <= min) maxR = min + 1;
+            // Asegurar que max > min
+            if (maxX <= minX) maxX = minX + 1;
+            if (maxY <= minY) maxY = minY + 1;
 
-            Position = GridPoint(
-                rnd->Next(min, maxC),
-                rnd->Next(min, maxR)
-            );
+            // Intentar encontrar posición libre (máximo 100 intentos para evitar bucle infinito)
+            for (int attempts = 0; attempts < 100; attempts++) {
+                GridPoint newPos(
+                    rnd->Next(minX, maxX),
+                    rnd->Next(minY, maxY)
+                );
+
+                // Verificar si la posición está libre
+                bool isOccupied = false;
+                for each (GridPoint p in occupiedCells) {
+                    if (p.Equals(newPos)) {
+                        isOccupied = true;
+                        break;
+                    }
+                }
+
+                if (!isOccupied) {
+                    Position = newPos;
+                    return;
+                }
+            }
+
+            // Si no encontramos posición libre en 100 intentos, usar la última generada
+            // (esto solo pasaría si el tablero está casi lleno)
+            Position = GridPoint(rnd->Next(minX, maxX), rnd->Next(minY, maxY));
         }
 
 
@@ -171,16 +192,16 @@ namespace MiProyecto {
 
         void SetBoardSize(BoardSize size) {
             switch (size) {
-            case BoardSize::Small:  CurrentCols = 15; CurrentRows = 12; break;
-            case BoardSize::Medium: CurrentCols = 25; CurrentRows = 22; break;
-            case BoardSize::Large:  CurrentCols = 40; CurrentRows = 30; break;
+            case BoardSize::Small:  CurrentCols = 10; CurrentRows = 10; break;   // Era 15x12
+            case BoardSize::Medium: CurrentCols = 25; CurrentRows = 25; break;   // Era 25x22
+            case BoardSize::Large:  CurrentCols = 50; CurrentRows = 50; break;   // Era 40x30
             }
 
             // Validación de seguridad
             if (CurrentCols < 5) CurrentCols = 5;
             if (CurrentRows < 5) CurrentRows = 5;
 
-            this->Reset(); // Reinicia la serpiente y comida para el nuevo tamaño
+            this->Reset();
         }
 
 
@@ -207,16 +228,18 @@ namespace MiProyecto {
             pendingDx = 1; pendingDy = 0;
 
             BuildBorderWalls();
-            apple->Generate(rnd, CurrentCols, CurrentRows);
+            apple->Generate(rnd, CurrentCols, CurrentRows, GetOccupiedCells());
         }
 
         // Construye las paredes del borde como objetos Wall
         void BuildBorderWalls() {
             Color wallCol = Color::FromArgb(101, 67, 33);
+            // Pared superior e inferior (filas 0 y CurrentRows-1)
             for (int x = 0; x < CurrentCols; x++) {
                 walls->Add(gcnew Wall(GridPoint(x, 0), wallCol));
                 walls->Add(gcnew Wall(GridPoint(x, CurrentRows - 1), wallCol));
             }
+            // Paredes izquierda y derecha (columnas 0 y CurrentCols-1)
             for (int y = 1; y < CurrentRows - 1; y++) {
                 walls->Add(gcnew Wall(GridPoint(0, y), wallCol));
                 walls->Add(gcnew Wall(GridPoint(CurrentCols - 1, y), wallCol));
@@ -277,7 +300,10 @@ namespace MiProyecto {
                 ApplesEaten++;
                 Score += SCORE_PER_APPLE;
                 growPending += GrowAmount;
-                apple->Generate(rnd, CurrentCols, CurrentRows);
+
+                // Generar nueva manzana evitando el cuerpo actual de la serpiente
+                apple->Generate(rnd, CurrentCols, CurrentRows, GetOccupiedCells());
+
                 OnScoreChanged(Score, ApplesEaten);
             }
         }
@@ -403,8 +429,17 @@ namespace MiProyecto {
     private:
         List<GridPoint>^ GetOccupiedCells() {
             List<GridPoint>^ occupied = gcnew List<GridPoint>();
-            for each (GridPoint p in snakeBody) occupied->Add(p);
-            for each (Wall ^ w in walls)         occupied->Add(w->Position);
+
+            // Celdas ocupadas por la serpiente
+            for each (GridPoint p in snakeBody) {
+                occupied->Add(p);
+            }
+
+            // Celdas ocupadas por paredes
+            for each (Wall ^ w in walls) {
+                occupied->Add(w->Position);
+            }
+
             return occupied;
         }
 
