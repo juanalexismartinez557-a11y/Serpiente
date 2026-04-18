@@ -14,6 +14,36 @@ namespace MiProyecto {
     using namespace System::Collections::Generic;
     using namespace System::Windows::Forms;
 
+    // =========================================================
+    //  Panel con Double Buffering activado
+    //  Reemplaza al Panel normal para eliminar el flickering.
+    //  SetStyle activa el buffer doble nativo de Windows y
+    //  suprime el borrado del fondo antes de cada Paint.
+    // =========================================================
+    ref class DoubleBufferedPanel : public System::Windows::Forms::Panel
+    {
+    public:
+        DoubleBufferedPanel() {
+            this->DoubleBuffered = true;
+            this->SetStyle(
+                System::Windows::Forms::ControlStyles::AllPaintingInWmPaint |
+                System::Windows::Forms::ControlStyles::UserPaint |
+                System::Windows::Forms::ControlStyles::OptimizedDoubleBuffer |
+                System::Windows::Forms::ControlStyles::ResizeRedraw,
+                true
+            );
+            this->UpdateStyles();
+        }
+    protected:
+        property System::Windows::Forms::CreateParams^ CreateParams {
+            System::Windows::Forms::CreateParams^ get() override {
+                System::Windows::Forms::CreateParams^ cp = Panel::CreateParams;
+                cp->ExStyle |= 0x02000000; // WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+    };
+
     public ref class Form1 : public System::Windows::Forms::Form
     {
     public:
@@ -34,7 +64,7 @@ namespace MiProyecto {
 
         // --- UI ---
         System::Windows::Forms::Panel^ panelTop;
-        System::Windows::Forms::Panel^ panelGame;
+        DoubleBufferedPanel^ panelGame;   // Panel con double buffer
         System::Windows::Forms::Label^ lblApple;
         System::Windows::Forms::Label^ lblAppleCount;
         System::Windows::Forms::Label^ lblTrophy;
@@ -52,7 +82,7 @@ namespace MiProyecto {
         void InitializeComponent(void)
         {
             this->panelTop = gcnew System::Windows::Forms::Panel();
-            this->panelGame = gcnew System::Windows::Forms::Panel();
+            this->panelGame = gcnew DoubleBufferedPanel();
             this->lblApple = gcnew System::Windows::Forms::Label();
             this->lblAppleCount = gcnew System::Windows::Forms::Label();
             this->lblTrophy = gcnew System::Windows::Forms::Label();
@@ -81,70 +111,63 @@ namespace MiProyecto {
             this->panelTop->Size = System::Drawing::Size(820, 88);
             this->panelTop->TabIndex = 0;
 
-            // Emoji manzana
             this->lblApple->AutoSize = true;
             this->lblApple->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
             this->lblApple->ForeColor = System::Drawing::Color::White;
             this->lblApple->Location = System::Drawing::Point(25, 22);
-            this->lblApple->Text = L"\U0001F34E"; // 🍎
+            this->lblApple->Text = L"\U0001F34E";
 
-            // Contador manzanas
             this->lblAppleCount->AutoSize = true;
             this->lblAppleCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Regular);
             this->lblAppleCount->ForeColor = System::Drawing::Color::White;
             this->lblAppleCount->Location = System::Drawing::Point(100, 25);
             this->lblAppleCount->Text = L"0";
 
-            // Emoji trofeo
             this->lblTrophy->AutoSize = true;
             this->lblTrophy->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
             this->lblTrophy->ForeColor = System::Drawing::Color::White;
             this->lblTrophy->Location = System::Drawing::Point(200, 22);
-            this->lblTrophy->Text = L"\U0001F3C6"; // 🏆
+            this->lblTrophy->Text = L"\U0001F3C6";
 
-            // Puntaje actual
             this->lblScore->AutoSize = true;
             this->lblScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Regular);
             this->lblScore->ForeColor = System::Drawing::Color::White;
             this->lblScore->Location = System::Drawing::Point(275, 25);
             this->lblScore->Text = L"0";
 
-            // Emoji moneda
             this->lblCoin->AutoSize = true;
             this->lblCoin->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
             this->lblCoin->ForeColor = System::Drawing::Color::White;
             this->lblCoin->Location = System::Drawing::Point(375, 22);
-            this->lblCoin->Text = L"\U0001F4B0"; // 💰
+            this->lblCoin->Text = L"\U0001F4B0";
             this->lblCoin->Cursor = System::Windows::Forms::Cursors::Hand;
             this->lblCoin->Click += gcnew System::EventHandler(this, &Form1::AbrirTienda);
 
-            // Numero al lado de la bolsa de monedas
             this->lblCoinCount->AutoSize = true;
             this->lblCoinCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Bold);
             this->lblCoinCount->ForeColor = System::Drawing::Color::White;
             this->lblCoinCount->Location = System::Drawing::Point(450, 25);
             this->lblCoinCount->Text = L"0";
 
-            // Etiqueta BEST
             this->lblHighScore->AutoSize = true;
             this->lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, System::Drawing::FontStyle::Regular);
             this->lblHighScore->ForeColor = System::Drawing::Color::FromArgb(255, 230, 100);
             this->lblHighScore->Location = System::Drawing::Point(700, 8);
             this->lblHighScore->Text = L"BEST";
 
-            // Etiqueta de tamano de tablero
             this->lblBoardSize->AutoSize = true;
             this->lblBoardSize->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Bold);
             this->lblBoardSize->ForeColor = System::Drawing::Color::White;
             this->lblBoardSize->Location = System::Drawing::Point(520, 12);
             this->lblBoardSize->Text = L"TABLERO";
 
-            // Selector de tamano de tablero
             this->cboBoardSize->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
             this->cboBoardSize->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
             this->cboBoardSize->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Regular);
             this->cboBoardSize->FormattingEnabled = true;
-            this->cboBoardSize->Items->AddRange(gcnew cli::array< System::Object^  > { L"Small (10x10)", L"Medium (25x25)", L"Large (50x50)" });
+            this->cboBoardSize->Items->AddRange(gcnew cli::array<System::Object^> {
+                L"Small (10x10)", L"Medium (25x25)", L"Large (50x50)"
+            });
             this->cboBoardSize->Location = System::Drawing::Point(523, 34);
             this->cboBoardSize->Name = L"cboBoardSize";
             this->cboBoardSize->Size = System::Drawing::Size(155, 31);
@@ -152,7 +175,6 @@ namespace MiProyecto {
             this->cboBoardSize->SelectedIndexChanged += gcnew System::EventHandler(
                 this, &Form1::CboBoardSize_SelectedIndexChanged);
 
-            // Agregar al panel superior
             this->panelTop->Controls->Add(this->lblApple);
             this->panelTop->Controls->Add(this->lblAppleCount);
             this->panelTop->Controls->Add(this->lblTrophy);
@@ -163,20 +185,18 @@ namespace MiProyecto {
             this->panelTop->Controls->Add(this->lblBoardSize);
             this->panelTop->Controls->Add(this->cboBoardSize);
 
-            // ---- Panel de juego ----
+            // ---- Panel de juego (DoubleBufferedPanel) ----
             this->panelGame->BackColor = System::Drawing::Color::FromArgb(170, 215, 81);
             this->panelGame->Location = System::Drawing::Point(30, 120);
             this->panelGame->Size = System::Drawing::Size(750, 660);
             this->panelGame->TabIndex = 1;
             this->panelGame->BorderStyle = System::Windows::Forms::BorderStyle::None;
 
-            // Evento Paint del panel
             this->panelGame->Paint += gcnew System::Windows::Forms::PaintEventHandler(
                 this, &Form1::PanelGame_Paint);
             this->panelGame->Resize += gcnew System::EventHandler(
                 this, &Form1::PanelGame_Resize);
 
-            // Eventos del Form
             this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(
                 this, &Form1::Form1_KeyDown);
 
@@ -184,6 +204,16 @@ namespace MiProyecto {
             this->Controls->Add(this->panelGame);
 
             this->ResumeLayout(false);
+        }
+
+
+        BoardSize GetSelectedBoardSize() {
+            switch (cboBoardSize->SelectedIndex) {
+            case 0:  return BoardSize::Small;
+            case 2:  return BoardSize::Large;
+            case 1:
+            default: return BoardSize::Medium;
+            }
         }
 
         void InitGame() {
@@ -219,28 +249,16 @@ namespace MiProyecto {
             panelGame->Invalidate();
         }
 
-        BoardSize GetSelectedBoardSize() {
-            switch (cboBoardSize->SelectedIndex) {
-            case 0: return BoardSize::Small;
-            case 2: return BoardSize::Large;
-            case 1:
-            default:
-                return BoardSize::Medium;
-            }
-        }
+        
 
         void CboBoardSize_SelectedIndexChanged(Object^ sender, EventArgs^ e) {
             if (cboBoardSize->SelectedIndex < 0 || game == nullptr) return;
-
             if (game->HasStarted && !game->IsGameOver) {
                 cboBoardSize->Enabled = false;
                 return;
             }
-
             game->SetBoardSize(GetSelectedBoardSize());
-            if (gameTimer != nullptr) {
-                gameTimer->Interval = game->SpeedMs;
-            }
+            if (gameTimer != nullptr) gameTimer->Interval = game->SpeedMs;
             lblCoinCount->Text = game->HighScore.ToString();
             UpdateUI(0, 0);
             panelGame->Invalidate();
@@ -271,9 +289,7 @@ namespace MiProyecto {
 
             case System::Windows::Forms::Keys::P:
             case System::Windows::Forms::Keys::Escape:
-                if (game != nullptr) {
-                    game->TogglePause();
-                }
+                if (game != nullptr) game->TogglePause();
                 break;
 
             case System::Windows::Forms::Keys::R:
