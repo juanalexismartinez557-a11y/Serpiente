@@ -9,7 +9,7 @@ namespace MiProyecto {
     using namespace System;
     using namespace System::Collections::Generic;
     using namespace System::Drawing;
-    using namespace System::IO;
+    // NO importamos System::IO globalmente para evitar conflictos
 
     // =========================================================
     //  CONSTANTES DEL JUEGO  (cambia aqui para modos de juego)
@@ -22,8 +22,11 @@ namespace MiProyecto {
     static const int SCORE_PER_APPLE = 10;
     static const int MAX_RANKING = 5;
 
-    // Funcion para obtener el nombre del archivo (evita error C3145 con String^ global)
-    static String^ GetScoreFile() { return "snake_scores.csv"; }
+    // literal es la forma correcta de constante String en C++/CLI
+    ref class ScoreConfig {
+    public:
+        literal System::String^ FILE_NAME = "snake_scores.csv";
+    };
 
     // =========================================================
     //  ESTRUCTURA: Punto en la grid
@@ -107,6 +110,10 @@ namespace MiProyecto {
     // =========================================================
     //  CLASE PRINCIPAL: Motor del juego Snake
     // =========================================================
+
+    enum class BoardSize { Small, Medium, Large };
+
+
     ref class SnakeGame {
     public:
         // --- Configuracion (modificable desde Form para modos de juego) ---
@@ -115,6 +122,7 @@ namespace MiProyecto {
         int  GrowAmount;        // segmentos que crece al comer una manzana
 
         // --- Estado ---
+        bool HasStarted;    // true = el juego ha comenzado (deshabilita cambio de tamaño)
         bool IsGameOver;
         bool IsPaused;
         int  Score;
@@ -139,6 +147,11 @@ namespace MiProyecto {
         Random^ rnd;
 
     public:
+
+        SnakeGame(BoardSize size) : SnakeGame() {
+            HasStarted = false;
+        }
+
         SnakeGame() {
             WallPassThrough = false;
             SpeedMs = SNAKE_SPEED_MS;
@@ -151,6 +164,11 @@ namespace MiProyecto {
 
             LoadHighScore();
             Reset();
+        }
+
+        void SetBoardSize(BoardSize size) {
+			// Cambia el tamaño de la grilla y reinicia el juego
+            this->Reset();
         }
 
         // Reinicia la partida sin destruir el objeto
@@ -206,7 +224,7 @@ namespace MiProyecto {
         // Tick principal llamado por el Timer del Form
         void Tick() {
             if (IsGameOver || IsPaused) return;
-
+            HasStarted = true;
             dx = pendingDx;
             dy = pendingDy;
 
@@ -251,7 +269,15 @@ namespace MiProyecto {
         }
 
         // Dibuja todo el estado del juego
-        void Draw(Graphics^ g) {
+        // clientSize = panelGame->ClientSize  (para el fondo y los overlays)
+        void Draw(Graphics^ g, System::Drawing::Size clientSize) {
+            // Fondo verde: borra el frame anterior ANTES de dibujar
+            // Esto es clave para eliminar el flickering
+            g->FillRectangle(
+                gcnew SolidBrush(System::Drawing::Color::FromArgb(170, 215, 81)),
+                0, 0, clientSize.Width, clientSize.Height
+            );
+
             for each (Wall ^ w in walls)  w->Draw(g);
             apple->Draw(g);
 
@@ -268,8 +294,8 @@ namespace MiProyecto {
                 if (i == 0) DrawEyes(g, px, py);
             }
 
-            if (IsGameOver)              DrawGameOverOverlay(g);
-            if (IsPaused && !IsGameOver) DrawPauseOverlay(g);
+            if (IsGameOver)              DrawGameOverOverlay(g, clientSize);
+            if (IsPaused && !IsGameOver) DrawPauseOverlay(g, clientSize);
         }
 
         // Guarda el puntaje y devuelve el ranking actualizado
@@ -279,7 +305,7 @@ namespace MiProyecto {
             scores->Sort();
             scores->Reverse();
 
-            StreamWriter^ sw = gcnew StreamWriter(GetScoreFile(), false);
+            System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(ScoreConfig::FILE_NAME, false);
             for (int i = 0; i < Math::Min(scores->Count, MAX_RANKING); i++)
                 sw->WriteLine(scores[i]);
             sw->Close();
@@ -291,9 +317,9 @@ namespace MiProyecto {
         // Carga los puntajes guardados desde el CSV
         List<int>^ LoadScores() {
             List<int>^ scores = gcnew List<int>();
-            if (!File::Exists(GetScoreFile())) return scores;
+            if (!System::IO::File::Exists(ScoreConfig::FILE_NAME)) return scores;
             try {
-                StreamReader^ sr = gcnew StreamReader(GetScoreFile());
+                System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(ScoreConfig::FILE_NAME);
                 String^ line;
                 while ((line = sr->ReadLine()) != nullptr) {
                     int val;
@@ -341,17 +367,17 @@ namespace MiProyecto {
             g->FillEllipse(gcnew SolidBrush(Color::Black), ex2 + 1, ey2 + 1, 4, 4);
         }
 
-        void DrawGameOverOverlay(Graphics^ g) {
+        void DrawGameOverOverlay(Graphics^ g, System::Drawing::Size clientSize) {
             g->FillRectangle(gcnew SolidBrush(Color::FromArgb(160, 0, 0, 0)),
-                0, 0, GRID_COLS * CELL_SIZE, GRID_ROWS * CELL_SIZE);
+                0, 0, clientSize.Width, clientSize.Height);
 
             System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 32, System::Drawing::FontStyle::Bold);
             System::Drawing::Font^ smFont = gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Regular);
             StringFormat^ center = gcnew StringFormat();
             center->Alignment = StringAlignment::Center;
 
-            int cx = (GRID_COLS * CELL_SIZE) / 2;
-            int cy = (GRID_ROWS * CELL_SIZE) / 2;
+            int cx = clientSize.Width / 2;
+            int cy = clientSize.Height / 2;
 
             g->DrawString(L"GAME OVER", bigFont, gcnew SolidBrush(Color::Gold),
                 RectangleF((float)(cx - 200), (float)(cy - 80), 400, 60), center);
@@ -361,14 +387,14 @@ namespace MiProyecto {
                 RectangleF((float)(cx - 150), (float)(cy + 30), 300, 35), center);
         }
 
-        void DrawPauseOverlay(Graphics^ g) {
+        void DrawPauseOverlay(Graphics^ g, System::Drawing::Size clientSize) {
             g->FillRectangle(gcnew SolidBrush(Color::FromArgb(120, 0, 0, 0)),
-                0, 0, GRID_COLS * CELL_SIZE, GRID_ROWS * CELL_SIZE);
+                0, 0, clientSize.Width, clientSize.Height);
             System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 36, System::Drawing::FontStyle::Bold);
             StringFormat^ center = gcnew StringFormat();
             center->Alignment = StringAlignment::Center;
-            int cx = (GRID_COLS * CELL_SIZE) / 2;
-            int cy = (GRID_ROWS * CELL_SIZE) / 2;
+            int cx = clientSize.Width / 2;
+            int cy = clientSize.Height / 2;
             g->DrawString(L"PAUSA", bigFont, gcnew SolidBrush(Color::White),
                 RectangleF((float)(cx - 150), (float)(cy - 30), 300, 60), center);
         }
