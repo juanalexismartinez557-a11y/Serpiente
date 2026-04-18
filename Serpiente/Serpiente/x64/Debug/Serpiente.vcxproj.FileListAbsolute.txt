@@ -3,3 +3,5 @@ C:\Users\almal\OneDrive\Documentos\GitHub\Serpiente\Serpiente\Serpiente\x64\Debu
 C:\Users\admin\Documents\GitHub\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.AssemblyReference.cache
 C:\Users\admin\Documents\GitHub\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.ResolveComReference.cache
 C:\Users\almal\OneDrive\Documentos\GitHub\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.ResolveComReference.cache
+C:\Users\angel\source\repos\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.AssemblyReference.cache
+C:\Users\angel\source\repos\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.ResolveComReference.cache

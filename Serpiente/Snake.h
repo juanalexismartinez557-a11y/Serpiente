@@ -14,9 +14,6 @@ namespace MiProyecto {
     // =========================================================
     //  CONSTANTES DEL JUEGO  (cambia aqui para modos de juego)
     // =========================================================
-    static const int CELL_SIZE = 30;
-    static const int GRID_COLS = 25;
-    static const int GRID_ROWS = 22;
     static const int SNAKE_SPEED_MS = 150;
     static const int APPLE_GROW_AMOUNT = 3;
     static const int SCORE_PER_APPLE = 10;
@@ -34,6 +31,38 @@ namespace MiProyecto {
         bool Equals(GridPoint other) { return X == other.X && Y == other.Y; }
     };
 
+    public enum class BoardSize {
+        Small = 10,
+        Medium = 25,
+        Large = 50
+    };
+
+    value struct BoardRenderMetrics {
+        int CellSize;
+        int OffsetX;
+        int OffsetY;
+        int BoardWidthPx;
+        int BoardHeightPx;
+    };
+
+    inline int GetBoardDimension(BoardSize size) {
+        return safe_cast<int>(size);
+    }
+
+    inline BoardRenderMetrics CalculateBoardRenderMetrics(int availableWidth, int availableHeight, int cols, int rows) {
+        int safeWidth = Math::Max(availableWidth, cols);
+        int safeHeight = Math::Max(availableHeight, rows);
+        int cellSize = Math::Max(1, Math::Min(safeWidth / cols, safeHeight / rows));
+
+        BoardRenderMetrics metrics;
+        metrics.CellSize = cellSize;
+        metrics.BoardWidthPx = cols * cellSize;
+        metrics.BoardHeightPx = rows * cellSize;
+        metrics.OffsetX = Math::Max(0, (availableWidth - metrics.BoardWidthPx) / 2);
+        metrics.OffsetY = Math::Max(0, (availableHeight - metrics.BoardHeightPx) / 2);
+        return metrics;
+    }
+
     // =========================================================
     //  CLASE: Pared (objeto reutilizable, misma logica para obstaculos futuros)
     // =========================================================
@@ -44,18 +73,18 @@ namespace MiProyecto {
 
         Wall(GridPoint pos, Color col) : Position(pos), WallColor(col) {}
 
-        void Draw(Graphics^ g) {
+        void Draw(Graphics^ g, BoardRenderMetrics metrics) {
             g->FillRectangle(
                 gcnew SolidBrush(WallColor),
-                Position.X * CELL_SIZE,
-                Position.Y * CELL_SIZE,
-                CELL_SIZE, CELL_SIZE
+                metrics.OffsetX + Position.X * metrics.CellSize,
+                metrics.OffsetY + Position.Y * metrics.CellSize,
+                metrics.CellSize, metrics.CellSize
             );
             g->DrawRectangle(
                 gcnew Pen(Color::FromArgb(60, 35, 10), 1),
-                Position.X * CELL_SIZE,
-                Position.Y * CELL_SIZE,
-                CELL_SIZE - 1, CELL_SIZE - 1
+                metrics.OffsetX + Position.X * metrics.CellSize,
+                metrics.OffsetY + Position.Y * metrics.CellSize,
+                metrics.CellSize - 1, metrics.CellSize - 1
             );
         }
 
@@ -71,13 +100,12 @@ namespace MiProyecto {
 
         Apple() : Position(GridPoint(0, 0)) {}
 
-        void Spawn(List<GridPoint>^ occupied) {
-            Random^ rnd = gcnew Random();
+        void Spawn(List<GridPoint>^ occupied, int cols, int rows, Random^ rnd) {
             GridPoint candidate(0, 0);
             bool ok = false;
             while (!ok) {
                 // Spawnea dentro del area jugable (sin tocar paredes de borde)
-                candidate = GridPoint(rnd->Next(1, GRID_COLS - 1), rnd->Next(1, GRID_ROWS - 1));
+                candidate = GridPoint(rnd->Next(1, cols - 1), rnd->Next(1, rows - 1));
                 ok = true;
                 for each (GridPoint p in occupied) {
                     if (p.Equals(candidate)) { ok = false; break; }
@@ -86,20 +114,28 @@ namespace MiProyecto {
             Position = candidate;
         }
 
-        void Draw(Graphics^ g) {
+        void Draw(Graphics^ g, BoardRenderMetrics metrics) {
+            int cellSize = metrics.CellSize;
+            int applePadding = Math::Max(1, cellSize / 12);
+            int appleDiameter = Math::Max(2, cellSize - (applePadding * 2));
+            int shineWidth = Math::Max(2, cellSize / 5);
+            int shineHeight = Math::Max(2, cellSize / 6);
+            int shineOffsetX = Math::Max(1, cellSize / 5);
+            int shineOffsetY = Math::Max(1, cellSize / 7);
+
             // Cuerpo
             g->FillEllipse(
                 gcnew SolidBrush(Color::FromArgb(220, 50, 50)),
-                Position.X * CELL_SIZE + 2,
-                Position.Y * CELL_SIZE + 2,
-                CELL_SIZE - 4, CELL_SIZE - 4
+                metrics.OffsetX + Position.X * cellSize + applePadding,
+                metrics.OffsetY + Position.Y * cellSize + applePadding,
+                appleDiameter, appleDiameter
             );
             // Brillo
             g->FillEllipse(
                 gcnew SolidBrush(Color::FromArgb(120, 255, 255, 255)),
-                Position.X * CELL_SIZE + 6,
-                Position.Y * CELL_SIZE + 4,
-                6, 5
+                metrics.OffsetX + Position.X * cellSize + shineOffsetX,
+                metrics.OffsetY + Position.Y * cellSize + shineOffsetY,
+                shineWidth, shineHeight
             );
         }
     };
@@ -117,9 +153,11 @@ namespace MiProyecto {
         // --- Estado ---
         bool IsGameOver;
         bool IsPaused;
+        bool HasStarted;
         int  Score;
         int  ApplesEaten;
         int  HighScore;
+        BoardSize SelectedBoardSize;
 
         // --- Eventos ---
         delegate void GameOverDelegate(int finalScore);
@@ -137,12 +175,19 @@ namespace MiProyecto {
         Apple^ apple;
         List<Wall^>^ walls;
         Random^ rnd;
+        int boardCols;
+        int boardRows;
 
     public:
-        SnakeGame() {
+        SnakeGame() : SnakeGame(BoardSize::Medium) {}
+
+        SnakeGame(BoardSize boardSize) {
             WallPassThrough = false;
             SpeedMs = SNAKE_SPEED_MS;
             GrowAmount = APPLE_GROW_AMOUNT;
+            SelectedBoardSize = boardSize;
+            boardCols = GetBoardDimension(boardSize);
+            boardRows = GetBoardDimension(boardSize);
 
             rnd = gcnew Random();
             walls = gcnew List<Wall^>();
@@ -160,13 +205,14 @@ namespace MiProyecto {
 
             IsGameOver = false;
             IsPaused = false;
+            HasStarted = false;
             Score = 0;
             ApplesEaten = 0;
             growPending = 0;
 
             // Serpiente inicial de 3 segmentos en el centro, moviendose a la derecha
-            int midRow = GRID_ROWS / 2;
-            int midCol = GRID_COLS / 2;
+            int midRow = boardRows / 2;
+            int midCol = boardCols / 2;
             snakeBody->Add(GridPoint(midCol, midRow));
             snakeBody->Add(GridPoint(midCol - 1, midRow));
             snakeBody->Add(GridPoint(midCol - 2, midRow));
@@ -175,19 +221,26 @@ namespace MiProyecto {
             pendingDx = 1; pendingDy = 0;
 
             BuildBorderWalls();
-            apple->Spawn(GetOccupiedCells());
+            apple->Spawn(GetOccupiedCells(), boardCols, boardRows, rnd);
+        }
+
+        void SetBoardSize(BoardSize boardSize) {
+            SelectedBoardSize = boardSize;
+            boardCols = GetBoardDimension(boardSize);
+            boardRows = GetBoardDimension(boardSize);
+            Reset();
         }
 
         // Construye las paredes del borde como objetos Wall
         void BuildBorderWalls() {
             Color wallCol = Color::FromArgb(101, 67, 33);
-            for (int x = 0; x < GRID_COLS; x++) {
+            for (int x = 0; x < boardCols; x++) {
                 walls->Add(gcnew Wall(GridPoint(x, 0), wallCol));
-                walls->Add(gcnew Wall(GridPoint(x, GRID_ROWS - 1), wallCol));
+                walls->Add(gcnew Wall(GridPoint(x, boardRows - 1), wallCol));
             }
-            for (int y = 1; y < GRID_ROWS - 1; y++) {
+            for (int y = 1; y < boardRows - 1; y++) {
                 walls->Add(gcnew Wall(GridPoint(0, y), wallCol));
-                walls->Add(gcnew Wall(GridPoint(GRID_COLS - 1, y), wallCol));
+                walls->Add(gcnew Wall(GridPoint(boardCols - 1, y), wallCol));
             }
         }
 
@@ -201,11 +254,12 @@ namespace MiProyecto {
             if (newDx == -dx && newDy == -dy) return;
             pendingDx = newDx;
             pendingDy = newDy;
+            HasStarted = true;
         }
 
         // Tick principal llamado por el Timer del Form
         void Tick() {
-            if (IsGameOver || IsPaused) return;
+            if (IsGameOver || IsPaused || !HasStarted) return;
 
             dx = pendingDx;
             dy = pendingDy;
@@ -215,10 +269,10 @@ namespace MiProyecto {
 
             // Logica de paredes
             if (WallPassThrough) {
-                if (newHead.X <= 0)             newHead.X = GRID_COLS - 2;
-                else if (newHead.X >= GRID_COLS - 1) newHead.X = 1;
-                if (newHead.Y <= 0)             newHead.Y = GRID_ROWS - 2;
-                else if (newHead.Y >= GRID_ROWS - 1) newHead.Y = 1;
+                if (newHead.X <= 0)                  newHead.X = boardCols - 2;
+                else if (newHead.X >= boardCols - 1) newHead.X = 1;
+                if (newHead.Y <= 0)                  newHead.Y = boardRows - 2;
+                else if (newHead.Y >= boardRows - 1) newHead.Y = 1;
             }
             else {
                 for each (Wall ^ w in walls) {
@@ -245,15 +299,17 @@ namespace MiProyecto {
                 ApplesEaten++;
                 Score += SCORE_PER_APPLE;
                 growPending += GrowAmount;
-                apple->Spawn(GetOccupiedCells());
+                apple->Spawn(GetOccupiedCells(), boardCols, boardRows, rnd);
                 OnScoreChanged(Score, ApplesEaten);
             }
         }
 
         // Dibuja todo el estado del juego
-        void Draw(Graphics^ g) {
-            for each (Wall ^ w in walls)  w->Draw(g);
-            apple->Draw(g);
+        void Draw(Graphics^ g, Size surfaceSize) {
+            BoardRenderMetrics metrics = CalculateBoardRenderMetrics(surfaceSize.Width, surfaceSize.Height, boardCols, boardRows);
+
+            for each (Wall ^ w in walls)  w->Draw(g, metrics);
+            apple->Draw(g, metrics);
 
             for (int i = 0; i < snakeBody->Count; i++) {
                 GridPoint p = snakeBody[i];
@@ -262,14 +318,17 @@ namespace MiProyecto {
                 else if (i % 2 == 0) segColor = Color::FromArgb(74, 160, 44);
                 else                 segColor = Color::FromArgb(90, 180, 55);
 
-                int px = p.X * CELL_SIZE;
-                int py = p.Y * CELL_SIZE;
-                g->FillRectangle(gcnew SolidBrush(segColor), px + 1, py + 1, CELL_SIZE - 2, CELL_SIZE - 2);
-                if (i == 0) DrawEyes(g, px, py);
+                int px = metrics.OffsetX + p.X * metrics.CellSize;
+                int py = metrics.OffsetY + p.Y * metrics.CellSize;
+                int segmentInset = Math::Max(1, metrics.CellSize / 15);
+                int segmentSize = Math::Max(1, metrics.CellSize - (segmentInset * 2));
+                g->FillRectangle(gcnew SolidBrush(segColor), px + segmentInset, py + segmentInset, segmentSize, segmentSize);
+                if (i == 0) DrawEyes(g, px, py, metrics.CellSize);
             }
 
-            if (IsGameOver)              DrawGameOverOverlay(g);
-            if (IsPaused && !IsGameOver) DrawPauseOverlay(g);
+            if (!HasStarted && !IsGameOver) DrawStartOverlay(g, metrics);
+            if (IsGameOver)                 DrawGameOverOverlay(g, metrics);
+            if (IsPaused && !IsGameOver)    DrawPauseOverlay(g, metrics);
         }
 
         // Guarda el puntaje y devuelve el ranking actualizado
@@ -328,30 +387,36 @@ namespace MiProyecto {
             HighScore = (scores->Count > 0) ? scores[0] : 0;
         }
 
-        void DrawEyes(Graphics^ g, int px, int py) {
+        void DrawEyes(Graphics^ g, int px, int py, int cellSize) {
             int ex1, ey1, ex2, ey2;
-            if (dx == 1 && dy == 0) { ex1 = px + CELL_SIZE - 8; ey1 = py + 4;              ex2 = px + CELL_SIZE - 8;  ey2 = py + CELL_SIZE - 10; }
-            else if (dx == -1 && dy == 0) { ex1 = px + 2;           ey1 = py + 4;              ex2 = px + 2;            ey2 = py + CELL_SIZE - 10; }
-            else if (dx == 0 && dy == -1) { ex1 = px + 4;           ey1 = py + 2;              ex2 = px + CELL_SIZE - 10; ey2 = py + 2; }
-            else { ex1 = px + 4;           ey1 = py + CELL_SIZE - 8;    ex2 = px + CELL_SIZE - 10; ey2 = py + CELL_SIZE - 8; }
+            int eyeSize = Math::Max(2, cellSize / 5);
+            int pupilSize = Math::Max(1, eyeSize - 2);
+            int frontOffset = Math::Max(1, cellSize / 4);
+            int sideOffset = Math::Max(1, cellSize / 8);
+            int farOffset = Math::Max(1, cellSize / 3);
 
-            g->FillEllipse(gcnew SolidBrush(Color::White), ex1, ey1, 6, 6);
-            g->FillEllipse(gcnew SolidBrush(Color::White), ex2, ey2, 6, 6);
-            g->FillEllipse(gcnew SolidBrush(Color::Black), ex1 + 1, ey1 + 1, 4, 4);
-            g->FillEllipse(gcnew SolidBrush(Color::Black), ex2 + 1, ey2 + 1, 4, 4);
+            if (dx == 1 && dy == 0) { ex1 = px + cellSize - frontOffset; ey1 = py + sideOffset;           ex2 = px + cellSize - frontOffset; ey2 = py + cellSize - farOffset; }
+            else if (dx == -1 && dy == 0) { ex1 = px + sideOffset;            ey1 = py + sideOffset;           ex2 = px + sideOffset;            ey2 = py + cellSize - farOffset; }
+            else if (dx == 0 && dy == -1) { ex1 = px + sideOffset;            ey1 = py + sideOffset;           ex2 = px + cellSize - farOffset;  ey2 = py + sideOffset; }
+            else { ex1 = px + sideOffset;            ey1 = py + cellSize - frontOffset; ex2 = px + cellSize - farOffset;  ey2 = py + cellSize - frontOffset; }
+
+            g->FillEllipse(gcnew SolidBrush(Color::White), ex1, ey1, eyeSize, eyeSize);
+            g->FillEllipse(gcnew SolidBrush(Color::White), ex2, ey2, eyeSize, eyeSize);
+            g->FillEllipse(gcnew SolidBrush(Color::Black), ex1 + 1, ey1 + 1, pupilSize, pupilSize);
+            g->FillEllipse(gcnew SolidBrush(Color::Black), ex2 + 1, ey2 + 1, pupilSize, pupilSize);
         }
 
-        void DrawGameOverOverlay(Graphics^ g) {
+        void DrawGameOverOverlay(Graphics^ g, BoardRenderMetrics metrics) {
             g->FillRectangle(gcnew SolidBrush(Color::FromArgb(160, 0, 0, 0)),
-                0, 0, GRID_COLS * CELL_SIZE, GRID_ROWS * CELL_SIZE);
+                metrics.OffsetX, metrics.OffsetY, metrics.BoardWidthPx, metrics.BoardHeightPx);
 
             System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 32, System::Drawing::FontStyle::Bold);
             System::Drawing::Font^ smFont = gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Regular);
             StringFormat^ center = gcnew StringFormat();
             center->Alignment = StringAlignment::Center;
 
-            int cx = (GRID_COLS * CELL_SIZE) / 2;
-            int cy = (GRID_ROWS * CELL_SIZE) / 2;
+            int cx = metrics.OffsetX + (metrics.BoardWidthPx / 2);
+            int cy = metrics.OffsetY + (metrics.BoardHeightPx / 2);
 
             g->DrawString(L"GAME OVER", bigFont, gcnew SolidBrush(Color::Gold),
                 RectangleF((float)(cx - 200), (float)(cy - 80), 400, 60), center);
@@ -361,16 +426,28 @@ namespace MiProyecto {
                 RectangleF((float)(cx - 150), (float)(cy + 30), 300, 35), center);
         }
 
-        void DrawPauseOverlay(Graphics^ g) {
+        void DrawPauseOverlay(Graphics^ g, BoardRenderMetrics metrics) {
             g->FillRectangle(gcnew SolidBrush(Color::FromArgb(120, 0, 0, 0)),
-                0, 0, GRID_COLS * CELL_SIZE, GRID_ROWS * CELL_SIZE);
+                metrics.OffsetX, metrics.OffsetY, metrics.BoardWidthPx, metrics.BoardHeightPx);
             System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 36, System::Drawing::FontStyle::Bold);
             StringFormat^ center = gcnew StringFormat();
             center->Alignment = StringAlignment::Center;
-            int cx = (GRID_COLS * CELL_SIZE) / 2;
-            int cy = (GRID_ROWS * CELL_SIZE) / 2;
+            int cx = metrics.OffsetX + (metrics.BoardWidthPx / 2);
+            int cy = metrics.OffsetY + (metrics.BoardHeightPx / 2);
             g->DrawString(L"PAUSA", bigFont, gcnew SolidBrush(Color::White),
                 RectangleF((float)(cx - 150), (float)(cy - 30), 300, 60), center);
+        }
+
+        void DrawStartOverlay(Graphics^ g, BoardRenderMetrics metrics) {
+            System::Drawing::Font^ smFont = gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Bold);
+            StringFormat^ center = gcnew StringFormat();
+            center->Alignment = StringAlignment::Center;
+
+            int cx = metrics.OffsetX + (metrics.BoardWidthPx / 2);
+            int messageTop = metrics.OffsetY + metrics.BoardHeightPx - 70;
+
+            g->DrawString(L"Presiona las flechas para comenzar", smFont, gcnew SolidBrush(Color::White),
+                RectangleF((float)(cx - 220), (float)messageTop, 440, 35), center);
         }
     };
 

@@ -1,5 +1,5 @@
 ImageRuntimeVersion: v4.0.30319
-Assembly Serpiente, Version=0.0.*, Culture=Todos los idiomas (todos los países): 
+Assembly Serpiente, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
@@ -15,3 +15,10 @@ Class MiProyecto.FormTienda: AutoLayout, AnsiClass, Class, Public, BeforeFieldIn
 Class MiProyecto.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Struct MiProyecto.BoardSize: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    MiProyecto.BoardSize Small = 10 : Public, Static, Literal, HasDefault
+    MiProyecto.BoardSize Medium = 25 : Public, Static, Literal, HasDefault
+    MiProyecto.BoardSize Large = 50 : Public, Static, Literal, HasDefault
