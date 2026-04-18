@@ -25,6 +25,7 @@ namespace MiProyecto {
     public:
         DoubleBufferedPanel() {
             this->DoubleBuffered = true;
+
             this->SetStyle(
                 System::Windows::Forms::ControlStyles::AllPaintingInWmPaint |
                 System::Windows::Forms::ControlStyles::UserPaint |
@@ -257,22 +258,18 @@ namespace MiProyecto {
             // 1. Cambiar la lógica interna del juego
             game->SetBoardSize(GetSelectedBoardSize());
 
-            // 2. RECALCULAR EL TAMAÑO DEL PANEL (La "Cámara")
-            // El tamaño del panel debe ser: (celdas * tamaño de celda)
-            this->panelGame->Size = System::Drawing::Size(
-                game->CurrentCols * 30, // 30 es tu CELL_SIZE actual
-                game->CurrentRows * 30
-            );
+            // 2. ELIMINADO: No redimensionar el panel físicamente
+            // El escalado se maneja en SnakeGame::Draw()
 
-            // 3. Centrar el panel si es necesario (opcional)
-            this->panelGame->Left = (this->ClientSize.Width - this->panelGame->Width) / 2;
+            // 3. ELIMINADO: No recalcular posición del panel
+            // El panel se mantiene en su lugar original
 
             // Actualizar UI
             if (gameTimer != nullptr) gameTimer->Interval = game->SpeedMs;
             lblCoinCount->Text = game->HighScore.ToString();
             UpdateUI(0, 0);
             panelGame->Invalidate();
-            this->ActiveControl = nullptr; // Esto quita el foco de los botones/combos y lo devuelve al Form
+            this->ActiveControl = nullptr;
         }
 
         void Form1_KeyDown(Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {

@@ -183,13 +183,7 @@ namespace MiProyecto {
             this->Reset(); // Reinicia la serpiente y comida para el nuevo tamaño
         }
 
-		// Devuelve el tamaño en pixeles que debería tener el panel para mostrar toda la grilla sin distorsión
-        System::Drawing::Size GetBoardPixelSize() {
-            return System::Drawing::Size(
-                CurrentCols * CELL_SIZE,
-                CurrentRows * CELL_SIZE
-            );
-        }
+
 
         // Reinicia la partida sin destruir el objeto
         void Reset() {
@@ -291,30 +285,82 @@ namespace MiProyecto {
         // Dibuja todo el estado del juego
         // clientSize = panelGame->ClientSize  (para el fondo y los overlays)
         void Draw(Graphics^ g, System::Drawing::Size clientSize) {
-            // El fondo ahora se dibujará del tamaño exacto del panel redimensionado
+            // =========================================================
+            // CALCULAR ESCALA PARA AJUSTAR TODO EL TABLERO AL PANEL
+            // =========================================================
+            System::Drawing::Size boardSize(CurrentCols * CELL_SIZE, CurrentRows * CELL_SIZE);
+
+            float scaleX = (float)clientSize.Width / boardSize.Width;
+            float scaleY = (float)clientSize.Height / boardSize.Height;
+            float scale = Math::Min(scaleX, scaleY); // Mantener proporción 1:1
+
+            // Centrar el tablero en el panel si sobra espacio
+            float offsetX = (clientSize.Width - (boardSize.Width * scale)) / 2;
+            float offsetY = (clientSize.Height - (boardSize.Height * scale)) / 2;
+
+            // Guardar estado original de la transformación
+            System::Drawing::Drawing2D::Matrix^ originalTransform = g->Transform;
+
+            // Aplicar transformaciones: trasladar al centro, luego escalar
+            g->TranslateTransform(offsetX, offsetY);
+            g->ScaleTransform(scale, scale);
+
+            // =========================================================
+            // DIBUJAR FONDO DEL TABLERO (tamaño lógico, no escalado manualmente)
+            // =========================================================
             g->FillRectangle(
                 gcnew SolidBrush(System::Drawing::Color::FromArgb(170, 215, 81)),
-                0, 0, clientSize.Width, clientSize.Height
+                0, 0, boardSize.Width, boardSize.Height
             );
 
-            for each (Wall ^ w in walls)  w->Draw(g);
+            // =========================================================
+            // DIBUJAR PAREDES
+            // =========================================================
+            for each (Wall ^ w in walls) {
+                w->Draw(g);
+            }
+
+            // =========================================================
+            // DIBUJAR MANZANA
+            // =========================================================
             apple->Draw(g);
 
+            // =========================================================
+            // DIBUJAR SERPIENTE
+            // =========================================================
             for (int i = 0; i < snakeBody->Count; i++) {
                 GridPoint p = snakeBody[i];
                 Color segColor;
-                if (i == 0)     segColor = Color::FromArgb(34, 100, 14);
-                else if (i % 2 == 0) segColor = Color::FromArgb(74, 160, 44);
-                else                 segColor = Color::FromArgb(90, 180, 55);
+                if (i == 0)          segColor = Color::FromArgb(34, 100, 14);   // Cabeza
+                else if (i % 2 == 0) segColor = Color::FromArgb(74, 160, 44);   // Segmentos pares
+                else                 segColor = Color::FromArgb(90, 180, 55);   // Segmentos impares
 
                 int px = p.X * CELL_SIZE;
                 int py = p.Y * CELL_SIZE;
-                g->FillRectangle(gcnew SolidBrush(segColor), px + 1, py + 1, CELL_SIZE - 2, CELL_SIZE - 2);
+
+                g->FillRectangle(
+                    gcnew SolidBrush(segColor),
+                    px + 1, py + 1,
+                    CELL_SIZE - 2, CELL_SIZE - 2
+                );
+
                 if (i == 0) DrawEyes(g, px, py);
             }
 
-            if (IsGameOver)              DrawGameOverOverlay(g, clientSize);
-            if (IsPaused && !IsGameOver) DrawPauseOverlay(g, clientSize);
+            // =========================================================
+            // RESTAURAR TRANSFORMACIÓN PARA OVERLAYS (dibujar en coordenadas de pantalla)
+            // =========================================================
+            g->Transform = originalTransform;
+
+            // =========================================================
+            // OVERLAYS (Game Over / Pausa) - Se dibujan sobre toda el área del panel
+            // =========================================================
+            if (IsGameOver) {
+                DrawGameOverOverlay(g, clientSize);
+            }
+            else if (IsPaused) {
+                DrawPauseOverlay(g, clientSize);
+            }
         }
 
         // Guarda el puntaje y devuelve el ranking actualizado
@@ -387,36 +433,58 @@ namespace MiProyecto {
         }
 
         void DrawGameOverOverlay(Graphics^ g, System::Drawing::Size clientSize) {
-            g->FillRectangle(gcnew SolidBrush(Color::FromArgb(160, 0, 0, 0)),
-                0, 0, clientSize.Width, clientSize.Height);
+                // Fondo semitransparente sobre TODO el panel
+                g->FillRectangle(
+                    gcnew SolidBrush(Color::FromArgb(160, 0, 0, 0)),
+                    0, 0, clientSize.Width, clientSize.Height
+                );
 
-            System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 32, System::Drawing::FontStyle::Bold);
-            System::Drawing::Font^ smFont = gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Regular);
-            StringFormat^ center = gcnew StringFormat();
-            center->Alignment = StringAlignment::Center;
+                System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 32, System::Drawing::FontStyle::Bold);
+                System::Drawing::Font^ smFont = gcnew System::Drawing::Font(L"Segoe UI", 14, System::Drawing::FontStyle::Regular);
+                StringFormat^ center = gcnew StringFormat();
+                center->Alignment = StringAlignment::Center;
+                center->LineAlignment = StringAlignment::Center;
 
-            int cx = clientSize.Width / 2;
-            int cy = clientSize.Height / 2;
+                int cx = clientSize.Width / 2;
+                int cy = clientSize.Height / 2;
 
-            g->DrawString(L"GAME OVER", bigFont, gcnew SolidBrush(Color::Gold),
-                RectangleF((float)(cx - 200), (float)(cy - 80), 400, 60), center);
-            g->DrawString(String::Format(L"Puntaje: {0}", Score), smFont, gcnew SolidBrush(Color::White),
-                RectangleF((float)(cx - 150), (float)(cy - 10), 300, 35), center);
-            g->DrawString(L"Presiona R para reiniciar", smFont, gcnew SolidBrush(Color::White),
-                RectangleF((float)(cx - 150), (float)(cy + 30), 300, 35), center);
-        }
+                // Dibujar textos centrados en el panel (no en el tablero escalado)
+                g->DrawString(L"GAME OVER", bigFont, gcnew SolidBrush(Color::Gold),
+                    (float)cx, (float)(cy - 50), center);
+
+                g->DrawString(String::Format(L"Puntaje: {0}", Score), smFont, gcnew SolidBrush(Color::White),
+                    (float)cx, (float)(cy + 10), center);
+
+                g->DrawString(L"Presiona R para reiniciar", smFont, gcnew SolidBrush(Color::White),
+                    (float)cx, (float)(cy + 50), center);
+
+                delete bigFont;
+                delete smFont;
+                delete center;
+            }
 
         void DrawPauseOverlay(Graphics^ g, System::Drawing::Size clientSize) {
-            g->FillRectangle(gcnew SolidBrush(Color::FromArgb(120, 0, 0, 0)),
-                0, 0, clientSize.Width, clientSize.Height);
-            System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 36, System::Drawing::FontStyle::Bold);
-            StringFormat^ center = gcnew StringFormat();
-            center->Alignment = StringAlignment::Center;
-            int cx = clientSize.Width / 2;
-            int cy = clientSize.Height / 2;
-            g->DrawString(L"PAUSA", bigFont, gcnew SolidBrush(Color::White),
-                RectangleF((float)(cx - 150), (float)(cy - 30), 300, 60), center);
-        }
+                g->FillRectangle(
+                    gcnew SolidBrush(Color::FromArgb(120, 0, 0, 0)),
+                    0, 0, clientSize.Width, clientSize.Height
+                );
+
+                System::Drawing::Font^ bigFont = gcnew System::Drawing::Font(L"Segoe UI", 36, System::Drawing::FontStyle::Bold);
+                StringFormat^ center = gcnew StringFormat();
+                center->Alignment = StringAlignment::Center;
+                center->LineAlignment = StringAlignment::Center;
+
+                int cx = clientSize.Width / 2;
+                int cy = clientSize.Height / 2;
+
+                g->DrawString(L"PAUSA", bigFont, gcnew SolidBrush(Color::White),
+                    (float)cx, (float)cy, center);
+
+                delete bigFont;
+                delete center;
+            }
+
+        
     };
 
 
