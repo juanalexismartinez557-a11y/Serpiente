@@ -253,16 +253,26 @@ namespace MiProyecto {
 
         void CboBoardSize_SelectedIndexChanged(Object^ sender, EventArgs^ e) {
             if (cboBoardSize->SelectedIndex < 0 || game == nullptr) return;
-            if (game->HasStarted && !game->IsGameOver) {
-                cboBoardSize->Enabled = false;
-                return;
-            }
+
+            // 1. Cambiar la lógica interna del juego
             game->SetBoardSize(GetSelectedBoardSize());
+
+            // 2. RECALCULAR EL TAMAÑO DEL PANEL (La "Cámara")
+            // El tamaño del panel debe ser: (celdas * tamaño de celda)
+            this->panelGame->Size = System::Drawing::Size(
+                game->CurrentCols * 30, // 30 es tu CELL_SIZE actual
+                game->CurrentRows * 30
+            );
+
+            // 3. Centrar el panel si es necesario (opcional)
+            this->panelGame->Left = (this->ClientSize.Width - this->panelGame->Width) / 2;
+
+            // Actualizar UI
             if (gameTimer != nullptr) gameTimer->Interval = game->SpeedMs;
             lblCoinCount->Text = game->HighScore.ToString();
             UpdateUI(0, 0);
             panelGame->Invalidate();
-            this->ActiveControl = nullptr;
+            this->ActiveControl = nullptr; // Esto quita el foco de los botones/combos y lo devuelve al Form
         }
 
         void Form1_KeyDown(Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {

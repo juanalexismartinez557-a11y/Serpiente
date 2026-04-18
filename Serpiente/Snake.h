@@ -15,8 +15,6 @@ namespace MiProyecto {
     //  CONSTANTES DEL JUEGO  (cambia aqui para modos de juego)
     // =========================================================
     static const int CELL_SIZE = 30;
-    static const int GRID_COLS = 25;
-    static const int GRID_ROWS = 22;
     static const int SNAKE_SPEED_MS = 150;
     static const int APPLE_GROW_AMOUNT = 3;
     static const int SCORE_PER_APPLE = 10;
@@ -74,20 +72,23 @@ namespace MiProyecto {
 
         Apple() : Position(GridPoint(0, 0)) {}
 
-        void Spawn(List<GridPoint>^ occupied) {
-            Random^ rnd = gcnew Random();
-            GridPoint candidate(0, 0);
-            bool ok = false;
-            while (!ok) {
-                // Spawnea dentro del area jugable (sin tocar paredes de borde)
-                candidate = GridPoint(rnd->Next(1, GRID_COLS - 1), rnd->Next(1, GRID_ROWS - 1));
-                ok = true;
-                for each (GridPoint p in occupied) {
-                    if (p.Equals(candidate)) { ok = false; break; }
-                }
-            }
-            Position = candidate;
+        // Aunque uses los mismos nombres, DEBES poner 'int' antes de cada uno
+        void Generate(Random^ rnd, int CurrentCols, int CurrentRows) {
+            int min = 1;
+            int maxC = CurrentCols - 1;
+            int maxR = CurrentRows - 1;
+
+            // Asegurar que max > min para evitar ArgumentOutOfRangeException
+            if (maxC <= min) maxC = min + 1;
+            if (maxR <= min) maxR = min + 1;
+
+            Position = GridPoint(
+                rnd->Next(min, maxC),
+                rnd->Next(min, maxR)
+            );
         }
+
+
 
         void Draw(Graphics^ g) {
             // Cuerpo
@@ -128,6 +129,8 @@ namespace MiProyecto {
         int  Score;
         int  ApplesEaten;
         int  HighScore;
+        int CurrentCols; // Reemplaza a GRID_COLS
+        int CurrentRows; // Reemplaza a GRID_ROWS
 
         // --- Eventos ---
         delegate void GameOverDelegate(int finalScore);
@@ -167,8 +170,25 @@ namespace MiProyecto {
         }
 
         void SetBoardSize(BoardSize size) {
-			// Cambia el tamaño de la grilla y reinicia el juego
-            this->Reset();
+            switch (size) {
+            case BoardSize::Small:  CurrentCols = 15; CurrentRows = 12; break;
+            case BoardSize::Medium: CurrentCols = 25; CurrentRows = 22; break;
+            case BoardSize::Large:  CurrentCols = 40; CurrentRows = 30; break;
+            }
+
+            // Validación de seguridad
+            if (CurrentCols < 5) CurrentCols = 5;
+            if (CurrentRows < 5) CurrentRows = 5;
+
+            this->Reset(); // Reinicia la serpiente y comida para el nuevo tamaño
+        }
+
+		// Devuelve el tamaño en pixeles que debería tener el panel para mostrar toda la grilla sin distorsión
+        System::Drawing::Size GetBoardPixelSize() {
+            return System::Drawing::Size(
+                CurrentCols * CELL_SIZE,
+                CurrentRows * CELL_SIZE
+            );
         }
 
         // Reinicia la partida sin destruir el objeto
@@ -183,8 +203,8 @@ namespace MiProyecto {
             growPending = 0;
 
             // Serpiente inicial de 3 segmentos en el centro, moviendose a la derecha
-            int midRow = GRID_ROWS / 2;
-            int midCol = GRID_COLS / 2;
+            int midRow = CurrentRows / 2;
+            int midCol = CurrentCols / 2;
             snakeBody->Add(GridPoint(midCol, midRow));
             snakeBody->Add(GridPoint(midCol - 1, midRow));
             snakeBody->Add(GridPoint(midCol - 2, midRow));
@@ -193,19 +213,19 @@ namespace MiProyecto {
             pendingDx = 1; pendingDy = 0;
 
             BuildBorderWalls();
-            apple->Spawn(GetOccupiedCells());
+            apple->Generate(rnd, CurrentCols, CurrentRows);
         }
 
         // Construye las paredes del borde como objetos Wall
         void BuildBorderWalls() {
             Color wallCol = Color::FromArgb(101, 67, 33);
-            for (int x = 0; x < GRID_COLS; x++) {
+            for (int x = 0; x < CurrentCols; x++) {
                 walls->Add(gcnew Wall(GridPoint(x, 0), wallCol));
-                walls->Add(gcnew Wall(GridPoint(x, GRID_ROWS - 1), wallCol));
+                walls->Add(gcnew Wall(GridPoint(x, CurrentRows - 1), wallCol));
             }
-            for (int y = 1; y < GRID_ROWS - 1; y++) {
+            for (int y = 1; y < CurrentRows - 1; y++) {
                 walls->Add(gcnew Wall(GridPoint(0, y), wallCol));
-                walls->Add(gcnew Wall(GridPoint(GRID_COLS - 1, y), wallCol));
+                walls->Add(gcnew Wall(GridPoint(CurrentCols - 1, y), wallCol));
             }
         }
 
@@ -233,10 +253,10 @@ namespace MiProyecto {
 
             // Logica de paredes
             if (WallPassThrough) {
-                if (newHead.X <= 0)             newHead.X = GRID_COLS - 2;
-                else if (newHead.X >= GRID_COLS - 1) newHead.X = 1;
-                if (newHead.Y <= 0)             newHead.Y = GRID_ROWS - 2;
-                else if (newHead.Y >= GRID_ROWS - 1) newHead.Y = 1;
+                if (newHead.X <= 0)             newHead.X = CurrentCols - 2;
+                else if (newHead.X >= CurrentCols - 1) newHead.X = 1;
+                if (newHead.Y <= 0)             newHead.Y = CurrentRows - 2;
+                else if (newHead.Y >= CurrentRows - 1) newHead.Y = 1;
             }
             else {
                 for each (Wall ^ w in walls) {
@@ -263,7 +283,7 @@ namespace MiProyecto {
                 ApplesEaten++;
                 Score += SCORE_PER_APPLE;
                 growPending += GrowAmount;
-                apple->Spawn(GetOccupiedCells());
+                apple->Generate(rnd, CurrentCols, CurrentRows);
                 OnScoreChanged(Score, ApplesEaten);
             }
         }
@@ -271,8 +291,7 @@ namespace MiProyecto {
         // Dibuja todo el estado del juego
         // clientSize = panelGame->ClientSize  (para el fondo y los overlays)
         void Draw(Graphics^ g, System::Drawing::Size clientSize) {
-            // Fondo verde: borra el frame anterior ANTES de dibujar
-            // Esto es clave para eliminar el flickering
+            // El fondo ahora se dibujará del tamaño exacto del panel redimensionado
             g->FillRectangle(
                 gcnew SolidBrush(System::Drawing::Color::FromArgb(170, 215, 81)),
                 0, 0, clientSize.Width, clientSize.Height
@@ -400,4 +419,6 @@ namespace MiProyecto {
         }
     };
 
+
+    
 } // namespace MiProyecto
