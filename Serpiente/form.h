@@ -5,6 +5,7 @@
 #using <System.Drawing.dll>
 
 #include "Snake.h"
+#include "formtienda.h"
 
 namespace MiProyecto {
 
@@ -46,9 +47,6 @@ namespace MiProyecto {
         SnakeGame^ game;
         System::Windows::Forms::Timer^ gameTimer;
 
-        // =========================================================
-        //  INICIALIZAR UI
-        // =========================================================
         void InitializeComponent(void)
         {
             this->panelTop = gcnew System::Windows::Forms::Panel();
@@ -90,43 +88,45 @@ namespace MiProyecto {
             this->lblAppleCount->AutoSize = true;
             this->lblAppleCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Regular);
             this->lblAppleCount->ForeColor = System::Drawing::Color::White;
-            this->lblAppleCount->Location = System::Drawing::Point(78, 25);
+            this->lblAppleCount->Location = System::Drawing::Point(100, 25);
             this->lblAppleCount->Text = L"0";
 
             // Emoji trofeo
             this->lblTrophy->AutoSize = true;
             this->lblTrophy->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
             this->lblTrophy->ForeColor = System::Drawing::Color::White;
-            this->lblTrophy->Location = System::Drawing::Point(320, 22);
+            this->lblTrophy->Location = System::Drawing::Point(200, 22);
             this->lblTrophy->Text = L"\U0001F3C6"; // 🏆
 
             // Puntaje actual
             this->lblScore->AutoSize = true;
             this->lblScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Regular);
             this->lblScore->ForeColor = System::Drawing::Color::White;
-            this->lblScore->Location = System::Drawing::Point(375, 25);
+            this->lblScore->Location = System::Drawing::Point(275, 25);
             this->lblScore->Text = L"0";
 
-            // Emoji moneda (best score)
+            // Emoji moneda
             this->lblCoin->AutoSize = true;
             this->lblCoin->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
             this->lblCoin->ForeColor = System::Drawing::Color::White;
-            this->lblCoin->Location = System::Drawing::Point(600, 22);
+            this->lblCoin->Location = System::Drawing::Point(375, 22);
             this->lblCoin->Text = L"\U0001F4B0"; // 💰
+            this->lblCoin->Cursor = System::Windows::Forms::Cursors::Hand;
+            this->lblCoin->Click += gcnew System::EventHandler(this, &Form1::AbrirTienda);
+
+            // Numero al lado de la bolsa de monedas
+            this->lblCoinCount->AutoSize = true;
+            this->lblCoinCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Bold);
+            this->lblCoinCount->ForeColor = System::Drawing::Color::White;
+            this->lblCoinCount->Location = System::Drawing::Point(450, 25);
+            this->lblCoinCount->Text = L"0";
 
             // Etiqueta BEST
             this->lblHighScore->AutoSize = true;
             this->lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, System::Drawing::FontStyle::Regular);
             this->lblHighScore->ForeColor = System::Drawing::Color::FromArgb(255, 230, 100);
-            this->lblHighScore->Location = System::Drawing::Point(650, 8);
+            this->lblHighScore->Location = System::Drawing::Point(700, 8);
             this->lblHighScore->Text = L"BEST";
-
-            // Numero del mejor puntaje
-            this->lblCoinCount->AutoSize = true;
-            this->lblCoinCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Bold);
-            this->lblCoinCount->ForeColor = System::Drawing::Color::White;
-            this->lblCoinCount->Location = System::Drawing::Point(650, 30);
-            this->lblCoinCount->Text = L"0";
 
             // Agregar al panel superior
             this->panelTop->Controls->Add(this->lblApple);
@@ -134,8 +134,8 @@ namespace MiProyecto {
             this->panelTop->Controls->Add(this->lblTrophy);
             this->panelTop->Controls->Add(this->lblScore);
             this->panelTop->Controls->Add(this->lblCoin);
-            this->panelTop->Controls->Add(this->lblHighScore);
             this->panelTop->Controls->Add(this->lblCoinCount);
+            this->panelTop->Controls->Add(this->lblHighScore);
 
             // ---- Panel de juego ----
             this->panelGame->BackColor = System::Drawing::Color::FromArgb(170, 215, 81);
@@ -158,16 +158,13 @@ namespace MiProyecto {
             this->ResumeLayout(false);
         }
 
-        // =========================================================
-        //  INICIALIZAR JUEGO
-        // =========================================================
         void InitGame() {
             game = gcnew SnakeGame();
 
             // --- Configuracion ---
-            game->WallPassThrough = false;  // cambiar a true para modo atravesar paredes
-            // game->SpeedMs      = 100;    // descomenta para cambiar velocidad
-            // game->GrowAmount   = 5;      // descomenta para cambiar cuanto crece
+            game->WallPassThrough = false;
+            // game->SpeedMs    = 100;
+            // game->GrowAmount = 5;
 
             game->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game_OnGameOver);
             game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game_OnScoreChanged);
@@ -180,9 +177,6 @@ namespace MiProyecto {
             gameTimer->Start();
         }
 
-        // =========================================================
-        //  EVENTOS
-        // =========================================================
         void GameTimer_Tick(Object^ sender, EventArgs^ e) {
             game->Tick();
             panelGame->Invalidate();
@@ -226,7 +220,6 @@ namespace MiProyecto {
         }
 
         void Game_OnGameOver(int finalScore) {
-            // Ranking disponible en game->LoadScores()
             lblCoinCount->Text = game->HighScore.ToString();
         }
 
@@ -237,6 +230,12 @@ namespace MiProyecto {
         void UpdateUI(int score, int apples) {
             lblScore->Text = score.ToString();
             lblAppleCount->Text = apples.ToString();
+        }
+
+        void AbrirTienda(System::Object^ sender, System::EventArgs^ e) {
+            FormTienda^ tienda = gcnew FormTienda();
+            tienda->Show();
+            this->Hide();
         }
     };
 

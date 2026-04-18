@@ -115,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="form.h" />
+    <ClInclude Include="formtienda.h" />
     <ClInclude Include="Snake.h" />
   </ItemGroup>
   <ItemGroup>
