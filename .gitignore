@@ -1,8 +1,17 @@
-# Ignorar configuraciones de Visual Studio
+# Carpetas de compilación
+[Dd]ebug/
+[Rr]elease/
+x64/
 .vs/
-*.vsidx
-*.user
-*.suo
-*.log
-bin/
-obj/
+
+# Archivos temporales de compilación
+*.obj
+*.pdb
+*.tlog
+*.lastbuildstate
+*.exe
+*.ilk
+*.exp
+*.idb
+*.recipe
+*.FileListAbsolute.txt
