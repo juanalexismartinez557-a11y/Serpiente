@@ -43,7 +43,7 @@ namespace MiProyecto {
 
         // --- Motor del juego ---
         SnakeGame^ game;
-        System::Windows::Forms::Timer^ gameTimer;
+        Timer^ gameTimer;
 
         // Índices de selección del menú
         int modoSeleccionado;
@@ -249,6 +249,7 @@ namespace MiProyecto {
             game->SetGameMode(gm);    // *** CORRECCIÓN: esto faltaba en la versión original ***
 
             // --- Suscribir eventos del juego ---
+            // *** CORRECCIÓN: los eventos no estaban conectados en la versión original ***
             game->OnGameOver += gcnew SnakeGame::GameOverDelegate(
                 this, &Form1::Game_OnGameOver);
             game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(
