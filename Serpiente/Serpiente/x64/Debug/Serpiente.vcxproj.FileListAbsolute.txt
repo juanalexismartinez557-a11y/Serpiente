@@ -7,3 +7,4 @@ C:\Users\angel\source\repos\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vc
 C:\Users\angel\source\repos\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.ResolveComReference.cache
 D:\GitHub\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.AssemblyReference.cache
 D:\GitHub\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.ResolveComReference.cache
+C:\Users\juana\Documents\GitHub\Serpiente\Serpiente\Serpiente\x64\Debug\Serpiente.vcxproj.ResolveComReference.cache

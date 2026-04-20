@@ -15,11 +15,3 @@ Class MiProyecto.FormTienda: AutoLayout, AnsiClass, Class, Public, BeforeFieldIn
 Class MiProyecto.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-Struct MiProyecto.GameMode: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
-  :System.Enum
-  Fields:
-    Int32 value__ : Public, SpecialName, RTSpecialName
-    MiProyecto.GameMode Normal = 0 : Public, Static, Literal, HasDefault
-    MiProyecto.GameMode Obstacles = 1 : Public, Static, Literal, HasDefault
-    MiProyecto.GameMode RandomGrowth = 2 : Public, Static, Literal, HasDefault
-    MiProyecto.GameMode SpeedIncrease = 3 : Public, Static, Literal, HasDefault

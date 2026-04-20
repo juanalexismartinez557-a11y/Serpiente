@@ -10,327 +10,375 @@
 namespace MiProyecto {
 
     using namespace System;
-    using namespace System::ComponentModel;
-    using namespace System::Collections::Generic;
     using namespace System::Windows::Forms;
-
-    // =========================================================
-    //  Panel con Double Buffering activado
-    //  Reemplaza al Panel normal para eliminar el flickering.
-    //  SetStyle activa el buffer doble nativo de Windows y
-    //  suprime el borrado del fondo antes de cada Paint.
-    // =========================================================
-    ref class DoubleBufferedPanel : public System::Windows::Forms::Panel
-    {
-    public:
-        DoubleBufferedPanel() {
-            this->DoubleBuffered = true;
-
-            this->SetStyle(
-                System::Windows::Forms::ControlStyles::AllPaintingInWmPaint |
-                System::Windows::Forms::ControlStyles::UserPaint |
-                System::Windows::Forms::ControlStyles::OptimizedDoubleBuffer |
-                System::Windows::Forms::ControlStyles::ResizeRedraw,
-                true
-            );
-            this->UpdateStyles();
-        }
-    protected:
-        property System::Windows::Forms::CreateParams^ CreateParams {
-            System::Windows::Forms::CreateParams^ get() override {
-                System::Windows::Forms::CreateParams^ cp = Panel::CreateParams;
-                cp->ExStyle |= 0x02000000; // WS_EX_COMPOSITED
-                return cp;
-            }
-        }
-    };
+    using namespace System::Drawing;
 
     public ref class Form1 : public System::Windows::Forms::Form
     {
     public:
-        Form1(void)
-        {
-            InitializeComponent();
-            InitGame();
-        }
+        Form1(void) { InitializeComponent(); }
 
     protected:
-        ~Form1()
-        {
-            if (components) delete components;
-        }
+        ~Form1() { if (components) delete components; }
 
     private:
         System::ComponentModel::Container^ components;
 
-        // --- UI ---
-        System::Windows::Forms::Panel^ panelTop;
-        DoubleBufferedPanel^ panelGame;   // Panel con double buffer
-        System::Windows::Forms::Label^ lblApple;
-        System::Windows::Forms::Label^ lblAppleCount;
-        System::Windows::Forms::Label^ lblTrophy;
-        System::Windows::Forms::Label^ lblScore;
-        System::Windows::Forms::Label^ lblCoin;
-        System::Windows::Forms::Label^ lblCoinCount;
-        System::Windows::Forms::Label^ lblHighScore;
-        System::Windows::Forms::Label^ lblBoardSize;
-        System::Windows::Forms::ComboBox^ cboBoardSize;
+        // --- Panel de menú principal ---
+        Panel^ panelMenu;
+        Label^ lblTitle;
+        Label^ lblModo;
+        Label^ lblTamano;
+        ComboBox^ comboModo;
+        ComboBox^ comboTamano;
+        Button^ btnIniciar;
+        Button^ btnTienda;
 
-        // --- Juego ---
+        // --- Panel de juego ---
+        Panel^ panelGame;
+        Label^ lblScore;
+        Label^ lblAppleCount;
+        Label^ lblHighScore;
+        Button^ btnMenuDesdeJuego;  // Botón visible solo en Game Over
+
+        // --- Motor del juego ---
         SnakeGame^ game;
         System::Windows::Forms::Timer^ gameTimer;
 
+        // Índices de selección del menú
+        int modoSeleccionado;
+        int tamanoSeleccionado;
+
+        // =========================================================
         void InitializeComponent(void)
         {
-            this->panelTop = gcnew System::Windows::Forms::Panel();
-            this->panelGame = gcnew DoubleBufferedPanel();
-            this->lblApple = gcnew System::Windows::Forms::Label();
-            this->lblAppleCount = gcnew System::Windows::Forms::Label();
-            this->lblTrophy = gcnew System::Windows::Forms::Label();
-            this->lblScore = gcnew System::Windows::Forms::Label();
-            this->lblCoin = gcnew System::Windows::Forms::Label();
-            this->lblCoinCount = gcnew System::Windows::Forms::Label();
-            this->lblHighScore = gcnew System::Windows::Forms::Label();
-            this->lblBoardSize = gcnew System::Windows::Forms::Label();
-            this->cboBoardSize = gcnew System::Windows::Forms::ComboBox();
-
-            this->SuspendLayout();
-
-            // ---- Formulario ----
-            this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
-            this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(820, 820);
-            this->Name = L"Form1";
+            this->ClientSize = System::Drawing::Size(820, 870);
             this->Text = L"Snake Evolution";
-            this->BackColor = System::Drawing::Color::FromArgb(78, 136, 43);
-            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+            this->Name = L"Form1";   // Necesario para Application::OpenForms["Form1"]
+            this->BackColor = Color::FromArgb(78, 136, 43);
             this->KeyPreview = true;
+            this->DoubleBuffered = true;   // Reduce el parpadeo
 
-            // ---- Panel superior ----
-            this->panelTop->BackColor = System::Drawing::Color::FromArgb(73, 123, 40);
-            this->panelTop->Location = System::Drawing::Point(0, 0);
-            this->panelTop->Size = System::Drawing::Size(820, 88);
-            this->panelTop->TabIndex = 0;
+            // =====================================================
+            //  PANEL MENÚ
+            // =====================================================
+            panelMenu = gcnew Panel();
+            panelMenu->BackColor = Color::FromArgb(78, 136, 43);
+            panelMenu->Dock = DockStyle::Fill;
 
-            this->lblApple->AutoSize = true;
-            this->lblApple->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
-            this->lblApple->ForeColor = System::Drawing::Color::White;
-            this->lblApple->Location = System::Drawing::Point(25, 22);
-            this->lblApple->Text = L"\U0001F34E";
+            lblTitle = gcnew Label();
+            lblTitle->Text = L"🐍 Snake Evolution";
+            lblTitle->Font = gcnew System::Drawing::Font(L"Segoe UI", 28, FontStyle::Bold);
+            lblTitle->ForeColor = Color::White;
+            lblTitle->AutoSize = true;
+            lblTitle->Location = System::Drawing::Point(200, 160);
 
-            this->lblAppleCount->AutoSize = true;
-            this->lblAppleCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Regular);
-            this->lblAppleCount->ForeColor = System::Drawing::Color::White;
-            this->lblAppleCount->Location = System::Drawing::Point(100, 25);
-            this->lblAppleCount->Text = L"0";
+            lblModo = gcnew Label();
+            lblModo->Text = L"Modo:";
+            lblModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
+            lblModo->ForeColor = Color::White;
+            lblModo->AutoSize = true;
+            lblModo->Location = System::Drawing::Point(260, 310);
 
-            this->lblTrophy->AutoSize = true;
-            this->lblTrophy->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
-            this->lblTrophy->ForeColor = System::Drawing::Color::White;
-            this->lblTrophy->Location = System::Drawing::Point(200, 22);
-            this->lblTrophy->Text = L"\U0001F3C6";
+            comboModo = gcnew ComboBox();
+            comboModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            comboModo->Location = System::Drawing::Point(390, 306);
+            comboModo->Size = System::Drawing::Size(190, 30);
+            comboModo->DropDownStyle = ComboBoxStyle::DropDownList;
+            comboModo->Items->Add(L"Obstáculos");           // índice 0 → GameMode::Obstacles
+            comboModo->Items->Add(L"Crecimiento Aleatorio"); // índice 1 → GameMode::RandomGrowth
+            comboModo->Items->Add(L"Velocidad Creciente");  // índice 2 → GameMode::SpeedIncrease
+            comboModo->SelectedIndex = 0;
 
-            this->lblScore->AutoSize = true;
-            this->lblScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Regular);
-            this->lblScore->ForeColor = System::Drawing::Color::White;
-            this->lblScore->Location = System::Drawing::Point(275, 25);
-            this->lblScore->Text = L"0";
+            lblTamano = gcnew Label();
+            lblTamano->Text = L"Tamaño:";
+            lblTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
+            lblTamano->ForeColor = Color::White;
+            lblTamano->AutoSize = true;
+            lblTamano->Location = System::Drawing::Point(260, 370);
 
-            this->lblCoin->AutoSize = true;
-            this->lblCoin->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 20, System::Drawing::FontStyle::Regular);
-            this->lblCoin->ForeColor = System::Drawing::Color::White;
-            this->lblCoin->Location = System::Drawing::Point(375, 22);
-            this->lblCoin->Text = L"\U0001F4B0";
-            this->lblCoin->Cursor = System::Windows::Forms::Cursors::Hand;
-            this->lblCoin->Click += gcnew System::EventHandler(this, &Form1::AbrirTienda);
+            comboTamano = gcnew ComboBox();
+            comboTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            comboTamano->Location = System::Drawing::Point(390, 366);
+            comboTamano->Size = System::Drawing::Size(190, 30);
+            comboTamano->DropDownStyle = ComboBoxStyle::DropDownList;
+            comboTamano->Items->Add(L"10×10  (Pequeño)");   // índice 0 → BoardSize::Small
+            comboTamano->Items->Add(L"25×25  (Mediano)");   // índice 1 → BoardSize::Medium
+            comboTamano->Items->Add(L"50×50  (Grande)");    // índice 2 → BoardSize::Large
+            comboTamano->SelectedIndex = 1;
 
-            this->lblCoinCount->AutoSize = true;
-            this->lblCoinCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 18, System::Drawing::FontStyle::Bold);
-            this->lblCoinCount->ForeColor = System::Drawing::Color::White;
-            this->lblCoinCount->Location = System::Drawing::Point(450, 25);
-            this->lblCoinCount->Text = L"0";
+            btnIniciar = gcnew Button();
+            btnIniciar->Text = L"▶  Iniciar Juego";
+            btnIniciar->Font = gcnew System::Drawing::Font(L"Segoe UI", 14, FontStyle::Bold);
+            btnIniciar->BackColor = Color::FromArgb(50, 180, 50);
+            btnIniciar->ForeColor = Color::White;
+            btnIniciar->FlatStyle = FlatStyle::Flat;
+            btnIniciar->FlatAppearance->BorderSize = 0;
+            btnIniciar->Location = System::Drawing::Point(300, 430);
+            btnIniciar->Size = System::Drawing::Size(220, 52);
+            btnIniciar->Click += gcnew EventHandler(this, &Form1::IniciarJuego);
 
-            this->lblHighScore->AutoSize = true;
-            this->lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, System::Drawing::FontStyle::Regular);
-            this->lblHighScore->ForeColor = System::Drawing::Color::FromArgb(255, 230, 100);
-            this->lblHighScore->Location = System::Drawing::Point(700, 8);
-            this->lblHighScore->Text = L"BEST";
+            btnTienda = gcnew Button();
+            btnTienda->Text = L"🛒  Tienda";
+            btnTienda->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
+            btnTienda->BackColor = Color::FromArgb(220, 140, 20);
+            btnTienda->ForeColor = Color::White;
+            btnTienda->FlatStyle = FlatStyle::Flat;
+            btnTienda->FlatAppearance->BorderSize = 0;
+            btnTienda->Location = System::Drawing::Point(355, 500);
+            btnTienda->Size = System::Drawing::Size(110, 40);
+            btnTienda->Click += gcnew EventHandler(this, &Form1::AbrirTienda);
 
-            this->lblBoardSize->AutoSize = true;
-            this->lblBoardSize->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Bold);
-            this->lblBoardSize->ForeColor = System::Drawing::Color::White;
-            this->lblBoardSize->Location = System::Drawing::Point(520, 12);
-            this->lblBoardSize->Text = L"TABLERO";
+            panelMenu->Controls->Add(lblTitle);
+            panelMenu->Controls->Add(lblModo);
+            panelMenu->Controls->Add(comboModo);
+            panelMenu->Controls->Add(lblTamano);
+            panelMenu->Controls->Add(comboTamano);
+            panelMenu->Controls->Add(btnIniciar);
+            panelMenu->Controls->Add(btnTienda);
 
-            this->cboBoardSize->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->cboBoardSize->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-            this->cboBoardSize->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, System::Drawing::FontStyle::Regular);
-            this->cboBoardSize->FormattingEnabled = true;
-            this->cboBoardSize->Items->AddRange(gcnew cli::array<System::Object^> {
-                L"Small (10x10)", L"Medium (25x25)", L"Large (50x50)"
-            });
-            this->cboBoardSize->Location = System::Drawing::Point(523, 34);
-            this->cboBoardSize->Name = L"cboBoardSize";
-            this->cboBoardSize->Size = System::Drawing::Size(155, 31);
-            this->cboBoardSize->TabIndex = 2;
-            this->cboBoardSize->SelectedIndexChanged += gcnew System::EventHandler(
-                this, &Form1::CboBoardSize_SelectedIndexChanged);
+            // =====================================================
+            //  BARRA SUPERIOR (labels de puntaje)
+            // =====================================================
+            lblScore = gcnew Label();
+            lblScore->Location = System::Drawing::Point(10, 22);
+            lblScore->Size = System::Drawing::Size(210, 30);
+            lblScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
+            lblScore->ForeColor = Color::White;
+            lblScore->Text = L"Puntos: 0";
+            lblScore->Visible = false;
 
-            this->panelTop->Controls->Add(this->lblApple);
-            this->panelTop->Controls->Add(this->lblAppleCount);
-            this->panelTop->Controls->Add(this->lblTrophy);
-            this->panelTop->Controls->Add(this->lblScore);
-            this->panelTop->Controls->Add(this->lblCoin);
-            this->panelTop->Controls->Add(this->lblCoinCount);
-            this->panelTop->Controls->Add(this->lblHighScore);
-            this->panelTop->Controls->Add(this->lblBoardSize);
-            this->panelTop->Controls->Add(this->cboBoardSize);
+            lblAppleCount = gcnew Label();
+            lblAppleCount->Location = System::Drawing::Point(230, 22);
+            lblAppleCount->Size = System::Drawing::Size(220, 30);
+            lblAppleCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
+            lblAppleCount->ForeColor = Color::White;
+            lblAppleCount->Text = L"Manzanas: 0";
+            lblAppleCount->Visible = false;
 
-            // ---- Panel de juego (DoubleBufferedPanel) ----
-            this->panelGame->BackColor = System::Drawing::Color::FromArgb(170, 215, 81);
-            this->panelGame->Location = System::Drawing::Point(30, 120);
-            this->panelGame->Size = System::Drawing::Size(750, 660);
-            this->panelGame->TabIndex = 1;
-            this->panelGame->BorderStyle = System::Windows::Forms::BorderStyle::None;
+            lblHighScore = gcnew Label();
+            lblHighScore->Location = System::Drawing::Point(460, 22);
+            lblHighScore->Size = System::Drawing::Size(260, 30);
+            lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
+            lblHighScore->ForeColor = Color::Gold;
+            lblHighScore->Text = L"Récord: 0";
+            lblHighScore->Visible = false;
 
-            this->panelGame->Paint += gcnew System::Windows::Forms::PaintEventHandler(
-                this, &Form1::PanelGame_Paint);
-            this->panelGame->Resize += gcnew System::EventHandler(
-                this, &Form1::PanelGame_Resize);
+            // =====================================================
+            //  PANEL DE JUEGO
+            // =====================================================
+            panelGame = gcnew Panel();
+            panelGame->BackColor = Color::FromArgb(170, 215, 81);
+            panelGame->Location = System::Drawing::Point(10, 60);
+            panelGame->Size = System::Drawing::Size(800, 800);
+            panelGame->Visible = false;
+            panelGame->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame_Paint);
 
-            this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(
-                this, &Form1::Form1_KeyDown);
+            panelGame->GetType()->GetProperty("DoubleBuffered",
+                System::Reflection::BindingFlags::NonPublic |
+                System::Reflection::BindingFlags::Instance)
+                ->SetValue(panelGame, true, nullptr);
 
-            this->Controls->Add(this->panelTop);
-            this->Controls->Add(this->panelGame);
+            panelGame->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame_Paint);
 
-            this->ResumeLayout(false);
+            // =====================================================
+            //  EVENTOS GLOBALES
+            // =====================================================
+            this->KeyDown += gcnew KeyEventHandler(this, &Form1::Form1_KeyDown);
+
+            // =====================================================
+            //  AGREGAR AL FORM (orden importa: panelMenu al frente)
+            // =====================================================
+            this->Controls->Add(panelGame);
+            this->Controls->Add(lblScore);
+            this->Controls->Add(lblAppleCount);
+            this->Controls->Add(lblHighScore);
+            this->Controls->Add(panelMenu);   // encima de todo en el menú
         }
 
+        // =========================================================
+        //  INICIAR JUEGO
+        // =========================================================
+        void IniciarJuego(Object^ sender, EventArgs^ e)
+        {
+            modoSeleccionado = comboModo->SelectedIndex;
+            tamanoSeleccionado = comboTamano->SelectedIndex;
 
-        BoardSize GetSelectedBoardSize() {
-            switch (cboBoardSize->SelectedIndex) {
-            case 0:  return BoardSize::Small;
-            case 2:  return BoardSize::Large;
-            case 1:
-            default: return BoardSize::Medium;
+            InitGame();
+
+            // Ocultar menú, mostrar HUD
+            panelMenu->Visible = false;
+            panelGame->Visible = true;
+            lblScore->Visible = true;
+            lblAppleCount->Visible = true;
+            lblHighScore->Visible = true;
+
+            panelGame->Focus();  // Para recibir KeyDown sin clic previo
+        }
+
+        // =========================================================
+        //  INICIALIZAR MOTOR + TIMER
+        // =========================================================
+        void InitGame()
+        {
+            // Detener y liberar timer anterior si existe
+            if (gameTimer != nullptr) {
+                gameTimer->Stop();
+                gameTimer = nullptr;
             }
+
+            game = gcnew SnakeGame();
+
+            // --- Aplicar tamaño de tablero ---
+            BoardSize bs;
+            switch (tamanoSeleccionado) {
+            case 0:  bs = BoardSize::Small;  break;
+            case 2:  bs = BoardSize::Large;  break;
+            default: bs = BoardSize::Medium; break;
+            }
+            game->SetBoardSize(bs);   // *** CORRECCIÓN: esto faltaba en la versión original ***
+
+            // --- Aplicar modo de juego ---
+            GameMode gm;
+            switch (modoSeleccionado) {
+            case 0:  gm = GameMode::Obstacles;    break;
+            case 1:  gm = GameMode::RandomGrowth; break;
+            case 2:  gm = GameMode::SpeedIncrease; break;
+            default: gm = GameMode::Normal;        break;
+            }
+            game->SetGameMode(gm);    // *** CORRECCIÓN: esto faltaba en la versión original ***
+
+            // --- Suscribir eventos del juego ---
+            game->OnGameOver += gcnew SnakeGame::GameOverDelegate(
+                this, &Form1::Game_OnGameOver);
+            game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(
+                this, &Form1::Game_OnScoreChanged);
+            game->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(
+                this, &Form1::Game_OnSpeedChanged);
+
+            // Actualizar récord en HUD
+            lblHighScore->Text = String::Format(L"Récord: {0}", game->HighScore);
+            lblScore->Text = L"Puntos: 0";
+            lblAppleCount->Text = L"Manzanas: 0";
+
+            // --- Crear y arrancar Timer ---
+            gameTimer = gcnew Timer();
+            gameTimer->Interval = game->SpeedMs;
+            gameTimer->Tick += gcnew EventHandler(this, &Form1::GameTimer_Tick);
+            gameTimer->Start();
         }
 
-        void InitGame() {
-            game = gcnew SnakeGame(GetSelectedBoardSize());
-            game->WallPassThrough = false;
-            game->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game_OnGameOver);
-            game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game_OnScoreChanged);
+        // =========================================================
+        //  HANDLERS DE EVENTOS DEL JUEGO
+        // =========================================================
 
-            cboBoardSize->SelectedIndex = 1;
-            cboBoardSize->Enabled = true;
-            lblCoinCount->Text = game->HighScore.ToString();
-            UpdateUI(0, 0);
-
-            gameTimer = gcnew System::Windows::Forms::Timer();
-            gameTimer->Interval = game->SpeedMs;
-            gameTimer->Tick += gcnew System::EventHandler(this, &Form1::GameTimer_Tick);
-            gameTimer->Start();
+        // Llamado cuando la serpiente muere
+        void Game_OnGameOver(int finalScore)
+        {
+            gameTimer->Stop();
+            // Actualizar récord en HUD (puede haber cambiado)
+            lblHighScore->Text = String::Format(L"Récord: {0}", game->HighScore);
             panelGame->Invalidate();
         }
 
-        void GameTimer_Tick(Object^ sender, EventArgs^ e) {
-            if (game == nullptr) return;
+        // Llamado cada vez que cambia el puntaje (al comer manzana)
+        void Game_OnScoreChanged(int score, int apples)
+        {
+            lblScore->Text = String::Format(L"Puntos: {0}", score);
+            lblAppleCount->Text = String::Format(L"Manzanas: {0}", apples);
+        }
+
+        // Llamado solo en modo SpeedIncrease cuando el intervalo cambia
+        void Game_OnSpeedChanged(int newSpeedMs)
+        {
+            gameTimer->Interval = newSpeedMs;  // *** Actualiza el Timer en tiempo real ***
+        }
+
+        // =========================================================
+        //  TICK DEL TIMER
+        // =========================================================
+        void GameTimer_Tick(Object^ sender, EventArgs^ e)
+        {
             game->Tick();
             panelGame->Invalidate();
         }
 
-        void PanelGame_Paint(Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+        // =========================================================
+        //  PAINT DEL PANEL DE JUEGO
+        // =========================================================
+        void PanelGame_Paint(Object^ sender, PaintEventArgs^ e)
+        {
+            if (game != nullptr)
+                game->Draw(e->Graphics, panelGame->ClientSize);
+        }
+
+        // =========================================================
+        //  TECLADO
+        // =========================================================
+        void Form1_KeyDown(Object^ sender, KeyEventArgs^ e)
+        {
             if (game == nullptr) return;
-            game->Draw(e->Graphics, panelGame->ClientSize);
-        }
 
-        void PanelGame_Resize(Object^ sender, EventArgs^ e) {
-            panelGame->Invalidate();
-        }
+            switch (e->KeyCode)
+            {
+                // --- Dirección (flechas y WASD) ---
+            case Keys::Up:    case Keys::W: game->SetDirection(0, -1);  break;
+            case Keys::Down:  case Keys::S: game->SetDirection(0, 1);  break;
+            case Keys::Left:  case Keys::A: game->SetDirection(-1, 0);  break;
+            case Keys::Right: case Keys::D: game->SetDirection(1, 0);  break;
 
-        
-
-        void CboBoardSize_SelectedIndexChanged(Object^ sender, EventArgs^ e) {
-            if (cboBoardSize->SelectedIndex < 0 || game == nullptr) return;
-
-            // 1. Cambiar la lógica interna del juego
-            game->SetBoardSize(GetSelectedBoardSize());
-
-            // 2. ELIMINADO: No redimensionar el panel físicamente
-            // El escalado se maneja en SnakeGame::Draw()
-
-            // 3. ELIMINADO: No recalcular posición del panel
-            // El panel se mantiene en su lugar original
-
-            // Actualizar UI
-            if (gameTimer != nullptr) gameTimer->Interval = game->SpeedMs;
-            lblCoinCount->Text = game->HighScore.ToString();
-            UpdateUI(0, 0);
-            panelGame->Invalidate();
-            this->ActiveControl = nullptr;
-        }
-
-        void Form1_KeyDown(Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
-            switch (e->KeyCode) {
-            case System::Windows::Forms::Keys::Up:
-            case System::Windows::Forms::Keys::W:
-                cboBoardSize->Enabled = false;
-                game->SetDirection(0, -1); break;
-
-            case System::Windows::Forms::Keys::Down:
-            case System::Windows::Forms::Keys::S:
-                cboBoardSize->Enabled = false;
-                game->SetDirection(0, 1); break;
-
-            case System::Windows::Forms::Keys::Left:
-            case System::Windows::Forms::Keys::A:
-                cboBoardSize->Enabled = false;
-                game->SetDirection(-1, 0); break;
-
-            case System::Windows::Forms::Keys::Right:
-            case System::Windows::Forms::Keys::D:
-                cboBoardSize->Enabled = false;
-                game->SetDirection(1, 0); break;
-
-            case System::Windows::Forms::Keys::P:
-            case System::Windows::Forms::Keys::Escape:
-                if (game != nullptr) game->TogglePause();
-                break;
-
-            case System::Windows::Forms::Keys::R:
-                if (game != nullptr && (game->IsGameOver || game->IsPaused)) {
-                    game->Reset();
-                    gameTimer->Interval = game->SpeedMs;
-                    cboBoardSize->Enabled = true;
-                    lblCoinCount->Text = game->HighScore.ToString();
-                    UpdateUI(0, 0);
+                // --- Pausa (P o ESC) ---
+                // *** CORRECCIÓN: faltaba manejo de pausa en la versión original ***
+            case Keys::P:
+            case Keys::Escape:
+                if (!game->IsGameOver) {
+                    game->TogglePause();
                     panelGame->Invalidate();
                 }
                 break;
+
+                // --- Reiniciar (R) ---
+                // *** CORRECCIÓN: faltaba manejo de reinicio en la versión original ***
+            case Keys::R:
+                if (game->IsGameOver || game->HasStarted) {
+                    game->Reset();
+                    // Restaurar velocidad del modo (Reset la reinicia en baseSpeedMs)
+                    if (gameTimer != nullptr) {
+                        gameTimer->Interval = game->SpeedMs;
+                        if (!gameTimer->Enabled) gameTimer->Start();
+                    }
+                    lblScore->Text = L"Puntos: 0";
+                    lblAppleCount->Text = L"Manzanas: 0";
+                    panelGame->Invalidate();
+                }
+                break;
+
+                // --- Volver al menú (M) — solo disponible tras Game Over ---
+            case Keys::M:
+                if (game->IsGameOver) {
+                    if (gameTimer != nullptr) gameTimer->Stop();
+                    panelGame->Visible = false;
+                    lblScore->Visible = false;
+                    lblAppleCount->Visible = false;
+                    lblHighScore->Visible = false;
+                    panelMenu->Visible = true;
+                }
+                break;
             }
-            e->Handled = true;
         }
 
-        void Game_OnGameOver(int finalScore) {
-            cboBoardSize->Enabled = true;
-            lblCoinCount->Text = game->HighScore.ToString();
-        }
+        // =========================================================
+        //  ABRIR TIENDA
+        // =========================================================
+        void AbrirTienda(Object^ sender, EventArgs^ e)
+        {
+            // Pausar el juego si está activo
+            if (game != nullptr && game->HasStarted && !game->IsGameOver)
+                game->IsPaused = true;
 
-        void Game_OnScoreChanged(int score, int apples) {
-            UpdateUI(score, apples);
-        }
-
-        void UpdateUI(int score, int apples) {
-            lblScore->Text = score.ToString();
-            lblAppleCount->Text = apples.ToString();
-        }
-
-        void AbrirTienda(System::Object^ sender, System::EventArgs^ e) {
             FormTienda^ tienda = gcnew FormTienda();
-            tienda->Show();
             this->Hide();
+            tienda->Show();
         }
     };
 
