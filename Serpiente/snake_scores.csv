@@ -5,3 +5,8 @@ Pedrin,20,25x25,Obstaculos
 ,,,
 ,,,
 Luis,10,50x50,SpeedIncrease
+Luisa,40,25x25,Obstaculos
+luisa,40,50x50,Obstaculos+RandomGrowth+SpeedIncrease
+Jugador,30,50x50,Obstaculos+RandomGrowth
+Jugador,10,50x50,RandomGrowth
+Luisa,100,50x50,Obstaculos

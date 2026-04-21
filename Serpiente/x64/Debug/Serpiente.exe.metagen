@@ -1,5 +1,5 @@
 ImageRuntimeVersion: v4.0.30319
-Assembly Serpiente, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
+Assembly Serpiente, Version=0.0.*, Culture=Todos los idiomas (todos los países): 
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
@@ -53,4 +53,4 @@ Struct MiProyecto.GameMode: AutoLayout, AnsiClass, Class, Public, Sealed, Before
     MiProyecto.GameMode Normal = 0 : Public, Static, Literal, HasDefault
     MiProyecto.GameMode Obstacles = 1 : Public, Static, Literal, HasDefault
     MiProyecto.GameMode RandomGrowth = 2 : Public, Static, Literal, HasDefault
-    MiProyecto.GameMode SpeedIncrease = 3 : Public, Static, Literal, HasDefault
+    MiProyecto.GameMode SpeedIncrease = 4 : Public, Static, Literal, HasDefault

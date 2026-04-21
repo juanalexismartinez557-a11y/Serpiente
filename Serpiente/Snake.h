@@ -10,17 +10,14 @@ namespace MiProyecto {
     using namespace System::Collections::Generic;
     using namespace System::Drawing;
 
-    // =========================================================
-    //  CONSTANTES DEL JUEGO
-    // =========================================================
     static const int CELL_SIZE = 30;
     static const int SNAKE_SPEED_MS = 150;
     static const int APPLE_GROW_AMOUNT = 1;
     static const int SCORE_PER_APPLE = 10;
     static const int MAX_RANKING = 5;
-    static const int MIN_SPEED_MS = 50;   // Velocidad m�xima (intervalo m�nimo)
-    static const int OBSTACLE_SCORE_THRESHOLD = 5;   // Cada cu�ntos puntos aparece obst�culo
-    static const int SPEED_SCORE_THRESHOLD = 10;   // Cada cu�ntos puntos aumenta velocidad
+    static const int MIN_SPEED_MS = 50;
+    static const int OBSTACLE_SCORE_THRESHOLD = 5;
+    static const int SPEED_SCORE_THRESHOLD = 10;
 
     ref class ScoreConfig {
     public:
@@ -28,73 +25,48 @@ namespace MiProyecto {
     };
 
     // =========================================================
-    //  MODOS DE JUEGO
-    //  Equivalente al enum GameMode en modos.h, pero en C++/CLI
-    //  para ser compatible con SnakeGame (ref class administrada).
-    //  La l�gica de cada modo est� implementada directamente en
-    //  SnakeGame::UpdateByScore() y SnakeGame::Tick(), replicando
-    //  el comportamiento de GameModes::updateByScore() y
-    //  GameModes::handleFoodEaten() de modos.cpp.
+    //  MODOS DE JUEGO — ahora como FLAGS combinables
+    //  Ejemplo: Obstacles | SpeedIncrease al mismo tiempo
     // =========================================================
+    [System::FlagsAttribute]
     public enum class GameMode {
-        Normal,         // Sin modificadores
-        Obstacles,      // Genera obst�culos cada OBSTACLE_SCORE_THRESHOLD puntos
-        RandomGrowth,   // Crecimiento aleatorio (1-5) al comer
-        SpeedIncrease   // Aumenta velocidad cada SPEED_SCORE_THRESHOLD puntos
+        Normal = 0,
+        Obstacles = 1,   // 001
+        RandomGrowth = 2,   // 010
+        SpeedIncrease = 4    // 100
     };
 
     enum class BoardSize { Small, Medium, Large };
 
-    // =========================================================
-    //  ESTRUCTURA: Punto en la grid
-    // =========================================================
     value struct GridPoint {
         int X, Y;
         GridPoint(int x, int y) : X(x), Y(y) {}
         bool Equals(GridPoint other) { return X == other.X && Y == other.Y; }
     };
 
-    // =========================================================
-    //  CLASE: Pared / Obst�culo
-    // =========================================================
     ref class Wall {
     public:
         GridPoint Position;
         Color     WallColor;
-        bool      IsBorder;  // true = pared de borde, false = obst�culo interior
+        bool      IsBorder;
 
         Wall(GridPoint pos, Color col, bool isBorder)
             : Position(pos), WallColor(col), IsBorder(isBorder) {
         }
-
-        // Sobrecarga para compatibilidad con c�digo existente
         Wall(GridPoint pos, Color col) : Position(pos), WallColor(col), IsBorder(false) {}
 
         void Draw(Graphics^ g) {
-            g->FillRectangle(
-                gcnew SolidBrush(WallColor),
-                Position.X * CELL_SIZE,
-                Position.Y * CELL_SIZE,
-                CELL_SIZE, CELL_SIZE
-            );
-            g->DrawRectangle(
-                gcnew Pen(Color::FromArgb(60, 35, 10), 1),
-                Position.X * CELL_SIZE,
-                Position.Y * CELL_SIZE,
-                CELL_SIZE - 1, CELL_SIZE - 1
-            );
+            g->FillRectangle(gcnew SolidBrush(WallColor),
+                Position.X * CELL_SIZE, Position.Y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            g->DrawRectangle(gcnew Pen(Color::FromArgb(60, 35, 10), 1),
+                Position.X * CELL_SIZE, Position.Y * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
         }
-
         bool Collides(GridPoint p) { return Position.Equals(p); }
     };
 
-    // =========================================================
-    //  CLASE: Manzana
-    // =========================================================
     ref class Apple {
     public:
         GridPoint Position;
-
         Apple() : Position(GridPoint(0, 0)) {}
 
         void Generate(Random^ rnd, int cols, int rows, List<GridPoint>^ occupiedCells) {
@@ -111,37 +83,23 @@ namespace MiProyecto {
                 }
                 if (!isOccupied) { Position = newPos; return; }
             }
-            // Fallback si el tablero est� casi lleno
             Position = GridPoint(rnd->Next(minX, maxX), rnd->Next(minY, maxY));
         }
 
         void Draw(Graphics^ g) {
-            g->FillEllipse(
-                gcnew SolidBrush(Color::FromArgb(220, 50, 50)),
-                Position.X * CELL_SIZE + 2,
-                Position.Y * CELL_SIZE + 2,
-                CELL_SIZE - 4, CELL_SIZE - 4
-            );
-            g->FillEllipse(
-                gcnew SolidBrush(Color::FromArgb(120, 255, 255, 255)),
-                Position.X * CELL_SIZE + 6,
-                Position.Y * CELL_SIZE + 4,
-                6, 5
-            );
+            g->FillEllipse(gcnew SolidBrush(Color::FromArgb(220, 50, 50)),
+                Position.X * CELL_SIZE + 2, Position.Y * CELL_SIZE + 2, CELL_SIZE - 4, CELL_SIZE - 4);
+            g->FillEllipse(gcnew SolidBrush(Color::FromArgb(120, 255, 255, 255)),
+                Position.X * CELL_SIZE + 6, Position.Y * CELL_SIZE + 4, 6, 5);
         }
     };
 
-    // =========================================================
-    //  CLASE PRINCIPAL: Motor del juego Snake
-    // =========================================================
     ref class SnakeGame {
     public:
-        // --- Configuraci�n ---
         bool WallPassThrough;
-        int  SpeedMs;       // Intervalo actual del timer (Form1 lo usa para el Timer)
-        int  GrowAmount;    // Segmentos que crece al comer (modo Normal/Obstacles)
+        int  SpeedMs;
+        int  GrowAmount;
 
-        // --- Estado p�blico ---
         bool HasStarted;
         bool IsGameOver;
         bool IsPaused;
@@ -150,16 +108,14 @@ namespace MiProyecto {
         int  HighScore;
         int  CurrentCols;
         int  CurrentRows;
-        GameMode CurrentMode;
+        GameMode CurrentMode;   // ahora puede ser combinación de flags
 
-        // --- Eventos ---
         delegate void GameOverDelegate(int finalScore);
         event GameOverDelegate^ OnGameOver;
 
         delegate void ScoreChangedDelegate(int score, int apples);
         event ScoreChangedDelegate^ OnScoreChanged;
 
-        // NUEVO: notifica a Form1 cuando el SpeedIncrease cambia el intervalo
         delegate void SpeedChangedDelegate(int newSpeedMs);
         event SpeedChangedDelegate^ OnSpeedChanged;
 
@@ -170,17 +126,19 @@ namespace MiProyecto {
         List<Wall^>^ walls;
         Random^ rnd;
 
-        int baseSpeedMs;        // Velocidad base del modo (para Reset)
-        int lastObstacleScore;  // �ltimo puntaje donde se gener� obst�culo
-        int lastSpeedScore;     // �ltimo puntaje donde aument� la velocidad
+        int baseSpeedMs;
+        int lastObstacleScore;
+        int lastSpeedScore;
+
+        // Helper: comprueba si un flag está activo en la combinación actual
+        bool HasMode(GameMode flag) {
+            return (static_cast<int>(CurrentMode) & static_cast<int>(flag)) != 0;
+        }
 
     public:
-
         SnakeGame() {
-            // *** CORRECCI�N CR�TICA: inicializar dimensiones ANTES de llamar Reset() ***
             CurrentCols = 25;
             CurrentRows = 25;
-
             WallPassThrough = false;
             SpeedMs = SNAKE_SPEED_MS;
             baseSpeedMs = SNAKE_SPEED_MS;
@@ -198,7 +156,6 @@ namespace MiProyecto {
             Reset();
         }
 
-        // Cambia el tama�o del tablero y reinicia (solo antes de empezar)
         void SetBoardSize(BoardSize size) {
             switch (size) {
             case BoardSize::Small:  CurrentCols = 10; CurrentRows = 10; break;
@@ -210,42 +167,38 @@ namespace MiProyecto {
             Reset();
         }
 
-        // Establece el modo de juego y ajusta par�metros iniciales del modo
+        // Ahora acepta una combinación de flags
         void SetGameMode(GameMode mode) {
             CurrentMode = mode;
-            switch (mode) {
-            case GameMode::SpeedIncrease:
-                // Empieza un poco m�s r�pido que el modo Normal
+
+            // SpeedIncrease activo → velocidad base más rápida
+            if (HasMode(GameMode::SpeedIncrease)) {
                 SpeedMs = 120; baseSpeedMs = 120;
-                break;
-            case GameMode::Obstacles:
-                WallPassThrough = false; // Obst�culos requieren colisi�n con paredes
+            }
+            else {
                 SpeedMs = SNAKE_SPEED_MS; baseSpeedMs = SNAKE_SPEED_MS;
-                break;
-            default:
-                SpeedMs = SNAKE_SPEED_MS; baseSpeedMs = SNAKE_SPEED_MS;
-                break;
+            }
+
+            // Obstacles no necesita ajuste extra de velocidad
+            // WallPassThrough se deja en false si hay obstáculos
+            if (HasMode(GameMode::Obstacles)) {
+                WallPassThrough = false;
             }
         }
 
-        // Reinicia la partida sin destruir el objeto
         void Reset() {
             snakeBody->Clear();
             walls->Clear();
-
             IsGameOver = false;
             IsPaused = false;
             HasStarted = false;
             Score = 0;
             ApplesEaten = 0;
             growPending = 0;
-
-            // Restaurar velocidad base del modo
             SpeedMs = baseSpeedMs;
             lastObstacleScore = -1;
             lastSpeedScore = -1;
 
-            // Serpiente inicial de 3 segmentos en el centro, movi�ndose a la derecha
             int midRow = CurrentRows / 2;
             int midCol = CurrentCols / 2;
             snakeBody->Add(GridPoint(midCol, midRow));
@@ -259,14 +212,12 @@ namespace MiProyecto {
             apple->Generate(rnd, CurrentCols, CurrentRows, GetOccupiedCells());
         }
 
-        // Buffer de direcci�n (evita giro de 180�)
         void SetDirection(int newDx, int newDy) {
             if (newDx == -dx && newDy == -dy) return;
             pendingDx = newDx;
             pendingDy = newDy;
         }
 
-        // Tick principal � llamado por el Timer de Form1
         void Tick() {
             if (IsGameOver || IsPaused) return;
             HasStarted = true;
@@ -275,11 +226,10 @@ namespace MiProyecto {
             GridPoint head = snakeBody[0];
             GridPoint newHead(head.X + dx, head.Y + dy);
 
-            // L�gica de paredes del borde
             if (WallPassThrough) {
-                if (newHead.X <= 0)             newHead.X = CurrentCols - 2;
+                if (newHead.X <= 0)                    newHead.X = CurrentCols - 2;
                 else if (newHead.X >= CurrentCols - 1) newHead.X = 1;
-                if (newHead.Y <= 0)             newHead.Y = CurrentRows - 2;
+                if (newHead.Y <= 0)                    newHead.Y = CurrentRows - 2;
                 else if (newHead.Y >= CurrentRows - 1) newHead.Y = 1;
             }
             else {
@@ -288,44 +238,35 @@ namespace MiProyecto {
                 }
             }
 
-            // Colisi�n con cuerpo propio
             for (int i = 0; i < snakeBody->Count - 1; i++) {
                 if (snakeBody[i].Equals(newHead)) { TriggerGameOver(); return; }
             }
 
-            // Mover serpiente
             snakeBody->Insert(0, newHead);
             if (growPending > 0) growPending--;
             else snakeBody->RemoveAt(snakeBody->Count - 1);
 
-            // �Comi� manzana?
             if (newHead.Equals(apple->Position)) {
                 ApplesEaten++;
                 Score += SCORE_PER_APPLE;
 
-                // Crecimiento seg�n modo
-                // Equivalente a GameModes::handleFoodEaten() en modos.cpp
                 int grow = GrowAmount;
-                if (CurrentMode == GameMode::RandomGrowth)
-                    grow = rnd->Next(1, 6); // Aleatorio 1-5 (igual que getRandomGrowthAmount)
+                // RandomGrowth activo → crecimiento aleatorio
+                if (HasMode(GameMode::RandomGrowth))
+                    grow = rnd->Next(1, 6);
 
                 growPending += grow;
                 apple->Generate(rnd, CurrentCols, CurrentRows, GetOccupiedCells());
                 OnScoreChanged(Score, ApplesEaten);
-
-                // Efectos por puntaje seg�n modo
                 UpdateByScore();
             }
         }
 
-        // Dibuja todo el estado del juego
         void Draw(Graphics^ g, System::Drawing::Size clientSize) {
             System::Drawing::Size boardPixels(CurrentCols * CELL_SIZE, CurrentRows * CELL_SIZE);
-
             float scaleX = (float)clientSize.Width / boardPixels.Width;
             float scaleY = (float)clientSize.Height / boardPixels.Height;
             float scale = Math::Min(scaleX, scaleY);
-
             float offsetX = (clientSize.Width - boardPixels.Width * scale) / 2.0f;
             float offsetY = (clientSize.Height - boardPixels.Height * scale) / 2.0f;
 
@@ -333,37 +274,27 @@ namespace MiProyecto {
             g->TranslateTransform(offsetX, offsetY);
             g->ScaleTransform(scale, scale);
 
-            // Fondo verde
-            g->FillRectangle(
-                gcnew SolidBrush(Color::FromArgb(170, 215, 81)),
-                0, 0, boardPixels.Width, boardPixels.Height
-            );
+            g->FillRectangle(gcnew SolidBrush(Color::FromArgb(170, 215, 81)),
+                0, 0, boardPixels.Width, boardPixels.Height);
 
-            // Paredes y obst�culos
             for each (Wall ^ w in walls) { w->Draw(g); }
-
-            // Manzana
             apple->Draw(g);
 
-            // Serpiente
             for (int i = 0; i < snakeBody->Count; i++) {
                 GridPoint p = snakeBody[i];
                 Color segColor;
-                if (i == 0)          segColor = Color::FromArgb(34, 100, 14);
-                else if (i % 2 == 0)      segColor = Color::FromArgb(74, 160, 44);
-                else                      segColor = Color::FromArgb(90, 180, 55);
-
+                if (i == 0)       segColor = Color::FromArgb(34, 100, 14);
+                else if (i % 2 == 0)   segColor = Color::FromArgb(74, 160, 44);
+                else                   segColor = Color::FromArgb(90, 180, 55);
                 int px = p.X * CELL_SIZE, py = p.Y * CELL_SIZE;
                 g->FillRectangle(gcnew SolidBrush(segColor),
                     px + 1, py + 1, CELL_SIZE - 2, CELL_SIZE - 2);
                 if (i == 0) DrawEyes(g, px, py);
             }
 
-            // Restaurar transformaci�n para overlays
             g->Transform = originalTransform;
-
             if (IsGameOver) DrawGameOverOverlay(g, clientSize);
-            else if (IsPaused)   DrawPauseOverlay(g, clientSize);
+            else if (IsPaused) DrawPauseOverlay(g, clientSize);
         }
 
         List<int>^ SaveAndGetRanking(int finalScore) {
@@ -371,7 +302,6 @@ namespace MiProyecto {
             scores->Add(finalScore);
             scores->Sort();
             scores->Reverse();
-
             if (scores->Count > 0) HighScore = scores[0];
             return scores;
         }
@@ -380,16 +310,13 @@ namespace MiProyecto {
             List<int>^ scores = gcnew List<int>();
             if (!System::IO::File::Exists(ScoreConfig::FILE_NAME)) return scores;
             try {
-                System::IO::StreamReader^ sr =
-                    gcnew System::IO::StreamReader(ScoreConfig::FILE_NAME);
+                System::IO::StreamReader^ sr = gcnew System::IO::StreamReader(ScoreConfig::FILE_NAME);
                 String^ line;
                 while ((line = sr->ReadLine()) != nullptr) {
                     int val;
                     array<String^>^ parts = line->Split(',');
-                    if (int::TryParse(line->Trim(), val))
-                        scores->Add(val);
-                    else if (parts->Length >= 2 && int::TryParse(parts[1]->Trim(), val))
-                        scores->Add(val);
+                    if (int::TryParse(line->Trim(), val)) scores->Add(val);
+                    else if (parts->Length >= 2 && int::TryParse(parts[1]->Trim(), val)) scores->Add(val);
                 }
                 sr->Close();
             }
@@ -400,14 +327,11 @@ namespace MiProyecto {
         void TogglePause() { if (!IsGameOver) IsPaused = !IsPaused; }
         int  GetSnakeLength() { return snakeBody->Count; }
 
-        // Agrega obst�culo manualmente (para uso externo si se desea)
         void AddWall(int gridX, int gridY) {
-            walls->Add(gcnew Wall(GridPoint(gridX, gridY),
-                Color::FromArgb(80, 50, 20), false));
+            walls->Add(gcnew Wall(GridPoint(gridX, gridY), Color::FromArgb(80, 50, 20), false));
         }
 
     private:
-
         List<GridPoint>^ GetOccupiedCells() {
             List<GridPoint>^ occupied = gcnew List<GridPoint>();
             for each (GridPoint p in snakeBody) occupied->Add(p);
@@ -426,66 +350,46 @@ namespace MiProyecto {
             HighScore = (scores->Count > 0) ? scores[0] : 0;
         }
 
-        // -------------------------------------------------------
-        //  UpdateByScore � replica GameModes::updateByScore()
-        //  de modos.cpp usando tipos C++/CLI compatibles con
-        //  la ref class SnakeGame.
-        // -------------------------------------------------------
         void UpdateByScore() {
-
-            // Modo Obstacles: un obst�culo cada OBSTACLE_SCORE_THRESHOLD puntos
-            if (CurrentMode == GameMode::Obstacles) {
+            // Obstacles activo → generar obstáculo cada umbral
+            if (HasMode(GameMode::Obstacles)) {
                 int currentBlock = Score / OBSTACLE_SCORE_THRESHOLD;
                 int lastBlock = (lastObstacleScore >= 0)
-                    ? lastObstacleScore / OBSTACLE_SCORE_THRESHOLD
-                    : -1;
+                    ? lastObstacleScore / OBSTACLE_SCORE_THRESHOLD : -1;
                 if (currentBlock > lastBlock) {
                     GenerateObstacle();
                     lastObstacleScore = Score;
                 }
             }
 
-            // Modo SpeedIncrease: �10% de intervalo cada SPEED_SCORE_THRESHOLD puntos
-            if (CurrentMode == GameMode::SpeedIncrease) {
+            // SpeedIncrease activo → reducir intervalo cada umbral
+            if (HasMode(GameMode::SpeedIncrease)) {
                 int currentBlock = Score / SPEED_SCORE_THRESHOLD;
                 int lastBlock = (lastSpeedScore >= 0)
-                    ? lastSpeedScore / SPEED_SCORE_THRESHOLD
-                    : -1;
+                    ? lastSpeedScore / SPEED_SCORE_THRESHOLD : -1;
                 if (currentBlock > lastBlock) {
                     int prevSpeed = SpeedMs;
-                    int newSpeed = (int)(SpeedMs * 0.90);
-                    SpeedMs = Math::Max(newSpeed, MIN_SPEED_MS);
+                    SpeedMs = Math::Max((int)(SpeedMs * 0.90), MIN_SPEED_MS);
                     lastSpeedScore = Score;
-                    // Notificar al Form1 para que actualice el Timer
-                    if (SpeedMs != prevSpeed)
-                        OnSpeedChanged(SpeedMs);
+                    if (SpeedMs != prevSpeed) OnSpeedChanged(SpeedMs);
                 }
             }
         }
 
-        // -------------------------------------------------------
-        //  GenerateObstacle � replica GameModes::generateObstacle()
-        // -------------------------------------------------------
         void GenerateObstacle() {
             List<GridPoint>^ occupied = GetOccupiedCells();
-            occupied->Add(apple->Position);  // <-- Aqu� se incluye la manzana como celda ocupada para evitar generar obst�culos encima
-
+            occupied->Add(apple->Position);
             for (int attempt = 0; attempt < 100; attempt++) {
-                GridPoint candidate(
-                    rnd->Next(1, CurrentCols - 1),
-                    rnd->Next(1, CurrentRows - 1)
-                );
+                GridPoint candidate(rnd->Next(1, CurrentCols - 1), rnd->Next(1, CurrentRows - 1));
                 bool valid = true;
                 for each (GridPoint p in occupied) {
                     if (p.Equals(candidate)) { valid = false; break; }
                 }
                 if (valid) {
-                    walls->Add(gcnew Wall(candidate,
-                        Color::FromArgb(80, 50, 20), false));
+                    walls->Add(gcnew Wall(candidate, Color::FromArgb(80, 50, 20), false));
                     return;
                 }
             }
-            // Si no hay lugar libre, no se genera
         }
 
         void BuildBorderWalls() {
@@ -502,22 +406,10 @@ namespace MiProyecto {
 
         void DrawEyes(Graphics^ g, int px, int py) {
             int ex1, ey1, ex2, ey2;
-            if (dx == 1 && dy == 0) {
-                ex1 = px + CELL_SIZE - 8; ey1 = py + 4;
-                ex2 = px + CELL_SIZE - 8; ey2 = py + CELL_SIZE - 10;
-            }
-            else if (dx == -1 && dy == 0) {
-                ex1 = px + 2; ey1 = py + 4;
-                ex2 = px + 2; ey2 = py + CELL_SIZE - 10;
-            }
-            else if (dx == 0 && dy == -1) {
-                ex1 = px + 4;           ey1 = py + 2;
-                ex2 = px + CELL_SIZE - 10; ey2 = py + 2;
-            }
-            else {
-                ex1 = px + 4;           ey1 = py + CELL_SIZE - 8;
-                ex2 = px + CELL_SIZE - 10; ey2 = py + CELL_SIZE - 8;
-            }
+            if (dx == 1 && dy == 0) { ex1 = px + CELL_SIZE - 8; ey1 = py + 4;           ex2 = px + CELL_SIZE - 8; ey2 = py + CELL_SIZE - 10; }
+            else if (dx == -1 && dy == 0) { ex1 = px + 2;           ey1 = py + 4;           ex2 = px + 2;           ey2 = py + CELL_SIZE - 10; }
+            else if (dx == 0 && dy == -1) { ex1 = px + 4;           ey1 = py + 2;           ex2 = px + CELL_SIZE - 10; ey2 = py + 2; }
+            else { ex1 = px + 4;           ey1 = py + CELL_SIZE - 8; ex2 = px + CELL_SIZE - 10; ey2 = py + CELL_SIZE - 8; }
             g->FillEllipse(gcnew SolidBrush(Color::White), ex1, ey1, 6, 6);
             g->FillEllipse(gcnew SolidBrush(Color::White), ex2, ey2, 6, 6);
             g->FillEllipse(gcnew SolidBrush(Color::Black), ex1 + 1, ey1 + 1, 4, 4);
@@ -525,48 +417,31 @@ namespace MiProyecto {
         }
 
         void DrawGameOverOverlay(Graphics^ g, System::Drawing::Size clientSize) {
-            g->FillRectangle(
-                gcnew SolidBrush(Color::FromArgb(160, 0, 0, 0)),
-                0, 0, clientSize.Width, clientSize.Height
-            );
-            System::Drawing::Font^ bigFont =
-                gcnew System::Drawing::Font(L"Segoe UI", 32, System::Drawing::FontStyle::Bold);
-            System::Drawing::Font^ smFont =
-                gcnew System::Drawing::Font(L"Segoe UI", 14);
-            StringFormat^ center = gcnew StringFormat();
+            g->FillRectangle(gcnew SolidBrush(Color::FromArgb(160, 0, 0, 0)),
+                0, 0, clientSize.Width, clientSize.Height);
+            auto bigFont = gcnew System::Drawing::Font(L"Segoe UI", 32, System::Drawing::FontStyle::Bold);
+            auto smFont = gcnew System::Drawing::Font(L"Segoe UI", 14);
+            auto center = gcnew StringFormat();
             center->Alignment = StringAlignment::Center;
             center->LineAlignment = StringAlignment::Center;
-
             int cx = clientSize.Width / 2, cy = clientSize.Height / 2;
-            g->DrawString(L"GAME OVER", bigFont,
-                gcnew SolidBrush(Color::Gold), (float)cx, (float)(cy - 50), center);
-            g->DrawString(String::Format(L"Puntaje: {0}", Score), smFont,
-                gcnew SolidBrush(Color::White), (float)cx, (float)(cy + 10), center);
-            g->DrawString(L"R = Reiniciar   M = Menu   L = Leaderboard", smFont,
-                gcnew SolidBrush(Color::White), (float)cx, (float)(cy + 50), center);
-
+            g->DrawString(L"GAME OVER", bigFont, gcnew SolidBrush(Color::Gold), (float)cx, (float)(cy - 50), center);
+            g->DrawString(String::Format(L"Puntaje: {0}", Score), smFont, gcnew SolidBrush(Color::White), (float)cx, (float)(cy + 10), center);
+            g->DrawString(L"R = Reiniciar   M = Menu   L = Leaderboard", smFont, gcnew SolidBrush(Color::White), (float)cx, (float)(cy + 50), center);
             delete bigFont; delete smFont; delete center;
         }
 
         void DrawPauseOverlay(Graphics^ g, System::Drawing::Size clientSize) {
-            g->FillRectangle(
-                gcnew SolidBrush(Color::FromArgb(120, 0, 0, 0)),
-                0, 0, clientSize.Width, clientSize.Height
-            );
-            System::Drawing::Font^ bigFont =
-                gcnew System::Drawing::Font(L"Segoe UI", 36, System::Drawing::FontStyle::Bold);
-            System::Drawing::Font^ smFont =
-                gcnew System::Drawing::Font(L"Segoe UI", 14);
-            StringFormat^ center = gcnew StringFormat();
+            g->FillRectangle(gcnew SolidBrush(Color::FromArgb(120, 0, 0, 0)),
+                0, 0, clientSize.Width, clientSize.Height);
+            auto bigFont = gcnew System::Drawing::Font(L"Segoe UI", 36, System::Drawing::FontStyle::Bold);
+            auto smFont = gcnew System::Drawing::Font(L"Segoe UI", 14);
+            auto center = gcnew StringFormat();
             center->Alignment = StringAlignment::Center;
             center->LineAlignment = StringAlignment::Center;
-
             int cx = clientSize.Width / 2, cy = clientSize.Height / 2;
-            g->DrawString(L"PAUSA", bigFont,
-                gcnew SolidBrush(Color::White), (float)cx, (float)(cy - 30), center);
-            g->DrawString(L"P / ESC = Continuar", smFont,
-                gcnew SolidBrush(Color::LightGray), (float)cx, (float)(cy + 20), center);
-
+            g->DrawString(L"PAUSA", bigFont, gcnew SolidBrush(Color::White), (float)cx, (float)(cy - 30), center);
+            g->DrawString(L"P / ESC = Continuar", smFont, gcnew SolidBrush(Color::LightGray), (float)cx, (float)(cy + 20), center);
             delete bigFont; delete smFont; delete center;
         }
     };

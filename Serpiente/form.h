@@ -29,9 +29,11 @@ namespace MiProyecto {
         // --- Panel de menú principal ---
         Panel^ panelMenu;
         Label^ lblTitle;
-        Label^ lblModo;
+        Label^ lblModo;       // Etiqueta "Modos:"
+        CheckBox^ chkObstacles;
+        CheckBox^ chkRandomGrowth;
+        CheckBox^ chkSpeedIncrease;
         Label^ lblTamano;
-        ComboBox^ comboModo;
         ComboBox^ comboTamano;
         Button^ btnIniciar;
         Button^ btnLeaderboard;
@@ -43,33 +45,28 @@ namespace MiProyecto {
         Label^ lblScore;
         Label^ lblAppleCount;
         Label^ lblHighScore;
-        Button^ btnMenuDesdeJuego;  // Botón visible solo en Game Over
+        Button^ btnMenuDesdeJuego;
 
         // --- Motor del juego ---
         SnakeGame^ game;
         Timer^ gameTimer;
 
-        // Índices de selección del menú
-        int modoSeleccionado;
         int tamanoSeleccionado;
 
         // =========================================================
         void InitializeComponent(void)
         {
-            // Ajustar al 90% del área de trabajo disponible, sin exceder el diseño original
             Rectangle wa = Screen::PrimaryScreen->WorkingArea;
             int initW = Math::Min(820, (int)(wa.Width * 0.90));
             int initH = Math::Min(870, (int)(wa.Height * 0.90));
             this->ClientSize = System::Drawing::Size(initW, initH);
-            this->MinimumSize = System::Drawing::Size(500, 450); // Evita achicar demasiado
+            this->MinimumSize = System::Drawing::Size(500, 450);
             this->Text = L"Snake Evolution";
-            this->Name = L"Form1";   // Necesario para Application::OpenForms["Form1"]
+            this->Name = L"Form1";
             this->BackColor = Color::FromArgb(78, 136, 43);
             this->KeyPreview = true;
-            this->DoubleBuffered = true;   // Reduce el parpadeo
+            this->DoubleBuffered = true;
             this->Resize += gcnew EventHandler(this, &Form1::Form1_Resize);
-            // Centrar menú al iniciar
-            CenterMenuControls();
 
             // =====================================================
             //  PANEL MENÚ
@@ -84,24 +81,36 @@ namespace MiProyecto {
             lblTitle->ForeColor = Color::White;
             lblTitle->AutoSize = true;
 
+            // --- Etiqueta "Modos:" ---
             lblModo = gcnew Label();
-            lblModo->Text = L"Modo:";
-            lblModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
+            lblModo->Text = L"Modos:";
+            lblModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
             lblModo->ForeColor = Color::White;
             lblModo->AutoSize = true;
 
-            comboModo = gcnew ComboBox();
-            comboModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
-            comboModo->Size = System::Drawing::Size(190, 30);
-            comboModo->DropDownStyle = ComboBoxStyle::DropDownList;
-            comboModo->Items->Add(L"Obstaculos");           // índice 0 → GameMode::Obstacles
-            comboModo->Items->Add(L"Crecimiento Aleatorio"); // índice 1 → GameMode::RandomGrowth
-            comboModo->Items->Add(L"Velocidad Creciente");  // índice 2 → GameMode::SpeedIncrease
-            comboModo->SelectedIndex = 0;
+            // --- CheckBoxes de modos ---
+            chkObstacles = gcnew CheckBox();
+            chkObstacles->Text = L"Obstáculos";
+            chkObstacles->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            chkObstacles->ForeColor = Color::White;
+            chkObstacles->AutoSize = true;
 
+            chkRandomGrowth = gcnew CheckBox();
+            chkRandomGrowth->Text = L"Crecimiento Aleatorio";
+            chkRandomGrowth->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            chkRandomGrowth->ForeColor = Color::White;
+            chkRandomGrowth->AutoSize = true;
+
+            chkSpeedIncrease = gcnew CheckBox();
+            chkSpeedIncrease->Text = L"Velocidad Creciente";
+            chkSpeedIncrease->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            chkSpeedIncrease->ForeColor = Color::White;
+            chkSpeedIncrease->AutoSize = true;
+
+            // --- Tamaño ---
             lblTamano = gcnew Label();
-            lblTamano->Text = L"Tamano:";
-            lblTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
+            lblTamano->Text = L"Tamaño:";
+            lblTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
             lblTamano->ForeColor = Color::White;
             lblTamano->AutoSize = true;
 
@@ -109,9 +118,9 @@ namespace MiProyecto {
             comboTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
             comboTamano->Size = System::Drawing::Size(190, 30);
             comboTamano->DropDownStyle = ComboBoxStyle::DropDownList;
-            comboTamano->Items->Add(L"10x10  (Pequeno)");   // índice 0 → BoardSize::Small
-            comboTamano->Items->Add(L"25x25  (Mediano)");   // índice 1 → BoardSize::Medium
-            comboTamano->Items->Add(L"50x50  (Grande)");    // índice 2 → BoardSize::Large
+            comboTamano->Items->Add(L"10x10  (Pequeño)");
+            comboTamano->Items->Add(L"25x25  (Mediano)");
+            comboTamano->Items->Add(L"50x50  (Grande)");
             comboTamano->SelectedIndex = 1;
 
             btnIniciar = gcnew Button();
@@ -156,7 +165,9 @@ namespace MiProyecto {
 
             panelMenu->Controls->Add(lblTitle);
             panelMenu->Controls->Add(lblModo);
-            panelMenu->Controls->Add(comboModo);
+            panelMenu->Controls->Add(chkObstacles);
+            panelMenu->Controls->Add(chkRandomGrowth);
+            panelMenu->Controls->Add(chkSpeedIncrease);
             panelMenu->Controls->Add(lblTamano);
             panelMenu->Controls->Add(comboTamano);
             panelMenu->Controls->Add(btnIniciar);
@@ -165,7 +176,7 @@ namespace MiProyecto {
             panelMenu->Controls->Add(btnSalir);
 
             // =====================================================
-            //  BARRA SUPERIOR (labels de puntaje)
+            //  HUD
             // =====================================================
             lblScore = gcnew Label();
             lblScore->Location = System::Drawing::Point(10, 22);
@@ -200,7 +211,6 @@ namespace MiProyecto {
             panelGame = gcnew Panel();
             panelGame->BackColor = Color::FromArgb(170, 215, 81);
             panelGame->Location = System::Drawing::Point(10, 60);
-            // El tamaño se calculará dinámicamente; no lo fijes aquí
             panelGame->Visible = false;
             panelGame->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame_Paint);
 
@@ -209,21 +219,15 @@ namespace MiProyecto {
                 System::Reflection::BindingFlags::Instance)
                 ->SetValue(panelGame, true, nullptr);
 
-            panelGame->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame_Paint);
-
-            // =====================================================
-            //  EVENTOS GLOBALES
-            // =====================================================
             this->KeyDown += gcnew KeyEventHandler(this, &Form1::Form1_KeyDown);
 
-            // =====================================================
-            //  AGREGAR AL FORM (orden importa: panelMenu al frente)
-            // =====================================================
             this->Controls->Add(panelGame);
             this->Controls->Add(lblScore);
             this->Controls->Add(lblAppleCount);
             this->Controls->Add(lblHighScore);
-            this->Controls->Add(panelMenu);   // encima de todo en el menú
+            this->Controls->Add(panelMenu);
+
+            CenterMenuControls();
         }
 
         // =========================================================
@@ -231,20 +235,23 @@ namespace MiProyecto {
         // =========================================================
         void IniciarJuego(Object^ sender, EventArgs^ e)
         {
-            modoSeleccionado = comboModo->SelectedIndex;
             tamanoSeleccionado = comboTamano->SelectedIndex;
 
-            InitGame();
+            // Combinar flags según checkboxes marcados
+            int flags = 0;
+            if (chkObstacles->Checked)     flags |= static_cast<int>(GameMode::Obstacles);
+            if (chkRandomGrowth->Checked)  flags |= static_cast<int>(GameMode::RandomGrowth);
+            if (chkSpeedIncrease->Checked) flags |= static_cast<int>(GameMode::SpeedIncrease);
+            // Si no se marcó nada → Normal (0)
 
-            // Ocultar menú, mostrar HUD
+            InitGame(static_cast<GameMode>(flags));
+
             panelMenu->Visible = false;
             lblScore->Visible = true;
             lblAppleCount->Visible = true;
             lblHighScore->Visible = true;
 
-            // FORZAR ajuste responsivo antes de mostrar el panel
             Form1_Resize(nullptr, nullptr);
-
             panelGame->Visible = true;
             panelGame->Focus();
         }
@@ -252,50 +259,29 @@ namespace MiProyecto {
         // =========================================================
         //  INICIALIZAR MOTOR + TIMER
         // =========================================================
-        void InitGame()
+        void InitGame(GameMode combinedMode)
         {
-            // Detener y liberar timer anterior si existe
-            if (gameTimer != nullptr) {
-                gameTimer->Stop();
-                gameTimer = nullptr;
-            }
+            if (gameTimer != nullptr) { gameTimer->Stop(); gameTimer = nullptr; }
 
             game = gcnew SnakeGame();
 
-            // --- Aplicar tamaño de tablero ---
             BoardSize bs;
             switch (tamanoSeleccionado) {
             case 0:  bs = BoardSize::Small;  break;
             case 2:  bs = BoardSize::Large;  break;
             default: bs = BoardSize::Medium; break;
             }
-            game->SetBoardSize(bs);   // *** CORRECCIÓN: esto faltaba en la versión original ***
+            game->SetBoardSize(bs);
+            game->SetGameMode(combinedMode);   // pasa la combinación de flags
 
-            // --- Aplicar modo de juego ---
-            GameMode gm;
-            switch (modoSeleccionado) {
-            case 0:  gm = GameMode::Obstacles;    break;
-            case 1:  gm = GameMode::RandomGrowth; break;
-            case 2:  gm = GameMode::SpeedIncrease; break;
-            default: gm = GameMode::Normal;        break;
-            }
-            game->SetGameMode(gm);    // *** CORRECCIÓN: esto faltaba en la versión original ***
+            game->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game_OnGameOver);
+            game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game_OnScoreChanged);
+            game->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(this, &Form1::Game_OnSpeedChanged);
 
-            // --- Suscribir eventos del juego ---
-            // *** CORRECCIÓN: los eventos no estaban conectados en la versión original ***
-            game->OnGameOver += gcnew SnakeGame::GameOverDelegate(
-                this, &Form1::Game_OnGameOver);
-            game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(
-                this, &Form1::Game_OnScoreChanged);
-            game->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(
-                this, &Form1::Game_OnSpeedChanged);
-
-            // Actualizar récord en HUD
             lblHighScore->Text = String::Format(L"Record: {0}", game->HighScore);
             lblScore->Text = L"Puntos: 0";
             lblAppleCount->Text = L"Manzanas: 0";
 
-            // --- Crear y arrancar Timer ---
             gameTimer = gcnew Timer();
             gameTimer->Interval = game->SpeedMs;
             gameTimer->Tick += gcnew EventHandler(this, &Form1::GameTimer_Tick);
@@ -303,56 +289,41 @@ namespace MiProyecto {
         }
 
         // =========================================================
-        //  HANDLERS DE EVENTOS DEL JUEGO
-        // =========================================================
-
-        // =========================================================
-        //  REDIMENSIONAMIENTO RESPONSIVO
+        //  RESIZE
         // =========================================================
         void Form1_Resize(Object^ sender, EventArgs^ e)
         {
-            // --- Ajustar panel de juego ---
             if (panelGame != nullptr) {
-                int sideMargin = 10;
-                int topMargin = 55;
-                int bottomMargin = 10;
-
+                int sideMargin = 10, topMargin = 55, bottomMargin = 10;
                 int newWidth = Math::Max(100, this->ClientSize.Width - sideMargin * 2);
                 int newHeight = Math::Max(100, this->ClientSize.Height - topMargin - bottomMargin);
-
                 panelGame->Location = System::Drawing::Point(sideMargin, topMargin);
                 panelGame->Size = System::Drawing::Size(newWidth, newHeight);
             }
-
-            // --- Centrar menú ---
             CenterMenuControls();
         }
 
-        // Llamado cuando la serpiente muere
+        // =========================================================
+        //  EVENTOS DEL JUEGO
+        // =========================================================
         void Game_OnGameOver(int finalScore)
         {
             gameTimer->Stop();
-
-            // INSERTAR AQUI: guardar score al final del flujo de Game Over.
             String^ username = PromptUsername();
             SaveScore(username, finalScore);
-
-            // Actualizar récord en HUD (puede haber cambiado)
             lblHighScore->Text = String::Format(L"Record: {0}", game->HighScore);
             panelGame->Invalidate();
         }
 
-        // Llamado cada vez que cambia el puntaje (al comer manzana)
         void Game_OnScoreChanged(int score, int apples)
         {
             lblScore->Text = String::Format(L"Puntos: {0}", score);
             lblAppleCount->Text = String::Format(L"Manzanas: {0}", apples);
         }
 
-        // Llamado solo en modo SpeedIncrease cuando el intervalo cambia
         void Game_OnSpeedChanged(int newSpeedMs)
         {
-            gameTimer->Interval = newSpeedMs;  // *** Actualiza el Timer en tiempo real ***
+            gameTimer->Interval = newSpeedMs;
         }
 
         // =========================================================
@@ -361,66 +332,49 @@ namespace MiProyecto {
         void CenterMenuControls()
         {
             if (panelMenu == nullptr) return;
-
             int cw = panelMenu->ClientSize.Width;
             int ch = panelMenu->ClientSize.Height;
-
-            // Título arriba, centrado horizontalmente
-            lblTitle->Location = System::Drawing::Point(
-                (cw - lblTitle->Width) / 2,
-                (int)(ch * 0.15)           // 15% desde arriba
-            );
-
-            // Columna de labels (Modo, Tamaño) alineada a la derecha del centro
             int centerX = cw / 2;
-            int labelRightX = centerX - 10;   // 10px a la izquierda del centro
-            int controlLeftX = centerX + 10; // 10px a la derecha del centro
 
-            // Modo
+            lblTitle->Location = System::Drawing::Point(
+                (cw - lblTitle->Width) / 2, (int)(ch * 0.10));
+
+            // Etiqueta "Modos:" centrada
             lblModo->Location = System::Drawing::Point(
-                labelRightX - lblModo->Width,
-                (int)(ch * 0.35)
-            );
-            comboModo->Location = System::Drawing::Point(
-                controlLeftX,
-                lblModo->Top + (lblModo->Height - comboModo->Height) / 2
-            );
+                (cw - lblModo->Width) / 2, (int)(ch * 0.28));
 
-            // Tamaño
+            // Los 3 checkboxes apilados bajo la etiqueta, alineados a la izquierda del centro
+            int chkX = centerX - 110;   // margen izquierdo fijo para alinear los 3
+            int chkY0 = lblModo->Bottom + 8;
+            chkObstacles->Location = System::Drawing::Point(chkX, chkY0);
+            chkRandomGrowth->Location = System::Drawing::Point(chkX, chkY0 + 28);
+            chkSpeedIncrease->Location = System::Drawing::Point(chkX, chkY0 + 56);
+
+            // Tamaño: label a la izquierda del centro, combo a la derecha
+            int labelRightX = centerX - 10;
+            int controlLeftX = centerX + 10;
+
             lblTamano->Location = System::Drawing::Point(
-                labelRightX - lblTamano->Width,
-                (int)(ch * 0.45)
-            );
+                labelRightX - lblTamano->Width, (int)(ch * 0.55));
             comboTamano->Location = System::Drawing::Point(
                 controlLeftX,
-                lblTamano->Top + (lblTamano->Height - comboTamano->Height) / 2
-            );
+                lblTamano->Top + (lblTamano->Height - comboTamano->Height) / 2);
 
-            // Botón Iniciar
             btnIniciar->Location = System::Drawing::Point(
-                (cw - btnIniciar->Width) / 2,
-                (int)(ch * 0.58)
-            );
+                (cw - btnIniciar->Width) / 2, (int)(ch * 0.65));
 
             btnLeaderboard->Location = System::Drawing::Point(
-                (cw - btnLeaderboard->Width) / 2,
-                btnIniciar->Bottom + 16
-            );
+                (cw - btnLeaderboard->Width) / 2, btnIniciar->Bottom + 12);
 
-            // Botón Tienda
             btnTienda->Location = System::Drawing::Point(
-                centerX - btnTienda->Width - 12,
-                btnLeaderboard->Bottom + 18
-            );
+                centerX - btnTienda->Width - 12, btnLeaderboard->Bottom + 14);
 
             btnSalir->Location = System::Drawing::Point(
-                centerX + 12,
-                btnLeaderboard->Bottom + 18
-            );
+                centerX + 12, btnLeaderboard->Bottom + 14);
         }
 
         // =========================================================
-        //  TICK DEL TIMER
+        //  TICK / PAINT / TECLADO
         // =========================================================
         void GameTimer_Tick(Object^ sender, EventArgs^ e)
         {
@@ -428,46 +382,30 @@ namespace MiProyecto {
             panelGame->Invalidate();
         }
 
-        // =========================================================
-        //  PAINT DEL PANEL DE JUEGO
-        // =========================================================
         void PanelGame_Paint(Object^ sender, PaintEventArgs^ e)
         {
             if (game != nullptr)
                 game->Draw(e->Graphics, panelGame->ClientSize);
         }
 
-        // =========================================================
-        //  TECLADO
-        // =========================================================
         void Form1_KeyDown(Object^ sender, KeyEventArgs^ e)
         {
             if (game == nullptr) return;
-
             switch (e->KeyCode)
             {
-                // --- Dirección (flechas y WASD) ---
-            case Keys::Up:    case Keys::W: game->SetDirection(0, -1);  break;
-            case Keys::Down:  case Keys::S: game->SetDirection(0, 1);  break;
-            case Keys::Left:  case Keys::A: game->SetDirection(-1, 0);  break;
-            case Keys::Right: case Keys::D: game->SetDirection(1, 0);  break;
+            case Keys::Up:    case Keys::W: game->SetDirection(0, -1); break;
+            case Keys::Down:  case Keys::S: game->SetDirection(0, 1); break;
+            case Keys::Left:  case Keys::A: game->SetDirection(-1, 0); break;
+            case Keys::Right: case Keys::D: game->SetDirection(1, 0); break;
 
-                // --- Pausa (P o ESC) ---
-                // *** CORRECCIÓN: faltaba manejo de pausa en la versión original ***
             case Keys::P:
             case Keys::Escape:
-                if (!game->IsGameOver) {
-                    game->TogglePause();
-                    panelGame->Invalidate();
-                }
+                if (!game->IsGameOver) { game->TogglePause(); panelGame->Invalidate(); }
                 break;
 
-                // --- Reiniciar (R) ---
-                // *** CORRECCIÓN: faltaba manejo de reinicio en la versión original ***
             case Keys::R:
                 if (game->IsGameOver || game->HasStarted) {
                     game->Reset();
-                    // Restaurar velocidad del modo (Reset la reinicia en baseSpeedMs)
                     if (gameTimer != nullptr) {
                         gameTimer->Interval = game->SpeedMs;
                         if (!gameTimer->Enabled) gameTimer->Start();
@@ -478,7 +416,6 @@ namespace MiProyecto {
                 }
                 break;
 
-                // --- Volver al menú (M) — solo disponible tras Game Over ---
             case Keys::M:
                 if (game->IsGameOver) {
                     if (gameTimer != nullptr) gameTimer->Stop();
@@ -490,42 +427,38 @@ namespace MiProyecto {
                 }
                 break;
 
-                // --- Ver Leaderboard (L) — solo disponible tras Game Over ---
             case Keys::L:
                 if (game->IsGameOver) {
-                    LeaderboardForm^ leaderboard = gcnew LeaderboardForm();
-                    leaderboard->ShowDialog(this);
+                    LeaderboardForm^ lb = gcnew LeaderboardForm();
+                    lb->ShowDialog(this);
                 }
                 break;
             }
         }
 
         // =========================================================
-        //  ABRIR TIENDA
+        //  NAVEGACIÓN
         // =========================================================
         void AbrirTienda(Object^ sender, EventArgs^ e)
         {
-            // Pausar el juego si está activo
             if (game != nullptr && game->HasStarted && !game->IsGameOver)
                 game->IsPaused = true;
-
             FormTienda^ tienda = gcnew FormTienda();
             this->Hide();
             tienda->Show();
         }
 
-        // INSERTAR AQUI: nueva navegación desde menú hacia la UI del leaderboard.
         void AbrirLeaderboard(Object^ sender, EventArgs^ e)
         {
-            LeaderboardForm^ leaderboard = gcnew LeaderboardForm();
-            leaderboard->ShowDialog(this);
+            LeaderboardForm^ lb = gcnew LeaderboardForm();
+            lb->ShowDialog(this);
         }
 
-        void SalirAplicacion(Object^ sender, EventArgs^ e)
-        {
-            this->Close();
-        }
+        void SalirAplicacion(Object^ sender, EventArgs^ e) { this->Close(); }
 
+        // =========================================================
+        //  GUARDAR PUNTUACIÓN
+        // =========================================================
         String^ PromptUsername()
         {
             Form^ prompt = gcnew Form();
@@ -533,8 +466,7 @@ namespace MiProyecto {
             prompt->StartPosition = FormStartPosition::CenterParent;
             prompt->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
             prompt->ClientSize = System::Drawing::Size(340, 150);
-            prompt->MinimizeBox = false;
-            prompt->MaximizeBox = false;
+            prompt->MinimizeBox = false; prompt->MaximizeBox = false;
             prompt->BackColor = Color::WhiteSmoke;
 
             Label^ lblPrompt = gcnew Label();
@@ -575,9 +507,8 @@ namespace MiProyecto {
 
             String^ username = L"Jugador";
             if (prompt->ShowDialog(this) == System::Windows::Forms::DialogResult::OK &&
-                !String::IsNullOrWhiteSpace(txtUsername->Text)) {
+                !String::IsNullOrWhiteSpace(txtUsername->Text))
                 username = txtUsername->Text->Trim();
-            }
 
             delete prompt;
             return username;
@@ -585,13 +516,9 @@ namespace MiProyecto {
 
         void SaveScore(String^ username, int score)
         {
-            if (game == nullptr)
-                return;
-
+            if (game == nullptr) return;
             String^ boardSize = GetBoardSizeLabel(game->CurrentCols, game->CurrentRows);
             String^ gameMode = GetGameModeLabel(game->CurrentMode);
-
-            // INSERTAR AQUI: nueva llamada centralizada para persistencia del leaderboard.
             ScoreManager::SaveScore(username, score, boardSize, gameMode);
             game->HighScore = ScoreManager::GetHighestScore();
             lblHighScore->Text = String::Format(L"Record: {0}", ScoreManager::GetHighestScore());
@@ -602,15 +529,25 @@ namespace MiProyecto {
             return String::Format(L"{0}x{1}", cols, rows);
         }
 
+        // Genera una etiqueta legible con todos los modos activos
         String^ GetGameModeLabel(GameMode mode)
         {
-            switch (mode)
-            {
-            case GameMode::Obstacles: return L"Obstaculos";
-            case GameMode::RandomGrowth: return L"RandomGrowth";
-            case GameMode::SpeedIncrease: return L"SpeedIncrease";
-            default: return L"Normal";
+            if (mode == GameMode::Normal) return L"Normal";
+
+            System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
+            if ((static_cast<int>(mode) & static_cast<int>(GameMode::Obstacles)) != 0) {
+                if (sb->Length > 0) sb->Append(L"+");
+                sb->Append(L"Obstaculos");
             }
+            if ((static_cast<int>(mode) & static_cast<int>(GameMode::RandomGrowth)) != 0) {
+                if (sb->Length > 0) sb->Append(L"+");
+                sb->Append(L"RandomGrowth");
+            }
+            if ((static_cast<int>(mode) & static_cast<int>(GameMode::SpeedIncrease)) != 0) {
+                if (sb->Length > 0) sb->Append(L"+");
+                sb->Append(L"SpeedIncrease");
+            }
+            return sb->ToString();
         }
     };
 
