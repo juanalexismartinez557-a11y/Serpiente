@@ -42,10 +42,12 @@ Class MiProyecto.LeaderboardForm: AutoLayout, AnsiClass, Class, Public, BeforeFi
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class MiProyecto.FormTienda: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Int32, MiProyecto.SnakeGame, MiProyecto.SnakeGame, System.Action`3[System.Drawing.Color,System.Drawing.Color,System.Drawing.Color]): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class MiProyecto.Form1: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    SetSelectedSkin(Color, Color, Color): PrivateScope, Public, HideBySig
 Struct MiProyecto.GameMode: AutoLayout, AnsiClass, Class, Public, Sealed, BeforeFieldInit
   :System.Enum
   Fields:

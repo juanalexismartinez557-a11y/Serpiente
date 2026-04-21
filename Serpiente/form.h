@@ -18,7 +18,13 @@ namespace MiProyecto {
     public ref class Form1 : public System::Windows::Forms::Form
     {
     public:
-        Form1(void) { InitializeComponent(); }
+        Form1(void) {
+            InitializeComponent();
+
+            selectedSnakeHeadColor = Color::FromArgb(34, 100, 14);
+            selectedSnakePrimaryColor = Color::FromArgb(74, 160, 44);
+            selectedSnakeSecondaryColor = Color::FromArgb(90, 180, 55);
+        }
     protected:
         ~Form1() { if (components) delete components; }
 
@@ -60,6 +66,29 @@ namespace MiProyecto {
         int  tamanoSeleccionado;
         bool twoPlayerMode;
 
+        Color selectedSnakePrimaryColor;
+        Color selectedSnakeSecondaryColor;
+        Color selectedSnakeHeadColor;
+
+    public:
+        void SetSelectedSkin(Color primary, Color secondary, Color head)
+        {
+            selectedSnakePrimaryColor = primary;
+            selectedSnakeSecondaryColor = secondary;
+            selectedSnakeHeadColor = head;
+
+            if (game1 != nullptr)
+                game1->SetSnakeSkin(primary, secondary, head);
+
+            if (game2 != nullptr)
+                game2->SetSnakeSkin(primary, secondary, head);
+
+            panelGame1->Invalidate();
+            if (panelGame2 != nullptr) panelGame2->Invalidate();
+            this->Invalidate();
+        }
+
+    private:
         // =========================================================
         void InitializeComponent(void)
         {
@@ -253,12 +282,11 @@ namespace MiProyecto {
             this->Controls->Add(lblScore1);
             this->Controls->Add(lblScore2);
             this->Controls->Add(lblHighScore);
-            this->Controls->Add(panelMenu);   // encima de todo
+            this->Controls->Add(panelMenu);
 
             CenterMenuControls();
         }
 
-        // ── Activa doble buffer en un panel por reflexión ────
         void EnableDoubleBuffer(Panel^ p) {
             p->GetType()->GetProperty("DoubleBuffered",
                 System::Reflection::BindingFlags::NonPublic |
@@ -266,31 +294,24 @@ namespace MiProyecto {
                 ->SetValue(p, true, nullptr);
         }
 
-        // =========================================================
-        //  INICIAR JUEGO
-        // =========================================================
         void IniciarJuego(Object^ sender, EventArgs^ e)
         {
             tamanoSeleccionado = comboTamano->SelectedIndex;
             twoPlayerMode = (comboJugadores->SelectedIndex == 1);
 
-            // Construir flags de modo
             int flags = 0;
             if (chkObstacles->Checked)     flags |= static_cast<int>(GameMode::Obstacles);
             if (chkRandomGrowth->Checked)  flags |= static_cast<int>(GameMode::RandomGrowth);
             if (chkSpeedIncrease->Checked) flags |= static_cast<int>(GameMode::SpeedIncrease);
             GameMode combinedMode = static_cast<GameMode>(flags);
 
-            // Detener timer anterior
             if (gameTimer != nullptr) { gameTimer->Stop(); gameTimer = nullptr; }
 
-            // ── Juego 1 ──────────────────────────────────────
             game1 = CreateGame(combinedMode);
             game1->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game1_OnGameOver);
             game1->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game1_OnScoreChanged);
             game1->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(this, &Form1::Game_OnSpeedChanged);
 
-            // ── Juego 2 (solo en 2P) ─────────────────────────
             if (twoPlayerMode) {
                 game2 = CreateGame(combinedMode);
                 game2->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game2_OnGameOver);
@@ -301,12 +322,10 @@ namespace MiProyecto {
                 game2 = nullptr;
             }
 
-            // ── HUD inicial ───────────────────────────────────
             lblScore1->Text = L"J1: 0 pts";
             lblScore2->Text = L"J2: 0 pts";
             lblHighScore->Text = String::Format(L"Record: {0}", game1->HighScore);
 
-            // Mostrar/ocultar etiquetas según modo
             lblP1Tag->Visible = true;
             lblP2Tag->Visible = twoPlayerMode;
             lblScore1->Visible = true;
@@ -314,20 +333,17 @@ namespace MiProyecto {
             lblHighScore->Visible = true;
             panelMenu->Visible = false;
 
-            // ── Timer compartido ──────────────────────────────
             gameTimer = gcnew Timer();
             gameTimer->Interval = game1->SpeedMs;
             gameTimer->Tick += gcnew EventHandler(this, &Form1::GameTimer_Tick);
             gameTimer->Start();
 
-            // Ajustar paneles y mostrar
             Form1_Resize(nullptr, nullptr);
             panelGame1->Visible = true;
             panelGame2->Visible = twoPlayerMode;
             panelGame1->Focus();
         }
 
-        // ── Factoría de juego ─────────────────────────────────
         SnakeGame^ CreateGame(GameMode mode)
         {
             SnakeGame^ g = gcnew SnakeGame();
@@ -339,15 +355,12 @@ namespace MiProyecto {
             }
             g->SetBoardSize(bs);
             g->SetGameMode(mode);
+            g->SetSnakeSkin(selectedSnakePrimaryColor, selectedSnakeSecondaryColor, selectedSnakeHeadColor);
             return g;
         }
 
-        // =========================================================
-        //  TIMER
-        // =========================================================
         void GameTimer_Tick(Object^ sender, EventArgs^ e)
         {
-            // Tick independiente: si uno ya murió, no sigue avanzando
             if (game1 != nullptr && !game1->IsGameOver)
                 game1->Tick();
 
@@ -357,15 +370,11 @@ namespace MiProyecto {
             panelGame1->Invalidate();
             if (twoPlayerMode) panelGame2->Invalidate();
 
-            // Detener el timer solo cuando AMBOS hayan terminado
             bool g1Done = (game1 == nullptr || game1->IsGameOver);
             bool g2Done = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
             if (g1Done && g2Done) gameTimer->Stop();
         }
 
-        // =========================================================
-        //  PAINT
-        // =========================================================
         void PanelGame1_Paint(Object^ sender, PaintEventArgs^ e)
         {
             if (game1 != nullptr)
@@ -378,9 +387,6 @@ namespace MiProyecto {
                 game2->Draw(e->Graphics, panelGame2->ClientSize);
         }
 
-        // =========================================================
-        //  EVENTOS DE PUNTAJE
-        // =========================================================
         void Game1_OnScoreChanged(int score, int apples)
         {
             lblScore1->Text = String::Format(L"J1: {0} pts  🍎{1}", score, apples);
@@ -393,38 +399,32 @@ namespace MiProyecto {
 
         void Game_OnSpeedChanged(int newSpeedMs)
         {
-            // Ambos juegos comparten el mismo timer; usa el más rápido
             if (gameTimer != nullptr && newSpeedMs < gameTimer->Interval)
                 gameTimer->Interval = newSpeedMs;
         }
 
-        // =========================================================
-        //  GAME OVER POR JUGADOR
-        // =========================================================
         void Game1_OnGameOver(int finalScore)
         {
-            panelGame1->Invalidate();   // muestra overlay "GAME OVER" en J1
+            panelGame1->Invalidate();
             CheckBothDead();
         }
 
         void Game2_OnGameOver(int finalScore)
         {
-            panelGame2->Invalidate();   // muestra overlay "GAME OVER" en J2
+            panelGame2->Invalidate();
             CheckBothDead();
         }
 
-        // Cuando ambos murieron → guardar y mostrar ganador
         void CheckBothDead()
         {
             bool g1Dead = (game1 == nullptr || game1->IsGameOver);
             bool g2Dead = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
 
-            if (!g1Dead || !g2Dead) return;   // todavía hay alguien vivo
+            if (!g1Dead || !g2Dead) return;
 
             gameTimer->Stop();
 
             if (twoPlayerMode) {
-                // Determinar ganador
                 int s1 = (game1 != nullptr) ? game1->Score : 0;
                 int s2 = (game2 != nullptr) ? game2->Score : 0;
 
@@ -437,41 +437,33 @@ namespace MiProyecto {
                     MessageBoxButtons::OK, MessageBoxIcon::Information);
             }
 
-            // Guardar puntaje del jugador 1
             if (game1 != nullptr) {
                 String^ user1 = PromptUsernameFor(L"Jugador 1");
                 SaveScore(user1, game1->Score, game1);
             }
 
-            // Guardar puntaje del jugador 2 (si aplica)
             if (twoPlayerMode && game2 != nullptr) {
                 String^ user2 = PromptUsernameFor(L"Jugador 2");
                 SaveScore(user2, game2->Score, game2);
             }
 
-            // Actualizar récord en HUD
             lblHighScore->Text = String::Format(L"Record: {0}", ScoreManager::GetHighestScore());
 
-            // Refrescar overlays finales con el hint "M = Menú"
             panelGame1->Invalidate();
             if (twoPlayerMode) panelGame2->Invalidate();
         }
 
-        // =========================================================
-        //  RESIZE — divide el espacio entre los dos paneles
-        // =========================================================
         void Form1_Resize(Object^ sender, EventArgs^ e)
         {
             int sideMargin = 8;
             int topMargin = 50;
             int bottomMargin = 8;
-            int gap = 6;   // separación entre los dos paneles
+            int gap = 6;
 
             int totalW = this->ClientSize.Width - sideMargin * 2;
             int totalH = this->ClientSize.Height - topMargin - bottomMargin;
 
             if (twoPlayerMode) {
-                // Mitad izquierda / mitad derecha
                 int halfW = (totalW - gap) / 2;
 
                 panelGame1->Location = System::Drawing::Point(sideMargin, topMargin);
@@ -480,7 +472,6 @@ namespace MiProyecto {
                 panelGame2->Location = System::Drawing::Point(sideMargin + halfW + gap, topMargin);
                 panelGame2->Size = System::Drawing::Size(halfW, totalH);
 
-                // Etiquetas de jugador encima de cada panel
                 lblP1Tag->Location = System::Drawing::Point(
                     sideMargin, topMargin - lblP1Tag->Height - 4);
                 lblScore1->Location = System::Drawing::Point(
@@ -491,13 +482,11 @@ namespace MiProyecto {
                 lblScore2->Location = System::Drawing::Point(
                     sideMargin + halfW + gap + lblP2Tag->Width + 8, topMargin - lblScore2->Height - 4);
 
-                // Record centrado arriba
                 lblHighScore->Location = System::Drawing::Point(
                     (this->ClientSize.Width - lblHighScore->Width) / 2,
                     topMargin - lblHighScore->Height - 4);
             }
             else {
-                // Un solo panel ocupa todo el espacio
                 panelGame1->Location = System::Drawing::Point(sideMargin, topMargin);
                 panelGame1->Size = System::Drawing::Size(totalW, totalH);
 
@@ -512,12 +501,8 @@ namespace MiProyecto {
             CenterMenuControls();
         }
 
-        // =========================================================
-        //  TECLADO
-        // =========================================================
         void Form1_KeyDown(Object^ sender, KeyEventArgs^ e)
         {
-            // ── Jugador 1: flechas ────────────────────────────
             if (game1 != nullptr && !game1->IsGameOver) {
                 switch (e->KeyCode) {
                 case Keys::Up:    game1->SetDirection(0, -1); break;
@@ -528,7 +513,6 @@ namespace MiProyecto {
                 }
             }
 
-            // ── Jugador 2: WASD ───────────────────────────────
             if (twoPlayerMode && game2 != nullptr && !game2->IsGameOver) {
                 switch (e->KeyCode) {
                 case Keys::W: game2->SetDirection(0, -1); break;
@@ -539,7 +523,6 @@ namespace MiProyecto {
                 }
             }
 
-            // ── Pausa (P) — pausa/reanuda ambos ──────────────
             if (e->KeyCode == Keys::P) {
                 bool isPaused = (game1 != nullptr && game1->IsPaused);
                 if (game1 != nullptr && !game1->IsGameOver) game1->TogglePause();
@@ -548,12 +531,11 @@ namespace MiProyecto {
                 if (twoPlayerMode) panelGame2->Invalidate();
             }
 
-            // ── Reiniciar (R) ─────────────────────────────────
             if (e->KeyCode == Keys::R) {
                 bool anyOver = (game1 != nullptr && (game1->IsGameOver || game1->HasStarted));
                 if (anyOver) {
-                    if (game1 != nullptr) { game1->Reset(); }
-                    if (game2 != nullptr) { game2->Reset(); }
+                    if (game1 != nullptr) { game1->Reset(); game1->SetSnakeSkin(selectedSnakePrimaryColor, selectedSnakeSecondaryColor, selectedSnakeHeadColor); }
+                    if (game2 != nullptr) { game2->Reset(); game2->SetSnakeSkin(selectedSnakePrimaryColor, selectedSnakeSecondaryColor, selectedSnakeHeadColor); }
                     if (gameTimer != nullptr) {
                         gameTimer->Interval = game1->SpeedMs;
                         if (!gameTimer->Enabled) gameTimer->Start();
@@ -565,7 +547,6 @@ namespace MiProyecto {
                 }
             }
 
-            // ── Volver al menú (M) — solo si ambos terminaron ─
             if (e->KeyCode == Keys::M) {
                 bool g1Done = (game1 == nullptr || game1->IsGameOver);
                 bool g2Done = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
@@ -582,7 +563,6 @@ namespace MiProyecto {
                 }
             }
 
-            // ── Leaderboard (L) ───────────────────────────────
             if (e->KeyCode == Keys::L) {
                 bool g1Done = (game1 == nullptr || game1->IsGameOver);
                 bool g2Done = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
@@ -593,9 +573,6 @@ namespace MiProyecto {
             }
         }
 
-        // =========================================================
-        //  CENTRAR CONTROLES DEL MENÚ
-        // =========================================================
         void CenterMenuControls()
         {
             if (panelMenu == nullptr) return;
@@ -606,7 +583,6 @@ namespace MiProyecto {
             lblTitle->Location = System::Drawing::Point(
                 (cw - lblTitle->Width) / 2, (int)(ch * 0.08));
 
-            // Modos
             lblModo->Location = System::Drawing::Point(
                 (cw - lblModo->Width) / 2, (int)(ch * 0.26));
             int chkX = cx - 120;
@@ -615,13 +591,11 @@ namespace MiProyecto {
             chkRandomGrowth->Location = System::Drawing::Point(chkX, chkY0 + 26);
             chkSpeedIncrease->Location = System::Drawing::Point(chkX, chkY0 + 52);
 
-            // Tamaño (label | combo)
             int lx = cx - 10, rx = cx + 10;
             lblTamano->Location = System::Drawing::Point(lx - lblTamano->Width, (int)(ch * 0.51));
             comboTamano->Location = System::Drawing::Point(rx,
                 lblTamano->Top + (lblTamano->Height - comboTamano->Height) / 2);
 
-            // Jugadores (label | combo)
             lblNumJugadores->Location = System::Drawing::Point(lx - lblNumJugadores->Width, (int)(ch * 0.60));
             comboJugadores->Location = System::Drawing::Point(rx,
                 lblNumJugadores->Top + (lblNumJugadores->Height - comboJugadores->Height) / 2);
@@ -636,14 +610,19 @@ namespace MiProyecto {
                 cx + 10, btnLeaderboard->Bottom + 12);
         }
 
-        // =========================================================
-        //  TIENDA / LEADERBOARD / SALIR
-        // =========================================================
         void AbrirTienda(Object^ sender, EventArgs^ e)
         {
             if (game1 != nullptr && game1->HasStarted && !game1->IsGameOver) game1->IsPaused = true;
             if (game2 != nullptr && game2->HasStarted && !game2->IsGameOver) game2->IsPaused = true;
-            FormTienda^ tienda = gcnew FormTienda();
+
+            int bestScore = ScoreManager::GetHighestScore();
+            if (game1 != nullptr) bestScore = Math::Max(bestScore, game1->HighScore);
+            if (game2 != nullptr) bestScore = Math::Max(bestScore, game2->HighScore);
+
+            Action<Color, Color, Color>^ skinCallback =
+                gcnew Action<Color, Color, Color>(this, &Form1::SetSelectedSkin);
+
+            FormTienda^ tienda = gcnew FormTienda(bestScore, game1, game2, skinCallback);
             this->Hide();
             tienda->Show();
         }
@@ -656,9 +635,6 @@ namespace MiProyecto {
 
         void SalirAplicacion(Object^ sender, EventArgs^ e) { this->Close(); }
 
-        // =========================================================
-        //  PROMPT USERNAME
-        // =========================================================
         String^ PromptUsernameFor(String^ playerLabel)
         {
             Form^ prompt = gcnew Form();
@@ -714,9 +690,6 @@ namespace MiProyecto {
             return result;
         }
 
-        // =========================================================
-        //  GUARDAR PUNTAJE
-        // =========================================================
         void SaveScore(String^ username, int score, SnakeGame^ g)
         {
             if (g == nullptr) return;

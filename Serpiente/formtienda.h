@@ -4,6 +4,8 @@
 #using <System.Windows.Forms.dll>
 #using <System.Drawing.dll>
 
+#include "Snake.h"
+
 namespace MiProyecto {
 
     using namespace System;
@@ -15,7 +17,15 @@ namespace MiProyecto {
     public ref class FormTienda : public System::Windows::Forms::Form
     {
     public:
-        FormTienda(void) { InitializeComponent(); }
+        FormTienda(int bestScore, SnakeGame^ player1Game, SnakeGame^ player2Game, Action<Color, Color, Color>^ skinSelectedCallback)
+        {
+            highestUnlockedScore = bestScore;
+            game1 = player1Game;
+            game2 = player2Game;
+            onSkinSelected = skinSelectedCallback;
+            InitializeComponent();
+            UpdateSkinAvailability();
+        }
 
     protected:
         ~FormTienda() { if (components) delete components; }
@@ -35,6 +45,14 @@ namespace MiProyecto {
 
         Button^ btnBuy1; Button^ btnBuy2; Button^ btnBuy3;
         Button^ btnBuy4; Button^ btnBuy5; Button^ btnBuy6;
+
+        int highestUnlockedScore;
+        SnakeGame^ game1;
+        SnakeGame^ game2;
+        Action<Color, Color, Color>^ onSkinSelected;
+
+        array<int>^ skinRequirements;
+        array<Button^>^ buyButtons;
 
         void InitializeComponent(void)
         {
@@ -57,75 +75,64 @@ namespace MiProyecto {
 
             this->SuspendLayout();
 
-            // FORM
             this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
             this->ClientSize = System::Drawing::Size(820, 820);
-            this->Name = L"FormTienda";   // *** Necesario para OpenForms ***
-            this->Text = L"Tienda Snake";
+            this->Name = L"FormTienda";
+            this->Text = L"Logros obtenidos";
             this->BackColor = Color::FromArgb(78, 136, 43);
             this->StartPosition = FormStartPosition::CenterScreen;
 
-            // --- PANEL SUPERIOR ---
             this->panelTop->BackColor = Color::FromArgb(73, 123, 40);
             this->panelTop->Location = System::Drawing::Point(0, 0);
             this->panelTop->Size = System::Drawing::Size(820, 88);
 
-            // --- BOTÓN REGRESAR ---
             this->btnBackToGame->BackColor = Color::White;
             this->btnBackToGame->FlatStyle = FlatStyle::Flat;
             this->btnBackToGame->FlatAppearance->BorderSize = 0;
             this->btnBackToGame->Font = gcnew System::Drawing::Font(L"Segoe UI", 14, FontStyle::Bold);
             this->btnBackToGame->ForeColor = Color::FromArgb(73, 123, 40);
-            this->btnBackToGame->Location = System::Drawing::Point(25, 20);
-            this->btnBackToGame->Size = System::Drawing::Size(230, 45);
+            this->btnBackToGame->Location = System::Drawing::Point(250, 20);
+            this->btnBackToGame->Size = System::Drawing::Size(330, 55);
             this->btnBackToGame->Text = L"Regresar al juego";
             this->btnBackToGame->Click += gcnew EventHandler(this, &FormTienda::VolverAlJuego);
             this->panelTop->Controls->Add(this->btnBackToGame);
 
-            // --- PANEL TIENDA ---
             this->panelStore->BackColor = Color::FromArgb(170, 215, 81);
             this->panelStore->Location = System::Drawing::Point(30, 120);
             this->panelStore->Size = System::Drawing::Size(750, 640);
             this->panelStore->BorderStyle = BorderStyle::None;
 
-            // Skin 1
-            SetupSkinButton(btnSkin1, Color::WhiteSmoke, 60, 45);
-            SetupPriceLabel(lblPrice1, L"💰 $5", 105, 205);
+            SetupSkinButton(btnSkin1, Color::Black, 60, 45);
+            SetupPriceLabel(lblPrice1, L"Score 100", 80, 205);
             SetupBuyButton(btnBuy1, 90, 240);
             btnBuy1->Click += gcnew EventHandler(this, &FormTienda::BuySkin1);
 
-            // Skin 2
-            SetupSkinButton(btnSkin2, Color::LavenderBlush, 295, 45);
-            SetupPriceLabel(lblPrice2, L"💰 $10", 340, 205);
+            SetupSkinButton(btnSkin2, Color::Purple, 295, 45);
+            SetupPriceLabel(lblPrice2, L"Score 200", 315, 205);
             SetupBuyButton(btnBuy2, 325, 240);
             btnBuy2->Click += gcnew EventHandler(this, &FormTienda::BuySkin2);
 
-            // Skin 3
-            SetupSkinButton(btnSkin3, Color::Honeydew, 530, 45);
-            SetupPriceLabel(lblPrice3, L"💰 $15", 575, 205);
+            SetupSkinButton(btnSkin3, Color::WhiteSmoke, 530, 45);
+            SetupPriceLabel(lblPrice3, L"Score 300", 550, 205);
             SetupBuyButton(btnBuy3, 560, 240);
             btnBuy3->Click += gcnew EventHandler(this, &FormTienda::BuySkin3);
 
-            // Skin 4
-            SetupSkinButton(btnSkin4, Color::MistyRose, 60, 340);
-            SetupPriceLabel(lblPrice4, L"💰 $20", 105, 500);
+            SetupSkinButton(btnSkin4, Color::Red, 60, 340);
+            SetupPriceLabel(lblPrice4, L"Score 400", 80, 500);
             SetupBuyButton(btnBuy4, 90, 535);
             btnBuy4->Click += gcnew EventHandler(this, &FormTienda::BuySkin4);
 
-            // Skin 5
-            SetupSkinButton(btnSkin5, Color::LightCyan, 295, 340);
-            SetupPriceLabel(lblPrice5, L"💰 $25", 340, 500);
+            SetupSkinButton(btnSkin5, Color::Blue, 295, 340);
+            SetupPriceLabel(lblPrice5, L"Score 500", 315, 500);
             SetupBuyButton(btnBuy5, 325, 535);
             btnBuy5->Click += gcnew EventHandler(this, &FormTienda::BuySkin5);
 
-            // Skin 6
-            SetupSkinButton(btnSkin6, Color::LemonChiffon, 530, 340);
-            SetupPriceLabel(lblPrice6, L"💰 $30", 575, 500);
+            SetupSkinButton(btnSkin6, Color::Goldenrod, 530, 340);
+            SetupPriceLabel(lblPrice6, L"Score 999", 550, 500);
             SetupBuyButton(btnBuy6, 560, 535);
             btnBuy6->Click += gcnew EventHandler(this, &FormTienda::BuySkin6);
 
-            // Agregar skins al panel
             panelStore->Controls->Add(btnSkin1);  panelStore->Controls->Add(lblPrice1); panelStore->Controls->Add(btnBuy1);
             panelStore->Controls->Add(btnSkin2);  panelStore->Controls->Add(lblPrice2); panelStore->Controls->Add(btnBuy2);
             panelStore->Controls->Add(btnSkin3);  panelStore->Controls->Add(lblPrice3); panelStore->Controls->Add(btnBuy3);
@@ -136,10 +143,12 @@ namespace MiProyecto {
             this->Controls->Add(this->panelTop);
             this->Controls->Add(this->panelStore);
 
+            skinRequirements = gcnew array<int>{ 100, 200, 300, 400, 500, 999 };
+            buyButtons = gcnew array<Button^>{ btnBuy1, btnBuy2, btnBuy3, btnBuy4, btnBuy5, btnBuy6 };
+
             this->ResumeLayout(false);
         }
 
-        // ---- Helpers para reducir repetición ----
         void SetupSkinButton(Button^ btn, Color bg, int x, int y) {
             btn->BackColor = bg;
             btn->FlatStyle = FlatStyle::Flat;
@@ -147,11 +156,12 @@ namespace MiProyecto {
             btn->Location = System::Drawing::Point(x, y);
             btn->Size = System::Drawing::Size(160, 150);
             btn->UseVisualStyleBackColor = false;
+            btn->Enabled = false;
         }
 
         void SetupPriceLabel(Label^ lbl, String^ text, int x, int y) {
             lbl->AutoSize = true;
-            lbl->Font = gcnew System::Drawing::Font(L"Segoe UI Emoji", 14);
+            lbl->Font = gcnew System::Drawing::Font(L"Segoe UI", 14);
             lbl->ForeColor = Color::FromArgb(50, 50, 50);
             lbl->Location = System::Drawing::Point(x, y);
             lbl->Text = text;
@@ -169,21 +179,77 @@ namespace MiProyecto {
             btn->UseVisualStyleBackColor = false;
         }
 
-        // ---- Handlers de compra (extensibles) ----
-        void BuySkin1(Object^ s, EventArgs^ e) { MessageBox::Show(L"¡Skin 1 comprada! (pendiente de implementar)"); }
-        void BuySkin2(Object^ s, EventArgs^ e) { MessageBox::Show(L"¡Skin 2 comprada! (pendiente de implementar)"); }
-        void BuySkin3(Object^ s, EventArgs^ e) { MessageBox::Show(L"¡Skin 3 comprada! (pendiente de implementar)"); }
-        void BuySkin4(Object^ s, EventArgs^ e) { MessageBox::Show(L"¡Skin 4 comprada! (pendiente de implementar)"); }
-        void BuySkin5(Object^ s, EventArgs^ e) { MessageBox::Show(L"¡Skin 5 comprada! (pendiente de implementar)"); }
-        void BuySkin6(Object^ s, EventArgs^ e) { MessageBox::Show(L"¡Skin 6 comprada! (pendiente de implementar)"); }
+        void UpdateSkinAvailability()
+        {
+            for (int i = 0; i < buyButtons->Length; i++) {
+                bool unlocked = highestUnlockedScore >= skinRequirements[i];
+                buyButtons[i]->Enabled = unlocked;
 
-        // ---- Regresar al juego ----
+                if (unlocked) {
+                    buyButtons[i]->Text = L"Equipar";
+                    buyButtons[i]->BackColor = Color::FromArgb(70, 120, 255);
+                }
+                else {
+                    buyButtons[i]->Text = L"Nopitino";
+                    buyButtons[i]->BackColor = Color::Gray;
+                }
+            }
+        }
+
+        void ApplySkinToGames(Color primary, Color secondary, Color head)
+        {
+            if (onSkinSelected != nullptr)
+                onSkinSelected(primary, secondary, head);
+        }
+
+        void BuySkin1(Object^ s, EventArgs^ e) {
+            if (highestUnlockedScore < 100) return;
+            ApplySkinToGames(Color::Black, Color::DimGray, Color::FromArgb(30, 30, 30));
+            MessageBox::Show(L"Skin negra seleccionada.");
+        }
+
+        void BuySkin2(Object^ s, EventArgs^ e) {
+            if (highestUnlockedScore < 200) return;
+            ApplySkinToGames(Color::Purple, Color::MediumOrchid, Color::Indigo);
+            MessageBox::Show(L"Skin morada seleccionada.");
+        }
+
+        void BuySkin3(Object^ s, EventArgs^ e) {
+            if (highestUnlockedScore < 300) return;
+            ApplySkinToGames(Color::WhiteSmoke, Color::Gainsboro, Color::LightGray);
+            MessageBox::Show(L"Skin blanca seleccionada.");
+        }
+
+        void BuySkin4(Object^ s, EventArgs^ e) {
+            if (highestUnlockedScore < 400) return;
+            ApplySkinToGames(Color::Red, Color::Tomato, Color::DarkRed);
+            MessageBox::Show(L"Skin roja seleccionada.");
+        }
+
+        void BuySkin5(Object^ s, EventArgs^ e) {
+            if (highestUnlockedScore < 500) return;
+            ApplySkinToGames(Color::Blue, Color::RoyalBlue, Color::Navy);
+            MessageBox::Show(L"Skin azul seleccionada.");
+        }
+
+        void BuySkin6(Object^ s, EventArgs^ e) {
+            if (highestUnlockedScore < 999) return;
+            ApplySkinToGames(Color::Goldenrod, Color::Gold, Color::DarkGoldenrod);
+            MessageBox::Show(L"Skin dorada seleccionada.");
+        }
+
         void VolverAlJuego(Object^ sender, EventArgs^ e)
         {
-            // Buscar Form1 por nombre (funciona porque Form1::Name = "Form1")
+            if (game1 != nullptr && game1->HasStarted && !game1->IsGameOver)
+                game1->IsPaused = false;
+
+            if (game2 != nullptr && game2->HasStarted && !game2->IsGameOver)
+                game2->IsPaused = false;
+
             Form^ juego = Application::OpenForms[L"Form1"];
             if (juego != nullptr)
                 juego->Show();
+
             this->Close();
         }
     };

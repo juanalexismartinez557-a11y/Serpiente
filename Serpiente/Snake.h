@@ -110,6 +110,10 @@ namespace MiProyecto {
         int  CurrentRows;
         GameMode CurrentMode;   // ahora puede ser combinación de flags
 
+        Color SnakePrimaryColor;
+        Color SnakeSecondaryColor;
+        Color SnakeHeadColor;
+
         delegate void GameOverDelegate(int finalScore);
         event GameOverDelegate^ OnGameOver;
 
@@ -147,6 +151,10 @@ namespace MiProyecto {
             lastObstacleScore = -1;
             lastSpeedScore = -1;
 
+            SnakeHeadColor = Color::FromArgb(34, 100, 14);
+            SnakePrimaryColor = Color::FromArgb(74, 160, 44);
+            SnakeSecondaryColor = Color::FromArgb(90, 180, 55);
+
             rnd = gcnew Random();
             walls = gcnew List<Wall^>();
             apple = gcnew Apple();
@@ -154,6 +162,12 @@ namespace MiProyecto {
 
             LoadHighScore();
             Reset();
+        }
+
+        void SetSnakeSkin(Color primary, Color secondary, Color head) {
+            SnakePrimaryColor = primary;
+            SnakeSecondaryColor = secondary;
+            SnakeHeadColor = head;
         }
 
         void SetBoardSize(BoardSize size) {
@@ -283,9 +297,9 @@ namespace MiProyecto {
             for (int i = 0; i < snakeBody->Count; i++) {
                 GridPoint p = snakeBody[i];
                 Color segColor;
-                if (i == 0)       segColor = Color::FromArgb(34, 100, 14);
-                else if (i % 2 == 0)   segColor = Color::FromArgb(74, 160, 44);
-                else                   segColor = Color::FromArgb(90, 180, 55);
+                if (i == 0)       segColor = SnakeHeadColor;
+                else if (i % 2 == 0)   segColor = SnakePrimaryColor;
+                else                   segColor = SnakeSecondaryColor;
                 int px = p.X * CELL_SIZE, py = p.Y * CELL_SIZE;
                 g->FillRectangle(gcnew SolidBrush(segColor),
                     px + 1, py + 1, CELL_SIZE - 2, CELL_SIZE - 2);
