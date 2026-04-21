@@ -52,12 +52,18 @@ namespace MiProyecto {
         // =========================================================
         void InitializeComponent(void)
         {
-            this->ClientSize = System::Drawing::Size(820, 870);
+            // Ajustar al 90% del área de trabajo disponible, sin exceder el diseño original
+            Rectangle wa = Screen::PrimaryScreen->WorkingArea;
+            int initW = Math::Min(820, (int)(wa.Width * 0.90));
+            int initH = Math::Min(870, (int)(wa.Height * 0.90));
+            this->ClientSize = System::Drawing::Size(initW, initH);
+            this->MinimumSize = System::Drawing::Size(500, 450); // Evita achicar demasiado
             this->Text = L"Snake Evolution";
             this->Name = L"Form1";   // Necesario para Application::OpenForms["Form1"]
             this->BackColor = Color::FromArgb(78, 136, 43);
             this->KeyPreview = true;
             this->DoubleBuffered = true;   // Reduce el parpadeo
+            this->Resize += gcnew EventHandler(this, &Form1::Form1_Resize);
 
             // =====================================================
             //  PANEL MENÚ
@@ -146,6 +152,7 @@ namespace MiProyecto {
             lblScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
             lblScore->ForeColor = Color::White;
             lblScore->Text = L"Puntos: 0";
+            lblScore->Anchor = AnchorStyles::Top | AnchorStyles::Left;
             lblScore->Visible = false;
 
             lblAppleCount = gcnew Label();
@@ -154,6 +161,7 @@ namespace MiProyecto {
             lblAppleCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
             lblAppleCount->ForeColor = Color::White;
             lblAppleCount->Text = L"Manzanas: 0";
+            lblAppleCount->Anchor = AnchorStyles::Top | AnchorStyles::Left;
             lblAppleCount->Visible = false;
 
             lblHighScore = gcnew Label();
@@ -162,6 +170,7 @@ namespace MiProyecto {
             lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
             lblHighScore->ForeColor = Color::Gold;
             lblHighScore->Text = L"Récord: 0";
+            lblHighScore->Anchor = AnchorStyles::Top | AnchorStyles::Left;
             lblHighScore->Visible = false;
 
             // =====================================================
@@ -170,7 +179,7 @@ namespace MiProyecto {
             panelGame = gcnew Panel();
             panelGame->BackColor = Color::FromArgb(170, 215, 81);
             panelGame->Location = System::Drawing::Point(10, 60);
-            panelGame->Size = System::Drawing::Size(800, 800);
+            // El tamaño se calculará dinámicamente; no lo fijes aquí
             panelGame->Visible = false;
             panelGame->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame_Paint);
 
@@ -208,12 +217,15 @@ namespace MiProyecto {
 
             // Ocultar menú, mostrar HUD
             panelMenu->Visible = false;
-            panelGame->Visible = true;
             lblScore->Visible = true;
             lblAppleCount->Visible = true;
             lblHighScore->Visible = true;
 
-            panelGame->Focus();  // Para recibir KeyDown sin clic previo
+            // FORZAR ajuste responsivo antes de mostrar el panel
+            Form1_Resize(nullptr, nullptr);
+
+            panelGame->Visible = true;
+            panelGame->Focus();
         }
 
         // =========================================================
@@ -272,6 +284,24 @@ namespace MiProyecto {
         // =========================================================
         //  HANDLERS DE EVENTOS DEL JUEGO
         // =========================================================
+
+        // =========================================================
+        //  REDIMENSIONAMIENTO RESPONSIVO
+        // =========================================================
+        void Form1_Resize(Object^ sender, EventArgs^ e)
+        {
+            if (panelGame == nullptr) return;
+
+            int sideMargin = 10;          // margen izquierdo y derecho
+            int topMargin = 55;          // debajo de las labels (Y=22 + alto ~30 + separación)
+            int bottomMargin = 10;        // margen inferior
+
+            int newWidth = Math::Max(100, this->ClientSize.Width - sideMargin * 2);
+            int newHeight = Math::Max(100, this->ClientSize.Height - topMargin - bottomMargin);
+
+            panelGame->Location = System::Drawing::Point(sideMargin, topMargin);
+            panelGame->Size = System::Drawing::Size(newWidth, newHeight);
+        }
 
         // Llamado cuando la serpiente muere
         void Game_OnGameOver(int finalScore)
