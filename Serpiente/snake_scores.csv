@@ -10,3 +10,13 @@ luisa,40,50x50,Obstaculos+RandomGrowth+SpeedIncrease
 Jugador,30,50x50,Obstaculos+RandomGrowth
 Jugador,10,50x50,RandomGrowth
 Luisa,100,50x50,Obstaculos
+Jugador 1,0,25x25,Normal
+Jugador 2,0,25x25,Normal
+Jugador 1,0,25x25,Normal
+Jugador 2,0,25x25,Normal
+Jugador 1,0,25x25,Normal
+Jugador 2,0,25x25,Normal
+Jugador 1,30,25x25,Normal
+Jugador 2,0,25x25,Normal
+Jugador 1,10,25x25,Normal
+Jugador 2,0,25x25,Normal

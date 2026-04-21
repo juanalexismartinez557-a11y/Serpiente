@@ -19,48 +19,55 @@ namespace MiProyecto {
     {
     public:
         Form1(void) { InitializeComponent(); }
-
     protected:
         ~Form1() { if (components) delete components; }
 
     private:
         System::ComponentModel::Container^ components;
 
-        // --- Panel de menú principal ---
+        // ── Menú ──────────────────────────────────────────────
         Panel^ panelMenu;
         Label^ lblTitle;
-        Label^ lblModo;       // Etiqueta "Modos:"
+        Label^ lblModo;
         CheckBox^ chkObstacles;
         CheckBox^ chkRandomGrowth;
         CheckBox^ chkSpeedIncrease;
         Label^ lblTamano;
         ComboBox^ comboTamano;
+        Label^ lblNumJugadores;
+        ComboBox^ comboJugadores;   // 1 o 2 jugadores
         Button^ btnIniciar;
         Button^ btnLeaderboard;
         Button^ btnSalir;
         Button^ btnTienda;
 
-        // --- Panel de juego ---
-        Panel^ panelGame;
-        Label^ lblScore;
-        Label^ lblAppleCount;
-        Label^ lblHighScore;
-        Button^ btnMenuDesdeJuego;
+        // ── Paneles de juego ──────────────────────────────────
+        Panel^ panelGame1;   // Jugador 1 (flechas)
+        Panel^ panelGame2;   // Jugador 2 (WASD)  — null en modo 1P
 
-        // --- Motor del juego ---
-        SnakeGame^ game;
+        // ── HUD ───────────────────────────────────────────────
+        Label^ lblScore1;
+        Label^ lblScore2;
+        Label^ lblHighScore;
+        Label^ lblP1Tag;     // "J1" encima del panel
+        Label^ lblP2Tag;     // "J2" encima del panel
+
+        // ── Motor ─────────────────────────────────────────────
+        SnakeGame^ game1;
+        SnakeGame^ game2;    // null en modo 1P
         Timer^ gameTimer;
 
-        int tamanoSeleccionado;
+        int  tamanoSeleccionado;
+        bool twoPlayerMode;
 
         // =========================================================
         void InitializeComponent(void)
         {
             Rectangle wa = Screen::PrimaryScreen->WorkingArea;
-            int initW = Math::Min(820, (int)(wa.Width * 0.90));
-            int initH = Math::Min(870, (int)(wa.Height * 0.90));
+            int initW = Math::Min(900, (int)(wa.Width * 0.92));
+            int initH = Math::Min(870, (int)(wa.Height * 0.92));
             this->ClientSize = System::Drawing::Size(initW, initH);
-            this->MinimumSize = System::Drawing::Size(500, 450);
+            this->MinimumSize = System::Drawing::Size(600, 500);
             this->Text = L"Snake Evolution";
             this->Name = L"Form1";
             this->BackColor = Color::FromArgb(78, 136, 43);
@@ -68,9 +75,7 @@ namespace MiProyecto {
             this->DoubleBuffered = true;
             this->Resize += gcnew EventHandler(this, &Form1::Form1_Resize);
 
-            // =====================================================
-            //  PANEL MENÚ
-            // =====================================================
+            // ── Panel menú ────────────────────────────────────
             panelMenu = gcnew Panel();
             panelMenu->BackColor = Color::FromArgb(78, 136, 43);
             panelMenu->Dock = DockStyle::Fill;
@@ -81,14 +86,12 @@ namespace MiProyecto {
             lblTitle->ForeColor = Color::White;
             lblTitle->AutoSize = true;
 
-            // --- Etiqueta "Modos:" ---
             lblModo = gcnew Label();
             lblModo->Text = L"Modos:";
             lblModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
             lblModo->ForeColor = Color::White;
             lblModo->AutoSize = true;
 
-            // --- CheckBoxes de modos ---
             chkObstacles = gcnew CheckBox();
             chkObstacles->Text = L"Obstáculos";
             chkObstacles->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
@@ -107,7 +110,6 @@ namespace MiProyecto {
             chkSpeedIncrease->ForeColor = Color::White;
             chkSpeedIncrease->AutoSize = true;
 
-            // --- Tamaño ---
             lblTamano = gcnew Label();
             lblTamano->Text = L"Tamaño:";
             lblTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
@@ -122,6 +124,20 @@ namespace MiProyecto {
             comboTamano->Items->Add(L"25x25  (Mediano)");
             comboTamano->Items->Add(L"50x50  (Grande)");
             comboTamano->SelectedIndex = 1;
+
+            lblNumJugadores = gcnew Label();
+            lblNumJugadores->Text = L"Jugadores:";
+            lblNumJugadores->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
+            lblNumJugadores->ForeColor = Color::White;
+            lblNumJugadores->AutoSize = true;
+
+            comboJugadores = gcnew ComboBox();
+            comboJugadores->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            comboJugadores->Size = System::Drawing::Size(190, 30);
+            comboJugadores->DropDownStyle = ComboBoxStyle::DropDownList;
+            comboJugadores->Items->Add(L"1 Jugador");
+            comboJugadores->Items->Add(L"2 Jugadores");
+            comboJugadores->SelectedIndex = 0;
 
             btnIniciar = gcnew Button();
             btnIniciar->Text = L"Iniciar Juego";
@@ -170,64 +186,84 @@ namespace MiProyecto {
             panelMenu->Controls->Add(chkSpeedIncrease);
             panelMenu->Controls->Add(lblTamano);
             panelMenu->Controls->Add(comboTamano);
+            panelMenu->Controls->Add(lblNumJugadores);
+            panelMenu->Controls->Add(comboJugadores);
             panelMenu->Controls->Add(btnIniciar);
             panelMenu->Controls->Add(btnLeaderboard);
             panelMenu->Controls->Add(btnTienda);
             panelMenu->Controls->Add(btnSalir);
 
-            // =====================================================
-            //  HUD
-            // =====================================================
-            lblScore = gcnew Label();
-            lblScore->Location = System::Drawing::Point(10, 22);
-            lblScore->Size = System::Drawing::Size(210, 30);
-            lblScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
-            lblScore->ForeColor = Color::White;
-            lblScore->Text = L"Puntos: 0";
-            lblScore->Anchor = AnchorStyles::Top | AnchorStyles::Left;
-            lblScore->Visible = false;
+            // ── HUD ───────────────────────────────────────────
+            lblP1Tag = gcnew Label();
+            lblP1Tag->Text = L"🎮 J1: Flechas";
+            lblP1Tag->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, FontStyle::Bold);
+            lblP1Tag->ForeColor = Color::LightCyan;
+            lblP1Tag->AutoSize = true;
+            lblP1Tag->Visible = false;
 
-            lblAppleCount = gcnew Label();
-            lblAppleCount->Location = System::Drawing::Point(230, 22);
-            lblAppleCount->Size = System::Drawing::Size(220, 30);
-            lblAppleCount->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
-            lblAppleCount->ForeColor = Color::White;
-            lblAppleCount->Text = L"Manzanas: 0";
-            lblAppleCount->Anchor = AnchorStyles::Top | AnchorStyles::Left;
-            lblAppleCount->Visible = false;
+            lblP2Tag = gcnew Label();
+            lblP2Tag->Text = L"⌨ J2: WASD";
+            lblP2Tag->Font = gcnew System::Drawing::Font(L"Segoe UI", 10, FontStyle::Bold);
+            lblP2Tag->ForeColor = Color::LightYellow;
+            lblP2Tag->AutoSize = true;
+            lblP2Tag->Visible = false;
+
+            lblScore1 = gcnew Label();
+            lblScore1->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
+            lblScore1->ForeColor = Color::LightCyan;
+            lblScore1->Text = L"J1: 0 pts";
+            lblScore1->AutoSize = true;
+            lblScore1->Visible = false;
+
+            lblScore2 = gcnew Label();
+            lblScore2->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
+            lblScore2->ForeColor = Color::LightYellow;
+            lblScore2->Text = L"J2: 0 pts";
+            lblScore2->AutoSize = true;
+            lblScore2->Visible = false;
 
             lblHighScore = gcnew Label();
-            lblHighScore->Location = System::Drawing::Point(460, 22);
-            lblHighScore->Size = System::Drawing::Size(260, 30);
-            lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
+            lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
             lblHighScore->ForeColor = Color::Gold;
             lblHighScore->Text = L"Record: 0";
-            lblHighScore->Anchor = AnchorStyles::Top | AnchorStyles::Left;
+            lblHighScore->AutoSize = true;
             lblHighScore->Visible = false;
 
-            // =====================================================
-            //  PANEL DE JUEGO
-            // =====================================================
-            panelGame = gcnew Panel();
-            panelGame->BackColor = Color::FromArgb(170, 215, 81);
-            panelGame->Location = System::Drawing::Point(10, 60);
-            panelGame->Visible = false;
-            panelGame->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame_Paint);
+            // ── Paneles de juego ──────────────────────────────
+            panelGame1 = gcnew Panel();
+            panelGame1->BackColor = Color::FromArgb(170, 215, 81);
+            panelGame1->Visible = false;
+            panelGame1->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame1_Paint);
+            EnableDoubleBuffer(panelGame1);
 
-            panelGame->GetType()->GetProperty("DoubleBuffered",
-                System::Reflection::BindingFlags::NonPublic |
-                System::Reflection::BindingFlags::Instance)
-                ->SetValue(panelGame, true, nullptr);
+            panelGame2 = gcnew Panel();
+            panelGame2->BackColor = Color::FromArgb(170, 215, 81);
+            panelGame2->Visible = false;
+            panelGame2->Paint += gcnew PaintEventHandler(this, &Form1::PanelGame2_Paint);
+            EnableDoubleBuffer(panelGame2);
 
+            // ── Eventos globales ──────────────────────────────
             this->KeyDown += gcnew KeyEventHandler(this, &Form1::Form1_KeyDown);
 
-            this->Controls->Add(panelGame);
-            this->Controls->Add(lblScore);
-            this->Controls->Add(lblAppleCount);
+            // ── Agregar al form ───────────────────────────────
+            this->Controls->Add(panelGame1);
+            this->Controls->Add(panelGame2);
+            this->Controls->Add(lblP1Tag);
+            this->Controls->Add(lblP2Tag);
+            this->Controls->Add(lblScore1);
+            this->Controls->Add(lblScore2);
             this->Controls->Add(lblHighScore);
-            this->Controls->Add(panelMenu);
+            this->Controls->Add(panelMenu);   // encima de todo
 
             CenterMenuControls();
+        }
+
+        // ── Activa doble buffer en un panel por reflexión ────
+        void EnableDoubleBuffer(Panel^ p) {
+            p->GetType()->GetProperty("DoubleBuffered",
+                System::Reflection::BindingFlags::NonPublic |
+                System::Reflection::BindingFlags::Instance)
+                ->SetValue(p, true, nullptr);
         }
 
         // =========================================================
@@ -236,94 +272,325 @@ namespace MiProyecto {
         void IniciarJuego(Object^ sender, EventArgs^ e)
         {
             tamanoSeleccionado = comboTamano->SelectedIndex;
+            twoPlayerMode = (comboJugadores->SelectedIndex == 1);
 
-            // Combinar flags según checkboxes marcados
+            // Construir flags de modo
             int flags = 0;
             if (chkObstacles->Checked)     flags |= static_cast<int>(GameMode::Obstacles);
             if (chkRandomGrowth->Checked)  flags |= static_cast<int>(GameMode::RandomGrowth);
             if (chkSpeedIncrease->Checked) flags |= static_cast<int>(GameMode::SpeedIncrease);
-            // Si no se marcó nada → Normal (0)
+            GameMode combinedMode = static_cast<GameMode>(flags);
 
-            InitGame(static_cast<GameMode>(flags));
-
-            panelMenu->Visible = false;
-            lblScore->Visible = true;
-            lblAppleCount->Visible = true;
-            lblHighScore->Visible = true;
-
-            Form1_Resize(nullptr, nullptr);
-            panelGame->Visible = true;
-            panelGame->Focus();
-        }
-
-        // =========================================================
-        //  INICIALIZAR MOTOR + TIMER
-        // =========================================================
-        void InitGame(GameMode combinedMode)
-        {
+            // Detener timer anterior
             if (gameTimer != nullptr) { gameTimer->Stop(); gameTimer = nullptr; }
 
-            game = gcnew SnakeGame();
+            // ── Juego 1 ──────────────────────────────────────
+            game1 = CreateGame(combinedMode);
+            game1->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game1_OnGameOver);
+            game1->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game1_OnScoreChanged);
+            game1->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(this, &Form1::Game_OnSpeedChanged);
 
+            // ── Juego 2 (solo en 2P) ─────────────────────────
+            if (twoPlayerMode) {
+                game2 = CreateGame(combinedMode);
+                game2->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game2_OnGameOver);
+                game2->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game2_OnScoreChanged);
+                game2->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(this, &Form1::Game_OnSpeedChanged);
+            }
+            else {
+                game2 = nullptr;
+            }
+
+            // ── HUD inicial ───────────────────────────────────
+            lblScore1->Text = L"J1: 0 pts";
+            lblScore2->Text = L"J2: 0 pts";
+            lblHighScore->Text = String::Format(L"Record: {0}", game1->HighScore);
+
+            // Mostrar/ocultar etiquetas según modo
+            lblP1Tag->Visible = true;
+            lblP2Tag->Visible = twoPlayerMode;
+            lblScore1->Visible = true;
+            lblScore2->Visible = twoPlayerMode;
+            lblHighScore->Visible = true;
+            panelMenu->Visible = false;
+
+            // ── Timer compartido ──────────────────────────────
+            gameTimer = gcnew Timer();
+            gameTimer->Interval = game1->SpeedMs;
+            gameTimer->Tick += gcnew EventHandler(this, &Form1::GameTimer_Tick);
+            gameTimer->Start();
+
+            // Ajustar paneles y mostrar
+            Form1_Resize(nullptr, nullptr);
+            panelGame1->Visible = true;
+            panelGame2->Visible = twoPlayerMode;
+            panelGame1->Focus();
+        }
+
+        // ── Factoría de juego ─────────────────────────────────
+        SnakeGame^ CreateGame(GameMode mode)
+        {
+            SnakeGame^ g = gcnew SnakeGame();
             BoardSize bs;
             switch (tamanoSeleccionado) {
             case 0:  bs = BoardSize::Small;  break;
             case 2:  bs = BoardSize::Large;  break;
             default: bs = BoardSize::Medium; break;
             }
-            game->SetBoardSize(bs);
-            game->SetGameMode(combinedMode);   // pasa la combinación de flags
-
-            game->OnGameOver += gcnew SnakeGame::GameOverDelegate(this, &Form1::Game_OnGameOver);
-            game->OnScoreChanged += gcnew SnakeGame::ScoreChangedDelegate(this, &Form1::Game_OnScoreChanged);
-            game->OnSpeedChanged += gcnew SnakeGame::SpeedChangedDelegate(this, &Form1::Game_OnSpeedChanged);
-
-            lblHighScore->Text = String::Format(L"Record: {0}", game->HighScore);
-            lblScore->Text = L"Puntos: 0";
-            lblAppleCount->Text = L"Manzanas: 0";
-
-            gameTimer = gcnew Timer();
-            gameTimer->Interval = game->SpeedMs;
-            gameTimer->Tick += gcnew EventHandler(this, &Form1::GameTimer_Tick);
-            gameTimer->Start();
+            g->SetBoardSize(bs);
+            g->SetGameMode(mode);
+            return g;
         }
 
         // =========================================================
-        //  RESIZE
+        //  TIMER
         // =========================================================
-        void Form1_Resize(Object^ sender, EventArgs^ e)
+        void GameTimer_Tick(Object^ sender, EventArgs^ e)
         {
-            if (panelGame != nullptr) {
-                int sideMargin = 10, topMargin = 55, bottomMargin = 10;
-                int newWidth = Math::Max(100, this->ClientSize.Width - sideMargin * 2);
-                int newHeight = Math::Max(100, this->ClientSize.Height - topMargin - bottomMargin);
-                panelGame->Location = System::Drawing::Point(sideMargin, topMargin);
-                panelGame->Size = System::Drawing::Size(newWidth, newHeight);
-            }
-            CenterMenuControls();
+            // Tick independiente: si uno ya murió, no sigue avanzando
+            if (game1 != nullptr && !game1->IsGameOver)
+                game1->Tick();
+
+            if (game2 != nullptr && !game2->IsGameOver)
+                game2->Tick();
+
+            panelGame1->Invalidate();
+            if (twoPlayerMode) panelGame2->Invalidate();
+
+            // Detener el timer solo cuando AMBOS hayan terminado
+            bool g1Done = (game1 == nullptr || game1->IsGameOver);
+            bool g2Done = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
+            if (g1Done && g2Done) gameTimer->Stop();
         }
 
         // =========================================================
-        //  EVENTOS DEL JUEGO
+        //  PAINT
         // =========================================================
-        void Game_OnGameOver(int finalScore)
+        void PanelGame1_Paint(Object^ sender, PaintEventArgs^ e)
         {
-            gameTimer->Stop();
-            String^ username = PromptUsername();
-            SaveScore(username, finalScore);
-            lblHighScore->Text = String::Format(L"Record: {0}", game->HighScore);
-            panelGame->Invalidate();
+            if (game1 != nullptr)
+                game1->Draw(e->Graphics, panelGame1->ClientSize);
         }
 
-        void Game_OnScoreChanged(int score, int apples)
+        void PanelGame2_Paint(Object^ sender, PaintEventArgs^ e)
         {
-            lblScore->Text = String::Format(L"Puntos: {0}", score);
-            lblAppleCount->Text = String::Format(L"Manzanas: {0}", apples);
+            if (game2 != nullptr)
+                game2->Draw(e->Graphics, panelGame2->ClientSize);
+        }
+
+        // =========================================================
+        //  EVENTOS DE PUNTAJE
+        // =========================================================
+        void Game1_OnScoreChanged(int score, int apples)
+        {
+            lblScore1->Text = String::Format(L"J1: {0} pts  🍎{1}", score, apples);
+        }
+
+        void Game2_OnScoreChanged(int score, int apples)
+        {
+            lblScore2->Text = String::Format(L"J2: {0} pts  🍎{1}", score, apples);
         }
 
         void Game_OnSpeedChanged(int newSpeedMs)
         {
-            gameTimer->Interval = newSpeedMs;
+            // Ambos juegos comparten el mismo timer; usa el más rápido
+            if (gameTimer != nullptr && newSpeedMs < gameTimer->Interval)
+                gameTimer->Interval = newSpeedMs;
+        }
+
+        // =========================================================
+        //  GAME OVER POR JUGADOR
+        // =========================================================
+        void Game1_OnGameOver(int finalScore)
+        {
+            panelGame1->Invalidate();   // muestra overlay "GAME OVER" en J1
+            CheckBothDead();
+        }
+
+        void Game2_OnGameOver(int finalScore)
+        {
+            panelGame2->Invalidate();   // muestra overlay "GAME OVER" en J2
+            CheckBothDead();
+        }
+
+        // Cuando ambos murieron → guardar y mostrar ganador
+        void CheckBothDead()
+        {
+            bool g1Dead = (game1 == nullptr || game1->IsGameOver);
+            bool g2Dead = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
+
+            if (!g1Dead || !g2Dead) return;   // todavía hay alguien vivo
+
+            gameTimer->Stop();
+
+            if (twoPlayerMode) {
+                // Determinar ganador
+                int s1 = (game1 != nullptr) ? game1->Score : 0;
+                int s2 = (game2 != nullptr) ? game2->Score : 0;
+
+                String^ winnerMsg;
+                if (s1 > s2) winnerMsg = String::Format(L"🏆 ¡Ganó el Jugador 1!  ({0} pts)", s1);
+                else if (s2 > s1) winnerMsg = String::Format(L"🏆 ¡Ganó el Jugador 2!  ({0} pts)", s2);
+                else              winnerMsg = L"🤝 ¡Empate!";
+
+                MessageBox::Show(winnerMsg, L"Resultado final",
+                    MessageBoxButtons::OK, MessageBoxIcon::Information);
+            }
+
+            // Guardar puntaje del jugador 1
+            if (game1 != nullptr) {
+                String^ user1 = PromptUsernameFor(L"Jugador 1");
+                SaveScore(user1, game1->Score, game1);
+            }
+
+            // Guardar puntaje del jugador 2 (si aplica)
+            if (twoPlayerMode && game2 != nullptr) {
+                String^ user2 = PromptUsernameFor(L"Jugador 2");
+                SaveScore(user2, game2->Score, game2);
+            }
+
+            // Actualizar récord en HUD
+            lblHighScore->Text = String::Format(L"Record: {0}", ScoreManager::GetHighestScore());
+
+            // Refrescar overlays finales con el hint "M = Menú"
+            panelGame1->Invalidate();
+            if (twoPlayerMode) panelGame2->Invalidate();
+        }
+
+        // =========================================================
+        //  RESIZE — divide el espacio entre los dos paneles
+        // =========================================================
+        void Form1_Resize(Object^ sender, EventArgs^ e)
+        {
+            int sideMargin = 8;
+            int topMargin = 50;
+            int bottomMargin = 8;
+            int gap = 6;   // separación entre los dos paneles
+
+            int totalW = this->ClientSize.Width - sideMargin * 2;
+            int totalH = this->ClientSize.Height - topMargin - bottomMargin;
+
+            if (twoPlayerMode) {
+                // Mitad izquierda / mitad derecha
+                int halfW = (totalW - gap) / 2;
+
+                panelGame1->Location = System::Drawing::Point(sideMargin, topMargin);
+                panelGame1->Size = System::Drawing::Size(halfW, totalH);
+
+                panelGame2->Location = System::Drawing::Point(sideMargin + halfW + gap, topMargin);
+                panelGame2->Size = System::Drawing::Size(halfW, totalH);
+
+                // Etiquetas de jugador encima de cada panel
+                lblP1Tag->Location = System::Drawing::Point(
+                    sideMargin, topMargin - lblP1Tag->Height - 4);
+                lblScore1->Location = System::Drawing::Point(
+                    sideMargin + lblP1Tag->Width + 8, topMargin - lblScore1->Height - 4);
+
+                lblP2Tag->Location = System::Drawing::Point(
+                    sideMargin + halfW + gap, topMargin - lblP2Tag->Height - 4);
+                lblScore2->Location = System::Drawing::Point(
+                    sideMargin + halfW + gap + lblP2Tag->Width + 8, topMargin - lblScore2->Height - 4);
+
+                // Record centrado arriba
+                lblHighScore->Location = System::Drawing::Point(
+                    (this->ClientSize.Width - lblHighScore->Width) / 2,
+                    topMargin - lblHighScore->Height - 4);
+            }
+            else {
+                // Un solo panel ocupa todo el espacio
+                panelGame1->Location = System::Drawing::Point(sideMargin, topMargin);
+                panelGame1->Size = System::Drawing::Size(totalW, totalH);
+
+                lblP1Tag->Location = System::Drawing::Point(sideMargin, topMargin - lblP1Tag->Height - 4);
+                lblScore1->Location = System::Drawing::Point(
+                    sideMargin + lblP1Tag->Width + 8, topMargin - lblScore1->Height - 4);
+                lblHighScore->Location = System::Drawing::Point(
+                    this->ClientSize.Width - lblHighScore->Width - sideMargin,
+                    topMargin - lblHighScore->Height - 4);
+            }
+
+            CenterMenuControls();
+        }
+
+        // =========================================================
+        //  TECLADO
+        // =========================================================
+        void Form1_KeyDown(Object^ sender, KeyEventArgs^ e)
+        {
+            // ── Jugador 1: flechas ────────────────────────────
+            if (game1 != nullptr && !game1->IsGameOver) {
+                switch (e->KeyCode) {
+                case Keys::Up:    game1->SetDirection(0, -1); break;
+                case Keys::Down:  game1->SetDirection(0, 1); break;
+                case Keys::Left:  game1->SetDirection(-1, 0); break;
+                case Keys::Right: game1->SetDirection(1, 0); break;
+                default: break;
+                }
+            }
+
+            // ── Jugador 2: WASD ───────────────────────────────
+            if (twoPlayerMode && game2 != nullptr && !game2->IsGameOver) {
+                switch (e->KeyCode) {
+                case Keys::W: game2->SetDirection(0, -1); break;
+                case Keys::S: game2->SetDirection(0, 1); break;
+                case Keys::A: game2->SetDirection(-1, 0); break;
+                case Keys::D: game2->SetDirection(1, 0); break;
+                default: break;
+                }
+            }
+
+            // ── Pausa (P) — pausa/reanuda ambos ──────────────
+            if (e->KeyCode == Keys::P) {
+                bool isPaused = (game1 != nullptr && game1->IsPaused);
+                if (game1 != nullptr && !game1->IsGameOver) game1->TogglePause();
+                if (game2 != nullptr && !game2->IsGameOver) game2->TogglePause();
+                panelGame1->Invalidate();
+                if (twoPlayerMode) panelGame2->Invalidate();
+            }
+
+            // ── Reiniciar (R) ─────────────────────────────────
+            if (e->KeyCode == Keys::R) {
+                bool anyOver = (game1 != nullptr && (game1->IsGameOver || game1->HasStarted));
+                if (anyOver) {
+                    if (game1 != nullptr) { game1->Reset(); }
+                    if (game2 != nullptr) { game2->Reset(); }
+                    if (gameTimer != nullptr) {
+                        gameTimer->Interval = game1->SpeedMs;
+                        if (!gameTimer->Enabled) gameTimer->Start();
+                    }
+                    lblScore1->Text = L"J1: 0 pts";
+                    lblScore2->Text = L"J2: 0 pts";
+                    panelGame1->Invalidate();
+                    if (twoPlayerMode) panelGame2->Invalidate();
+                }
+            }
+
+            // ── Volver al menú (M) — solo si ambos terminaron ─
+            if (e->KeyCode == Keys::M) {
+                bool g1Done = (game1 == nullptr || game1->IsGameOver);
+                bool g2Done = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
+                if (g1Done && g2Done) {
+                    if (gameTimer != nullptr) gameTimer->Stop();
+                    panelGame1->Visible = false;
+                    panelGame2->Visible = false;
+                    lblP1Tag->Visible = false;
+                    lblP2Tag->Visible = false;
+                    lblScore1->Visible = false;
+                    lblScore2->Visible = false;
+                    lblHighScore->Visible = false;
+                    panelMenu->Visible = true;
+                }
+            }
+
+            // ── Leaderboard (L) ───────────────────────────────
+            if (e->KeyCode == Keys::L) {
+                bool g1Done = (game1 == nullptr || game1->IsGameOver);
+                bool g2Done = !twoPlayerMode || (game2 == nullptr || game2->IsGameOver);
+                if (g1Done && g2Done) {
+                    LeaderboardForm^ lb = gcnew LeaderboardForm();
+                    lb->ShowDialog(this);
+                }
+            }
         }
 
         // =========================================================
@@ -334,115 +601,48 @@ namespace MiProyecto {
             if (panelMenu == nullptr) return;
             int cw = panelMenu->ClientSize.Width;
             int ch = panelMenu->ClientSize.Height;
-            int centerX = cw / 2;
+            int cx = cw / 2;
 
             lblTitle->Location = System::Drawing::Point(
-                (cw - lblTitle->Width) / 2, (int)(ch * 0.10));
+                (cw - lblTitle->Width) / 2, (int)(ch * 0.08));
 
-            // Etiqueta "Modos:" centrada
+            // Modos
             lblModo->Location = System::Drawing::Point(
-                (cw - lblModo->Width) / 2, (int)(ch * 0.28));
-
-            // Los 3 checkboxes apilados bajo la etiqueta, alineados a la izquierda del centro
-            int chkX = centerX - 110;   // margen izquierdo fijo para alinear los 3
-            int chkY0 = lblModo->Bottom + 8;
+                (cw - lblModo->Width) / 2, (int)(ch * 0.26));
+            int chkX = cx - 120;
+            int chkY0 = lblModo->Bottom + 6;
             chkObstacles->Location = System::Drawing::Point(chkX, chkY0);
-            chkRandomGrowth->Location = System::Drawing::Point(chkX, chkY0 + 28);
-            chkSpeedIncrease->Location = System::Drawing::Point(chkX, chkY0 + 56);
+            chkRandomGrowth->Location = System::Drawing::Point(chkX, chkY0 + 26);
+            chkSpeedIncrease->Location = System::Drawing::Point(chkX, chkY0 + 52);
 
-            // Tamaño: label a la izquierda del centro, combo a la derecha
-            int labelRightX = centerX - 10;
-            int controlLeftX = centerX + 10;
-
-            lblTamano->Location = System::Drawing::Point(
-                labelRightX - lblTamano->Width, (int)(ch * 0.55));
-            comboTamano->Location = System::Drawing::Point(
-                controlLeftX,
+            // Tamaño (label | combo)
+            int lx = cx - 10, rx = cx + 10;
+            lblTamano->Location = System::Drawing::Point(lx - lblTamano->Width, (int)(ch * 0.51));
+            comboTamano->Location = System::Drawing::Point(rx,
                 lblTamano->Top + (lblTamano->Height - comboTamano->Height) / 2);
 
+            // Jugadores (label | combo)
+            lblNumJugadores->Location = System::Drawing::Point(lx - lblNumJugadores->Width, (int)(ch * 0.60));
+            comboJugadores->Location = System::Drawing::Point(rx,
+                lblNumJugadores->Top + (lblNumJugadores->Height - comboJugadores->Height) / 2);
+
             btnIniciar->Location = System::Drawing::Point(
-                (cw - btnIniciar->Width) / 2, (int)(ch * 0.65));
-
+                (cw - btnIniciar->Width) / 2, (int)(ch * 0.70));
             btnLeaderboard->Location = System::Drawing::Point(
-                (cw - btnLeaderboard->Width) / 2, btnIniciar->Bottom + 12);
-
+                (cw - btnLeaderboard->Width) / 2, btnIniciar->Bottom + 10);
             btnTienda->Location = System::Drawing::Point(
-                centerX - btnTienda->Width - 12, btnLeaderboard->Bottom + 14);
-
+                cx - btnTienda->Width - 10, btnLeaderboard->Bottom + 12);
             btnSalir->Location = System::Drawing::Point(
-                centerX + 12, btnLeaderboard->Bottom + 14);
+                cx + 10, btnLeaderboard->Bottom + 12);
         }
 
         // =========================================================
-        //  TICK / PAINT / TECLADO
-        // =========================================================
-        void GameTimer_Tick(Object^ sender, EventArgs^ e)
-        {
-            game->Tick();
-            panelGame->Invalidate();
-        }
-
-        void PanelGame_Paint(Object^ sender, PaintEventArgs^ e)
-        {
-            if (game != nullptr)
-                game->Draw(e->Graphics, panelGame->ClientSize);
-        }
-
-        void Form1_KeyDown(Object^ sender, KeyEventArgs^ e)
-        {
-            if (game == nullptr) return;
-            switch (e->KeyCode)
-            {
-            case Keys::Up:    case Keys::W: game->SetDirection(0, -1); break;
-            case Keys::Down:  case Keys::S: game->SetDirection(0, 1); break;
-            case Keys::Left:  case Keys::A: game->SetDirection(-1, 0); break;
-            case Keys::Right: case Keys::D: game->SetDirection(1, 0); break;
-
-            case Keys::P:
-            case Keys::Escape:
-                if (!game->IsGameOver) { game->TogglePause(); panelGame->Invalidate(); }
-                break;
-
-            case Keys::R:
-                if (game->IsGameOver || game->HasStarted) {
-                    game->Reset();
-                    if (gameTimer != nullptr) {
-                        gameTimer->Interval = game->SpeedMs;
-                        if (!gameTimer->Enabled) gameTimer->Start();
-                    }
-                    lblScore->Text = L"Puntos: 0";
-                    lblAppleCount->Text = L"Manzanas: 0";
-                    panelGame->Invalidate();
-                }
-                break;
-
-            case Keys::M:
-                if (game->IsGameOver) {
-                    if (gameTimer != nullptr) gameTimer->Stop();
-                    panelGame->Visible = false;
-                    lblScore->Visible = false;
-                    lblAppleCount->Visible = false;
-                    lblHighScore->Visible = false;
-                    panelMenu->Visible = true;
-                }
-                break;
-
-            case Keys::L:
-                if (game->IsGameOver) {
-                    LeaderboardForm^ lb = gcnew LeaderboardForm();
-                    lb->ShowDialog(this);
-                }
-                break;
-            }
-        }
-
-        // =========================================================
-        //  NAVEGACIÓN
+        //  TIENDA / LEADERBOARD / SALIR
         // =========================================================
         void AbrirTienda(Object^ sender, EventArgs^ e)
         {
-            if (game != nullptr && game->HasStarted && !game->IsGameOver)
-                game->IsPaused = true;
+            if (game1 != nullptr && game1->HasStarted && !game1->IsGameOver) game1->IsPaused = true;
+            if (game2 != nullptr && game2->HasStarted && !game2->IsGameOver) game2->IsPaused = true;
             FormTienda^ tienda = gcnew FormTienda();
             this->Hide();
             tienda->Show();
@@ -457,95 +657,87 @@ namespace MiProyecto {
         void SalirAplicacion(Object^ sender, EventArgs^ e) { this->Close(); }
 
         // =========================================================
-        //  GUARDAR PUNTUACIÓN
+        //  PROMPT USERNAME
         // =========================================================
-        String^ PromptUsername()
+        String^ PromptUsernameFor(String^ playerLabel)
         {
             Form^ prompt = gcnew Form();
-            prompt->Text = L"Guardar puntaje";
+            prompt->Text = String::Format(L"Guardar puntaje — {0}", playerLabel);
             prompt->StartPosition = FormStartPosition::CenterParent;
             prompt->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
             prompt->ClientSize = System::Drawing::Size(340, 150);
             prompt->MinimizeBox = false; prompt->MaximizeBox = false;
             prompt->BackColor = Color::WhiteSmoke;
 
-            Label^ lblPrompt = gcnew Label();
-            lblPrompt->Text = L"Ingresa tu username:";
-            lblPrompt->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, FontStyle::Bold);
-            lblPrompt->Location = System::Drawing::Point(18, 18);
-            lblPrompt->Size = System::Drawing::Size(280, 24);
+            Label^ lbl = gcnew Label();
+            lbl->Text = String::Format(L"Username para {0}:", playerLabel);
+            lbl->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, FontStyle::Bold);
+            lbl->Location = System::Drawing::Point(18, 18);
+            lbl->Size = System::Drawing::Size(300, 24);
 
-            TextBox^ txtUsername = gcnew TextBox();
-            txtUsername->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
-            txtUsername->Location = System::Drawing::Point(22, 52);
-            txtUsername->Size = System::Drawing::Size(292, 27);
-            txtUsername->MaxLength = 24;
-            txtUsername->Text = L"Jugador";
+            TextBox^ txt = gcnew TextBox();
+            txt->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            txt->Location = System::Drawing::Point(22, 52);
+            txt->Size = System::Drawing::Size(292, 27);
+            txt->MaxLength = 24;
+            txt->Text = playerLabel;
 
-            Button^ btnOk = gcnew Button();
-            btnOk->Text = L"Guardar";
-            btnOk->BackColor = Color::FromArgb(50, 180, 50);
-            btnOk->ForeColor = Color::White;
-            btnOk->FlatStyle = FlatStyle::Flat;
-            btnOk->FlatAppearance->BorderSize = 0;
-            btnOk->Location = System::Drawing::Point(146, 98);
-            btnOk->Size = System::Drawing::Size(80, 32);
-            btnOk->DialogResult = System::Windows::Forms::DialogResult::OK;
+            Button^ ok = gcnew Button();
+            ok->Text = L"Guardar";
+            ok->BackColor = Color::FromArgb(50, 180, 50);
+            ok->ForeColor = Color::White;
+            ok->FlatStyle = FlatStyle::Flat;
+            ok->FlatAppearance->BorderSize = 0;
+            ok->Location = System::Drawing::Point(146, 98);
+            ok->Size = System::Drawing::Size(80, 32);
+            ok->DialogResult = System::Windows::Forms::DialogResult::OK;
 
-            Button^ btnCancel = gcnew Button();
-            btnCancel->Text = L"Omitir";
-            btnCancel->Location = System::Drawing::Point(234, 98);
-            btnCancel->Size = System::Drawing::Size(80, 32);
-            btnCancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+            Button^ cancel = gcnew Button();
+            cancel->Text = L"Omitir";
+            cancel->Location = System::Drawing::Point(234, 98);
+            cancel->Size = System::Drawing::Size(80, 32);
+            cancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
 
-            prompt->AcceptButton = btnOk;
-            prompt->CancelButton = btnCancel;
-            prompt->Controls->Add(lblPrompt);
-            prompt->Controls->Add(txtUsername);
-            prompt->Controls->Add(btnOk);
-            prompt->Controls->Add(btnCancel);
+            prompt->AcceptButton = ok;
+            prompt->CancelButton = cancel;
+            prompt->Controls->Add(lbl);
+            prompt->Controls->Add(txt);
+            prompt->Controls->Add(ok);
+            prompt->Controls->Add(cancel);
 
-            String^ username = L"Jugador";
+            String^ result = playerLabel;
             if (prompt->ShowDialog(this) == System::Windows::Forms::DialogResult::OK &&
-                !String::IsNullOrWhiteSpace(txtUsername->Text))
-                username = txtUsername->Text->Trim();
+                !String::IsNullOrWhiteSpace(txt->Text))
+                result = txt->Text->Trim();
 
             delete prompt;
-            return username;
+            return result;
         }
 
-        void SaveScore(String^ username, int score)
+        // =========================================================
+        //  GUARDAR PUNTAJE
+        // =========================================================
+        void SaveScore(String^ username, int score, SnakeGame^ g)
         {
-            if (game == nullptr) return;
-            String^ boardSize = GetBoardSizeLabel(game->CurrentCols, game->CurrentRows);
-            String^ gameMode = GetGameModeLabel(game->CurrentMode);
+            if (g == nullptr) return;
+            String^ boardSize = String::Format(L"{0}x{1}", g->CurrentCols, g->CurrentRows);
+            String^ gameMode = GetGameModeLabel(g->CurrentMode);
             ScoreManager::SaveScore(username, score, boardSize, gameMode);
-            game->HighScore = ScoreManager::GetHighestScore();
-            lblHighScore->Text = String::Format(L"Record: {0}", ScoreManager::GetHighestScore());
+            g->HighScore = ScoreManager::GetHighestScore();
         }
 
-        String^ GetBoardSizeLabel(int cols, int rows)
-        {
-            return String::Format(L"{0}x{1}", cols, rows);
-        }
-
-        // Genera una etiqueta legible con todos los modos activos
         String^ GetGameModeLabel(GameMode mode)
         {
             if (mode == GameMode::Normal) return L"Normal";
-
             System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
             if ((static_cast<int>(mode) & static_cast<int>(GameMode::Obstacles)) != 0) {
-                if (sb->Length > 0) sb->Append(L"+");
-                sb->Append(L"Obstaculos");
+                if (sb->Length > 0) sb->Append(L"+"); sb->Append(L"Obstaculos");
             }
             if ((static_cast<int>(mode) & static_cast<int>(GameMode::RandomGrowth)) != 0) {
-                if (sb->Length > 0) sb->Append(L"+");
-                sb->Append(L"RandomGrowth");
+                if (sb->Length > 0) sb->Append(L"+"); sb->Append(L"RandomGrowth");
             }
             if ((static_cast<int>(mode) & static_cast<int>(GameMode::SpeedIncrease)) != 0) {
-                if (sb->Length > 0) sb->Append(L"+");
-                sb->Append(L"SpeedIncrease");
+                if (sb->Length > 0) sb->Append(L"+"); sb->Append(L"SpeedIncrease");
             }
             return sb->ToString();
         }
