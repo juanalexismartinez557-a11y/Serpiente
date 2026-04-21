@@ -64,8 +64,7 @@ namespace MiProyecto {
             this->KeyPreview = true;
             this->DoubleBuffered = true;   // Reduce el parpadeo
             this->Resize += gcnew EventHandler(this, &Form1::Form1_Resize);
-            // Centrar menú al iniciar
-            CenterMenuControls();
+            this->Shown += gcnew EventHandler(this, &Form1::Form1_Shown);
 
             // =====================================================
             //  PANEL MENÚ
@@ -223,6 +222,15 @@ namespace MiProyecto {
             panelGame->Focus();
         }
 
+        // =========================================================
+        //  AL MOSTRAR EL FORM POR PRIMERA VEZ
+        // =========================================================
+        void Form1_Shown(Object^ sender, EventArgs^ e)
+        {
+            // Forzar layout inicial y centrar menú con tamaños reales
+            panelMenu->Size = this->ClientSize;
+            CenterMenuControls();
+        }
         // =========================================================
         //  INICIALIZAR MOTOR + TIMER
         // =========================================================
