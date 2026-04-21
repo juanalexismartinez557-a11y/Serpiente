@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['la_20aplicación_0',['Flujo de la Aplicación',['../index.html#flow_sec',1,'']]],
+  ['large_1',['Large',['../namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07aa3a69b34ce86dacb205936a8094f6c743',1,'MiProyecto::Large'],['../namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07aa3a69b34ce86dacb205936a8094f6c743',1,'MiProyecto::Large'],['../namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07aa3a69b34ce86dacb205936a8094f6c743',1,'MiProyecto::Large'],['../namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07aa3a69b34ce86dacb205936a8094f6c743',1,'MiProyecto::Large']]],
+  ['lastobstaclescore_2',['lastObstacleScore',['../class_mi_proyecto_1_1_snake_game.html#a6811978d51bc587bdcf6016081adb467',1,'MiProyecto::SnakeGame']]],
+  ['lastspeedscore_3',['lastSpeedScore',['../class_mi_proyecto_1_1_snake_game.html#a3c75103c87f7c414eb6ab33969e427bc',1,'MiProyecto::SnakeGame']]],
+  ['lblhighscore_4',['lblHighScore',['../class_mi_proyecto_1_1_form1.html#a5242c694c7b3af75fc01c32433b5bedc',1,'MiProyecto::Form1']]],
+  ['lblmodo_5',['lblModo',['../class_mi_proyecto_1_1_form1.html#aa0edf8a64224defc970a9b4fb864ae8b',1,'MiProyecto::Form1']]],
+  ['lblnumjugadores_6',['lblNumJugadores',['../class_mi_proyecto_1_1_form1.html#a7d969bf5aa609a9a606aa6729ae0c058',1,'MiProyecto::Form1']]],
+  ['lblp1tag_7',['lblP1Tag',['../class_mi_proyecto_1_1_form1.html#a2567bda6c5fb8b2e1aeb69dbdf5cc716',1,'MiProyecto::Form1']]],
+  ['lblp2tag_8',['lblP2Tag',['../class_mi_proyecto_1_1_form1.html#a041cf62c93c8e5cc713f86c4d846b0aa',1,'MiProyecto::Form1']]],
+  ['lblprice1_9',['lblPrice1',['../class_mi_proyecto_1_1_form_tienda.html#a6979bec15daff8e74ca88c92afa50f51',1,'MiProyecto::FormTienda']]],
+  ['lblprice2_10',['lblPrice2',['../class_mi_proyecto_1_1_form_tienda.html#a25365c830f826ed2b9a913d0a88b16b7',1,'MiProyecto::FormTienda']]],
+  ['lblprice3_11',['lblPrice3',['../class_mi_proyecto_1_1_form_tienda.html#a43e6d2826ab3b2c5cd65a670742d7c55',1,'MiProyecto::FormTienda']]],
+  ['lblprice4_12',['lblPrice4',['../class_mi_proyecto_1_1_form_tienda.html#a6e1d252ec62a63b32b50f291d345e5f6',1,'MiProyecto::FormTienda']]],
+  ['lblprice5_13',['lblPrice5',['../class_mi_proyecto_1_1_form_tienda.html#a4b4b50d0daf46ed6d526b81508292722',1,'MiProyecto::FormTienda']]],
+  ['lblprice6_14',['lblPrice6',['../class_mi_proyecto_1_1_form_tienda.html#a247b7ff4a7002975e167fed4c2e30948',1,'MiProyecto::FormTienda']]],
+  ['lblscore1_15',['lblScore1',['../class_mi_proyecto_1_1_form1.html#a607475bdccd71a1ccc079a5f10c09a85',1,'MiProyecto::Form1']]],
+  ['lblscore2_16',['lblScore2',['../class_mi_proyecto_1_1_form1.html#ab589a9c4a7b7c0da24be09710c12ac19',1,'MiProyecto::Form1']]],
+  ['lbltamano_17',['lblTamano',['../class_mi_proyecto_1_1_form1.html#a7a0493f0522e6e7e26949b5cd3a4a185',1,'MiProyecto::Form1']]],
+  ['lbltitle_18',['lblTitle',['../class_mi_proyecto_1_1_form1.html#abcf68c0f13c077296e438adf8e669a42',1,'MiProyecto::Form1::lblTitle'],['../class_mi_proyecto_1_1_leaderboard_form.html#acb9af474815d4e70ca5c1b2a430c7422',1,'MiProyecto::LeaderboardForm::lblTitle']]],
+  ['leaderboardform_19',['LeaderboardForm',['../class_mi_proyecto_1_1_leaderboard_form.html',1,'MiProyecto::LeaderboardForm'],['../class_mi_proyecto_1_1_leaderboard_form.html#a2d4d1eaefd3b376e67386eeb042c1e41',1,'MiProyecto::LeaderboardForm::LeaderboardForm(void)'],['../class_mi_proyecto_1_1_leaderboard_form.html#a6796423b0ab5f8ecc543ea7538ddd40d',1,'MiProyecto::LeaderboardForm::LeaderboardForm()']]],
+  ['leaderboardform_2eh_20',['LeaderboardForm.h',['../_leaderboard_form_8h.html',1,'']]],
+  ['loadhighscore_21',['LoadHighScore',['../class_mi_proyecto_1_1_snake_game.html#a554ab4e29b5f40fe96d7a79b67c40ae5',1,'MiProyecto::SnakeGame::LoadHighScore()'],['../class_mi_proyecto_1_1_snake_game.html#a554ab4e29b5f40fe96d7a79b67c40ae5',1,'MiProyecto::SnakeGame::LoadHighScore()']]],
+  ['loadleaderboard_22',['LoadLeaderboard',['../class_mi_proyecto_1_1_leaderboard_form.html#a709413b7fa6fc994a28a59fe016a6ded',1,'MiProyecto::LeaderboardForm::LoadLeaderboard()'],['../class_mi_proyecto_1_1_leaderboard_form.html#a709413b7fa6fc994a28a59fe016a6ded',1,'MiProyecto::LeaderboardForm::LoadLeaderboard()']]],
+  ['loadscores_23',['LoadScores',['../class_mi_proyecto_1_1sealed.html#acee4f4b8514f70bfa6bcbffdd9736bfd',1,'MiProyecto::sealed::LoadScores()'],['../class_mi_proyecto_1_1_snake_game.html#a93b5a04c07553df9189895e023ae718a',1,'MiProyecto::SnakeGame::LoadScores()'],['../class_mi_proyecto_1_1_snake_game.html#a93b5a04c07553df9189895e023ae718a',1,'MiProyecto::SnakeGame::LoadScores()'],['../class_mi_proyecto_1_1sealed.html#acee4f4b8514f70bfa6bcbffdd9736bfd',1,'MiProyecto::sealed::LoadScores()']]]
+];

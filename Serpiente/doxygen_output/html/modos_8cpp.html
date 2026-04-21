@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snake Evolution: Referencia del archivo modos.cpp</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Snake Evolution<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Juego Snake multijugador con modos combinables, leaderboard y tienda de skins</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('modos_8cpp.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referencia del archivo modos.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Implementación de <a class="el" href="class_game_modes.html">GameModes</a> en C++ nativo (archivo de referencia).  
+<a href="#details">Más...</a></p>
+<div class="textblock"><code>#include &lt;deque&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;random&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Clases</h2></td></tr>
+<tr class="memitem:Point" id="r_Point"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_point.html">Point</a></td></tr>
+<tr class="memitem:GameModes" id="r_GameModes"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="class_game_modes.html">GameModes</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumeraciones</h2></td></tr>
+<tr class="memitem:aaf5ef5a17b53e9997c837b07015589de" id="r_aaf5ef5a17b53e9997c837b07015589de"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aaf5ef5a17b53e9997c837b07015589de">GameMode</a> { <br />
+&#160;&#160;<a class="el" href="#aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0">Normal</a>
+, <a class="el" href="#aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3">Obstacles</a>
+, <a class="el" href="#aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b">RandomGrowth</a>
+, <a class="el" href="#aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0">SpeedIncrease</a>
+, <br />
+&#160;&#160;<a class="el" href="#aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0">Normal</a>
+, <a class="el" href="#aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3">Obstacles</a>
+, <a class="el" href="#aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b">RandomGrowth</a>
+, <a class="el" href="#aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0">SpeedIncrease</a>
+<br />
+ }</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descripción detallada</h2>
+<div class="textblock"><p>Implementación de <a class="el" href="class_game_modes.html">GameModes</a> en C++ nativo (archivo de referencia). </p>
+<dl class="section warning"><dt>Atención</dt><dd>Este archivo <b>no se integra directamente</b> con SnakeGame (C++/CLI) porque usa <span class="tt">std::deque</span> y <span class="tt">std::vector</span> (tipos nativos) que son incompatibles con las ref classes administradas.</dd></dl>
+<p>Su lógica fue reimplementada dentro de SnakeGame con tipos administrados (<span class="tt">List&lt;GridPoint&gt;^</span>) en los métodos:</p><ul>
+<li>SnakeGame::UpdateByScore()</li>
+<li>SnakeGame::GenerateObstacle()</li>
+</ul>
+<dl class="section note"><dt>Nota</dt><dd>Se conserva como referencia de diseño y puede usarse en futuras versiones nativas del proyecto. </dd></dl>
+</div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Documentación de enumeraciones</h2>
+<a id="aaf5ef5a17b53e9997c837b07015589de" name="aaf5ef5a17b53e9997c837b07015589de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf5ef5a17b53e9997c837b07015589de">&#9670;&#160;</a></span>GameMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#aaf5ef5a17b53e9997c837b07015589de">GameMode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Valores de enumeraciones</th></tr><tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0" name="aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0"></a>Normal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3" name="aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3"></a>Obstacles&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b" name="aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b"></a>RandomGrowth&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0" name="aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0"></a>SpeedIncrease&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0" name="aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0"></a>Normal&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3" name="aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3"></a>Obstacles&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b" name="aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b"></a>RandomGrowth&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0" name="aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0"></a>SpeedIncrease&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="modos_8cpp.html">modos.cpp</a></li>
+    <li class="footer">Generado el <span class="timestamp"></span> para Snake Evolution por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

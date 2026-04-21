@@ -1,0 +1,7 @@
+var searchData=
+[
+  ['leaderboardform_0',['LeaderboardForm',['../class_mi_proyecto_1_1_leaderboard_form.html#a2d4d1eaefd3b376e67386eeb042c1e41',1,'MiProyecto::LeaderboardForm::LeaderboardForm(void)'],['../class_mi_proyecto_1_1_leaderboard_form.html#a6796423b0ab5f8ecc543ea7538ddd40d',1,'MiProyecto::LeaderboardForm::LeaderboardForm()']]],
+  ['loadhighscore_1',['LoadHighScore',['../class_mi_proyecto_1_1_snake_game.html#a554ab4e29b5f40fe96d7a79b67c40ae5',1,'MiProyecto::SnakeGame::LoadHighScore()'],['../class_mi_proyecto_1_1_snake_game.html#a554ab4e29b5f40fe96d7a79b67c40ae5',1,'MiProyecto::SnakeGame::LoadHighScore()']]],
+  ['loadleaderboard_2',['LoadLeaderboard',['../class_mi_proyecto_1_1_leaderboard_form.html#a709413b7fa6fc994a28a59fe016a6ded',1,'MiProyecto::LeaderboardForm::LoadLeaderboard()'],['../class_mi_proyecto_1_1_leaderboard_form.html#a709413b7fa6fc994a28a59fe016a6ded',1,'MiProyecto::LeaderboardForm::LoadLeaderboard()']]],
+  ['loadscores_3',['LoadScores',['../class_mi_proyecto_1_1sealed.html#acee4f4b8514f70bfa6bcbffdd9736bfd',1,'MiProyecto::sealed::LoadScores()'],['../class_mi_proyecto_1_1_snake_game.html#a93b5a04c07553df9189895e023ae718a',1,'MiProyecto::SnakeGame::LoadScores()'],['../class_mi_proyecto_1_1_snake_game.html#a93b5a04c07553df9189895e023ae718a',1,'MiProyecto::SnakeGame::LoadScores()'],['../class_mi_proyecto_1_1sealed.html#acee4f4b8514f70bfa6bcbffdd9736bfd',1,'MiProyecto::sealed::LoadScores()']]]
+];

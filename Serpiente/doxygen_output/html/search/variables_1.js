@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['basespeedms_0',['baseSpeedMs',['../class_mi_proyecto_1_1_snake_game.html#a5b5ca77ad8e5b221ac709f3c3a504891',1,'MiProyecto::SnakeGame']]],
+  ['bestscore_1',['BestScore',['../class_mi_proyecto_1_1_score_entry.html#a608b9018b97e844f6a40a027dd78f11b',1,'MiProyecto::ScoreEntry::BestScore'],['../class_mi_proyecto_1_1_score_entry.html#a08546f69a578b4a5793bb468e3c93743',1,'MiProyecto::ScoreEntry::BestScore']]],
+  ['boardsize_2',['BoardSize',['../class_mi_proyecto_1_1_score_entry.html#a357f57efe0c7d82cad7ae56ad8381d45',1,'MiProyecto::ScoreEntry::BoardSize'],['../class_mi_proyecto_1_1_score_entry.html#a07176d766b6b77519b06ea388367550b',1,'MiProyecto::ScoreEntry::BoardSize']]],
+  ['btnbacktogame_3',['btnBackToGame',['../class_mi_proyecto_1_1_form_tienda.html#aa5641a8dd54833d803e3a36e8860f24b',1,'MiProyecto::FormTienda']]],
+  ['btnbuy1_4',['btnBuy1',['../class_mi_proyecto_1_1_form_tienda.html#a57ce7e5ab075e419e779336b81bc7cad',1,'MiProyecto::FormTienda']]],
+  ['btnbuy2_5',['btnBuy2',['../class_mi_proyecto_1_1_form_tienda.html#a3fe77bc00f2d07033bd3fd6d753decea',1,'MiProyecto::FormTienda']]],
+  ['btnbuy3_6',['btnBuy3',['../class_mi_proyecto_1_1_form_tienda.html#a1cd3a3ab1b8ecf38db2c233b1384ff6e',1,'MiProyecto::FormTienda']]],
+  ['btnbuy4_7',['btnBuy4',['../class_mi_proyecto_1_1_form_tienda.html#ae4b129932ff955b33414aa070e5311e5',1,'MiProyecto::FormTienda']]],
+  ['btnbuy5_8',['btnBuy5',['../class_mi_proyecto_1_1_form_tienda.html#a84c7d02408001f14659affa6c9947ea3',1,'MiProyecto::FormTienda']]],
+  ['btnbuy6_9',['btnBuy6',['../class_mi_proyecto_1_1_form_tienda.html#ad8ea6075157a7a2ae90e11ff2c3e62b4',1,'MiProyecto::FormTienda']]],
+  ['btnclose_10',['btnClose',['../class_mi_proyecto_1_1_leaderboard_form.html#a87a5adf635f71a0276387309a1c5d930',1,'MiProyecto::LeaderboardForm']]],
+  ['btniniciar_11',['btnIniciar',['../class_mi_proyecto_1_1_form1.html#afec6489602d616d10e083dee52ea81ae',1,'MiProyecto::Form1']]],
+  ['btnleaderboard_12',['btnLeaderboard',['../class_mi_proyecto_1_1_form1.html#a03579c988788ee4a446ce49cf822f6ca',1,'MiProyecto::Form1']]],
+  ['btnsalir_13',['btnSalir',['../class_mi_proyecto_1_1_form1.html#a65adc53cf9f6fa342c19995953499975',1,'MiProyecto::Form1']]],
+  ['btnskin1_14',['btnSkin1',['../class_mi_proyecto_1_1_form_tienda.html#af62d9e2d1219e8e8c2b3bfda2b4cb592',1,'MiProyecto::FormTienda']]],
+  ['btnskin2_15',['btnSkin2',['../class_mi_proyecto_1_1_form_tienda.html#ab508d622548a5b61ef82bbf923d44eba',1,'MiProyecto::FormTienda']]],
+  ['btnskin3_16',['btnSkin3',['../class_mi_proyecto_1_1_form_tienda.html#ab872eaf44a28a68e2ddba3bb6cc79b04',1,'MiProyecto::FormTienda']]],
+  ['btnskin4_17',['btnSkin4',['../class_mi_proyecto_1_1_form_tienda.html#acce84d8232bce2d7330d9b8036ba178f',1,'MiProyecto::FormTienda']]],
+  ['btnskin5_18',['btnSkin5',['../class_mi_proyecto_1_1_form_tienda.html#acc4aee1d3cf5d03fa1e31bb83de9f501',1,'MiProyecto::FormTienda']]],
+  ['btnskin6_19',['btnSkin6',['../class_mi_proyecto_1_1_form_tienda.html#aca27ae5b1ae7afbeb9fa37d2ad588bf6',1,'MiProyecto::FormTienda']]],
+  ['btntienda_20',['btnTienda',['../class_mi_proyecto_1_1_form1.html#ae46268dc682e68ee12c146ab2d0edc52',1,'MiProyecto::Form1']]],
+  ['buybuttons_21',['buyButtons',['../class_mi_proyecto_1_1_form_tienda.html#a1ba9fbf0716d99160ba8996a1bfdcc87',1,'MiProyecto::FormTienda']]]
+];

@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snake Evolution: Referencia de la clase MiProyecto::GameModes</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Snake Evolution<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Juego Snake multijugador con modos combinables, leaderboard y tienda de skins</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('class_mi_proyecto_1_1_game_modes.html','','class_mi_proyecto_1_1_game_modes-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referencia de la clase MiProyecto::GameModes</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Gestor de modos de juego en C++ nativo (sin .NET).  
+ <a href="#details">Más...</a></p>
+
+<p><code>#include &lt;<a class="el" href="snake__doxygen_8h_source.html">snake_doxygen.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Métodos públicos</h2></td></tr>
+<tr class="memitem:a70d0cb0c2d8e8b6b5f8a52d547c9300e" id="r_a70d0cb0c2d8e8b6b5f8a52d547c9300e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a70d0cb0c2d8e8b6b5f8a52d547c9300e">GameModes</a> (std::deque&lt; <a class="el" href="struct_point.html">Point</a> &gt; &amp;snake, std::vector&lt; <a class="el" href="struct_point.html">Point</a> &gt; &amp;obstacles, int &amp;timerInterval, int boardWidth, int boardHeight, <a class="el" href="struct_point.html">Point</a> &amp;foodPos)</td></tr>
+<tr class="memdesc:a70d0cb0c2d8e8b6b5f8a52d547c9300e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor que vincula el gestor con las estructuras del juego.  <br /></td></tr>
+<tr class="memitem:ace0e8b365f1ed24f2a5d81ca64a4a9ca" id="r_ace0e8b365f1ed24f2a5d81ca64a4a9ca"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ace0e8b365f1ed24f2a5d81ca64a4a9ca">applyMode</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> mode)</td></tr>
+<tr class="memdesc:ace0e8b365f1ed24f2a5d81ca64a4a9ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aplica la configuración inicial del modo indicado.  <br /></td></tr>
+<tr class="memitem:a5646f4cde66cdce55cbc343959a31cfd" id="r_a5646f4cde66cdce55cbc343959a31cfd"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5646f4cde66cdce55cbc343959a31cfd">handleFoodEaten</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> mode)</td></tr>
+<tr class="memdesc:a5646f4cde66cdce55cbc343959a31cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calcula cuánto crece la serpiente al comer.  <br /></td></tr>
+<tr class="memitem:adea25c8500f791ab09c85cf79b05d4dc" id="r_adea25c8500f791ab09c85cf79b05d4dc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adea25c8500f791ab09c85cf79b05d4dc">updateByScore</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> mode, int score)</td></tr>
+<tr class="memdesc:adea25c8500f791ab09c85cf79b05d4dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evalúa si el puntaje cruza un umbral y aplica efectos.  <br /></td></tr>
+<tr class="memitem:abfb37d17abca06bd2d975d45dd2e53b1" id="r_abfb37d17abca06bd2d975d45dd2e53b1"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abfb37d17abca06bd2d975d45dd2e53b1">isPositionValid</a> (<a class="el" href="struct_point.html">Point</a> p) const</td></tr>
+<tr class="memdesc:abfb37d17abca06bd2d975d45dd2e53b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica si una posición es válida (no ocupada).  <br /></td></tr>
+<tr class="memitem:aedf71c981c3310c0925f284a153cc10d" id="r_aedf71c981c3310c0925f284a153cc10d"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aedf71c981c3310c0925f284a153cc10d">getRandomGrowthAmount</a> () const</td></tr>
+<tr class="memdesc:aedf71c981c3310c0925f284a153cc10d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cantidad aleatoria de crecimiento (modo RandomGrowth).  <br /></td></tr>
+<tr class="memitem:a562ae2d5708cb59e208d57806e6cac19" id="r_a562ae2d5708cb59e208d57806e6cac19"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a562ae2d5708cb59e208d57806e6cac19">clearObstacles</a> ()</td></tr>
+<tr class="memdesc:a562ae2d5708cb59e208d57806e6cac19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Elimina todos los obstáculos del tablero.  <br /></td></tr>
+<tr class="memitem:adc94c571500a2bb721222fc393fbc8fd" id="r_adc94c571500a2bb721222fc393fbc8fd"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#adc94c571500a2bb721222fc393fbc8fd">getTimerInterval</a> () const</td></tr>
+<tr class="memdesc:adc94c571500a2bb721222fc393fbc8fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retorna el intervalo actual del timer.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Métodos privados</h2></td></tr>
+<tr class="memitem:a2aa62778dc8bed8504acaf8356c9e481" id="r_a2aa62778dc8bed8504acaf8356c9e481"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2aa62778dc8bed8504acaf8356c9e481">generateObstacle</a> ()</td></tr>
+<tr class="memdesc:a2aa62778dc8bed8504acaf8356c9e481"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genera un obstáculo en una posición aleatoria libre.  <br /></td></tr>
+<tr class="memitem:a911fac1e8c35b3c17e71d042cbf39926" id="r_a911fac1e8c35b3c17e71d042cbf39926"><td class="memItemLeft"><a class="el" href="struct_point.html">Point</a>&#160;</td><td class="memItemRight"><a class="el" href="#a911fac1e8c35b3c17e71d042cbf39926">randomPoint</a> () const</td></tr>
+<tr class="memdesc:a911fac1e8c35b3c17e71d042cbf39926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genera un <a class="el" href="struct_mi_proyecto_1_1_point.html" title="Coordenada 2D para uso en contexto C++ nativo.">Point</a> aleatorio dentro de los límites del tablero.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descripción detallada</h2>
+<div class="textblock"><p>Gestor de modos de juego en C++ nativo (sin .NET). </p>
+<p>Opera directamente sobre referencias a las estructuras de datos del juego. </p>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Documentación de constructores y destructores</h2>
+<a id="a70d0cb0c2d8e8b6b5f8a52d547c9300e" name="a70d0cb0c2d8e8b6b5f8a52d547c9300e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70d0cb0c2d8e8b6b5f8a52d547c9300e">&#9670;&#160;</a></span>GameModes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MiProyecto::GameModes::GameModes </td>
+          <td>(</td>
+          <td class="paramtype">std::deque&lt; <a class="el" href="struct_point.html">Point</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>snake</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="struct_point.html">Point</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>obstacles</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>timerInterval</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>boardWidth</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>boardHeight</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_point.html">Point</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>foodPos</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor que vincula el gestor con las estructuras del juego. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">snake</td><td>Referencia al deque que representa el cuerpo. </td></tr>
+    <tr><td class="paramname">obstacles</td><td>Referencia al vector de obstáculos. </td></tr>
+    <tr><td class="paramname">timerInterval</td><td>Referencia al intervalo del timer (ms). </td></tr>
+    <tr><td class="paramname">boardWidth</td><td>Ancho del tablero en celdas. </td></tr>
+    <tr><td class="paramname">boardHeight</td><td>Alto del tablero en celdas. </td></tr>
+    <tr><td class="paramname">foodPos</td><td>Referencia a la posición actual de la comida. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentación de funciones miembro</h2>
+<a id="ace0e8b365f1ed24f2a5d81ca64a4a9ca" name="ace0e8b365f1ed24f2a5d81ca64a4a9ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace0e8b365f1ed24f2a5d81ca64a4a9ca">&#9670;&#160;</a></span>applyMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::GameModes::applyMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aplica la configuración inicial del modo indicado. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Modo a aplicar. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a562ae2d5708cb59e208d57806e6cac19" name="a562ae2d5708cb59e208d57806e6cac19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a562ae2d5708cb59e208d57806e6cac19">&#9670;&#160;</a></span>clearObstacles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::GameModes::clearObstacles </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Elimina todos los obstáculos del tablero. </p>
+
+</div>
+</div>
+<a id="a2aa62778dc8bed8504acaf8356c9e481" name="a2aa62778dc8bed8504acaf8356c9e481"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2aa62778dc8bed8504acaf8356c9e481">&#9670;&#160;</a></span>generateObstacle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::GameModes::generateObstacle </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Genera un obstáculo en una posición aleatoria libre. </p>
+
+</div>
+</div>
+<a id="aedf71c981c3310c0925f284a153cc10d" name="aedf71c981c3310c0925f284a153cc10d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedf71c981c3310c0925f284a153cc10d">&#9670;&#160;</a></span>getRandomGrowthAmount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::GameModes::getRandomGrowthAmount </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cantidad aleatoria de crecimiento (modo RandomGrowth). </p>
+
+</div>
+</div>
+<a id="adc94c571500a2bb721222fc393fbc8fd" name="adc94c571500a2bb721222fc393fbc8fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc94c571500a2bb721222fc393fbc8fd">&#9670;&#160;</a></span>getTimerInterval()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::GameModes::getTimerInterval </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retorna el intervalo actual del timer. </p>
+
+</div>
+</div>
+<a id="a5646f4cde66cdce55cbc343959a31cfd" name="a5646f4cde66cdce55cbc343959a31cfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5646f4cde66cdce55cbc343959a31cfd">&#9670;&#160;</a></span>handleFoodEaten()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::GameModes::handleFoodEaten </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calcula cuánto crece la serpiente al comer. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Modo activo. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>Cantidad de segmentos a agregar. </dd></dl>
+
+</div>
+</div>
+<a id="abfb37d17abca06bd2d975d45dd2e53b1" name="abfb37d17abca06bd2d975d45dd2e53b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfb37d17abca06bd2d975d45dd2e53b1">&#9670;&#160;</a></span>isPositionValid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::GameModes::isPositionValid </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_point.html">Point</a></td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Verifica si una posición es válida (no ocupada). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Punto a verificar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>true si la posición está libre. </dd></dl>
+
+</div>
+</div>
+<a id="a911fac1e8c35b3c17e71d042cbf39926" name="a911fac1e8c35b3c17e71d042cbf39926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a911fac1e8c35b3c17e71d042cbf39926">&#9670;&#160;</a></span>randomPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_point.html">Point</a> MiProyecto::GameModes::randomPoint </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Genera un <a class="el" href="struct_mi_proyecto_1_1_point.html" title="Coordenada 2D para uso en contexto C++ nativo.">Point</a> aleatorio dentro de los límites del tablero. </p>
+
+</div>
+</div>
+<a id="adea25c8500f791ab09c85cf79b05d4dc" name="adea25c8500f791ab09c85cf79b05d4dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adea25c8500f791ab09c85cf79b05d4dc">&#9670;&#160;</a></span>updateByScore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::GameModes::updateByScore </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>score</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Evalúa si el puntaje cruza un umbral y aplica efectos. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Modo activo. </td></tr>
+    <tr><td class="paramname">score</td><td>Puntaje actual. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>La documentación de esta clase está generada del siguiente archivo:<ul>
+<li><a class="el" href="snake__doxygen_8h_source.html">snake_doxygen.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespace_mi_proyecto.html">MiProyecto</a></li><li class="navelem"><a href="class_mi_proyecto_1_1_game_modes.html">GameModes</a></li>
+    <li class="footer">Generado el <span class="timestamp"></span> para Snake Evolution por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

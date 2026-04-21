@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['abrirleaderboard_0',['AbrirLeaderboard',['../class_mi_proyecto_1_1_form1.html#acbe9d4ca74895fab6929ee8fdd33e6af',1,'MiProyecto::Form1::AbrirLeaderboard(Object^ sender, EventArgs^ e)'],['../class_mi_proyecto_1_1_form1.html#acbe9d4ca74895fab6929ee8fdd33e6af',1,'MiProyecto::Form1::AbrirLeaderboard(Object^ sender, EventArgs^ e)']]],
+  ['abrirtienda_1',['AbrirTienda',['../class_mi_proyecto_1_1_form1.html#a499c4dc560f8d445b3f0ab415d4f4509',1,'MiProyecto::Form1::AbrirTienda(Object^ sender, EventArgs^ e)'],['../class_mi_proyecto_1_1_form1.html#a499c4dc560f8d445b3f0ab415d4f4509',1,'MiProyecto::Form1::AbrirTienda(Object^ sender, EventArgs^ e)']]],
+  ['addwall_2',['AddWall',['../class_mi_proyecto_1_1_snake_game.html#ae8a9c839e04acbb3109ea59f00dca8a6',1,'MiProyecto::SnakeGame::AddWall(int gridX, int gridY)'],['../class_mi_proyecto_1_1_snake_game.html#ae8a9c839e04acbb3109ea59f00dca8a6',1,'MiProyecto::SnakeGame::AddWall(int gridX, int gridY)']]],
+  ['apple_3',['Apple',['../class_mi_proyecto_1_1_apple.html#a35f2df36fd9557b5caca7cc3fcc767f9',1,'MiProyecto::Apple']]],
+  ['applymode_4',['applyMode',['../class_game_modes.html#ae9d886aa49d31586b5885135b579171c',1,'GameModes::applyMode(GameMode mode)'],['../class_game_modes.html#ae9d886aa49d31586b5885135b579171c',1,'GameModes::applyMode(GameMode mode)'],['../class_mi_proyecto_1_1_game_modes.html#ace0e8b365f1ed24f2a5d81ca64a4a9ca',1,'MiProyecto::GameModes::applyMode()']]],
+  ['applyskintogames_5',['ApplySkinToGames',['../class_mi_proyecto_1_1_form_tienda.html#a7d4135bb484a062fe5f8de879a607d29',1,'MiProyecto::FormTienda::ApplySkinToGames(Color primary, Color secondary, Color head)'],['../class_mi_proyecto_1_1_form_tienda.html#a7d4135bb484a062fe5f8de879a607d29',1,'MiProyecto::FormTienda::ApplySkinToGames(Color primary, Color secondary, Color head)']]]
+];

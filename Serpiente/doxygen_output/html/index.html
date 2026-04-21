@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snake Evolution: Snake Evolution — Documentación del Proyecto</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Snake Evolution<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Juego Snake multijugador con modos combinables, leaderboard y tienda de skins</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('index.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">Snake Evolution — Documentación del Proyecto </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="intro_sec"></a>
+Descripción General</h1>
+<p><b>Snake Evolution</b> es un videojuego de serpiente desarrollado en <b>C++/CLI</b> con Windows Forms (.NET). Amplía el clásico Snake con modos de juego combinables, tabla de clasificación persistente, tienda de skins desbloqueables y soporte para dos jugadores simultáneos.</p>
+<h1 class="doxsection"><a class="anchor" id="tech_sec"></a>
+Tecnologías</h1>
+<ul>
+<li><b>Lenguaje</b>: C++/CLI (Mixed-mode: nativo + administrado .NET)</li>
+<li><b>Framework</b>: Windows Forms / .NET</li>
+<li><b>Persistencia</b>: Archivo CSV (<span class="tt">snake_scores.csv</span>)</li>
+<li><b>IDE recomendado</b>: Visual Studio 2019/2022</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="arch_sec"></a>
+Arquitectura de Archivos</h1>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Archivo  </th><th class="markdownTableHeadNone">Tipo  </th><th class="markdownTableHeadNone">Responsabilidad  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="main_8cpp.html" title="Punto de entrada de la aplicación Snake Evolution.">main.cpp</a></span>  </td><td class="markdownTableBodyNone">Punto de entrada  </td><td class="markdownTableBodyNone">Inicializa la aplicación WinForms  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="_snake_8h.html" title="Motor del juego Snake: constantes, entidades y clase principal SnakeGame.">Snake.h</a></span>  </td><td class="markdownTableBodyNone">Motor del juego  </td><td class="markdownTableBodyNone">Lógica de serpiente, manzana, pared, grid  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="form_8h.html" title="Formulario principal de Snake Evolution.">Form.h</a></span>  </td><td class="markdownTableBodyNone">UI principal  </td><td class="markdownTableBodyNone">Menú, bucle de juego, HUD, teclado  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="_score_manager_8h.html" title="Declaración de ScoreEntry y ScoreManager.">ScoreManager.h</a>/cpp</span>  </td><td class="markdownTableBodyNone">Persistencia  </td><td class="markdownTableBodyNone">Guardar/leer/ordenar puntuaciones  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="_leaderboard_form_8h.html" title="Formulario de Leaderboard — Top 10 de puntuaciones.">LeaderboardForm.h</a></span>  </td><td class="markdownTableBodyNone">UI secundaria  </td><td class="markdownTableBodyNone">Top-10 en DataGridView  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="formtienda_8h.html" title="Formulario de Tienda — Desbloqueo y equipamiento de skins.">formtienda.h</a></span>  </td><td class="markdownTableBodyNone">UI secundaria  </td><td class="markdownTableBodyNone">Tienda de skins desbloqueables  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt"><a class="el" href="modos_8h.html" title="Gestor de modos de juego en C++ nativo (archivo de referencia).">modos.h</a> / <a class="el" href="modos_8cpp.html" title="Implementación de GameModes en C++ nativo (archivo de referencia).">modos.cpp</a></span>  </td><td class="markdownTableBodyNone">Referencia nativa  </td><td class="markdownTableBodyNone">Diseño original de modos (C++ puro)  </td></tr>
+</table>
+<h1 class="doxsection"><a class="anchor" id="flow_sec"></a>
+Flujo de la Aplicación</h1>
+<div class="fragment"><div class="line"><a class="code hl_function" href="main_8cpp.html#af04879792ef87931bd1b623c9304df7f">main</a>() → Application::Run(Form1)</div>
+<div class="line">  → Menú → [Iniciar] → SnakeGame::Reset() → Timer::Start()</div>
+<div class="line">    → Timer::Tick → SnakeGame::Tick() → Panel::Invalidate()</div>
+<div class="line">      → Panel::Paint → SnakeGame::Draw()</div>
+<div class="line">    → SnakeGame::OnGameOver → <a class="code hl_class" href="class_score_manager.html">ScoreManager</a>::SaveScore()</div>
+<div class="line">  → [Leaderboard] → LeaderboardForm</div>
+<div class="line">  → [Tienda]      → FormTienda</div>
+<div class="ttc" id="aclass_score_manager_html"><div class="ttname"><a href="class_score_manager.html">ScoreManager</a></div><div class="ttdoc">Clase estática sellada para persistencia de puntuaciones en CSV.</div></div>
+<div class="ttc" id="amain_8cpp_html_af04879792ef87931bd1b623c9304df7f"><div class="ttname"><a href="main_8cpp.html#af04879792ef87931bd1b623c9304df7f">main</a></div><div class="ttdeci">int main(array&lt; String^&gt;^ args)</div><div class="ttdoc">Función principal de la aplicación.</div><div class="ttdef"><b>Definition</b> main.cpp:8</div></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="controls_sec"></a>
+Controles</h1>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Tecla  </th><th class="markdownTableHeadNone">Acción  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Flechas  </td><td class="markdownTableBodyNone">Mover Jugador 1  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">W / A / S / D  </td><td class="markdownTableBodyNone">Mover Jugador 2 (modo 2P)  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">P  </td><td class="markdownTableBodyNone">Pausar / Reanudar  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">R  </td><td class="markdownTableBodyNone">Reiniciar partida  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">M  </td><td class="markdownTableBodyNone">Regresar al menú (tras Game Over)  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">L  </td><td class="markdownTableBodyNone">Abrir Leaderboard (tras Game Over)  </td></tr>
+</table>
+</div></div><!-- PageDoc -->
+<a href="doxygen_crawl.html"></a>
+</div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generado el <span class="timestamp"></span> para Snake Evolution por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

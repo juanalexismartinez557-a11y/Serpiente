@@ -1,0 +1,2139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snake Evolution: Referencia de la clase MiProyecto::SnakeGame</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Snake Evolution<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Juego Snake multijugador con modos combinables, leaderboard y tienda de skins</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('class_mi_proyecto_1_1_snake_game.html','','class_mi_proyecto_1_1_snake_game-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referencia de la clase MiProyecto::SnakeGame</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Motor principal del juego Snake.  
+ <a href="#details">Más...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_snake_8h_source.html">Snake.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Métodos públicos</h2></td></tr>
+<tr class="memitem:a44f267bac86ff5bdf217f671f61b544e" id="r_a44f267bac86ff5bdf217f671f61b544e"><td class="memItemLeft">delegate void&#160;</td><td class="memItemRight"><a class="el" href="#a44f267bac86ff5bdf217f671f61b544e">GameOverDelegate</a> (int finalScore)</td></tr>
+<tr class="memitem:a95227a33be3f8e7601575dd1bbf9cb73" id="r_a95227a33be3f8e7601575dd1bbf9cb73"><td class="memItemLeft">delegate void&#160;</td><td class="memItemRight"><a class="el" href="#a95227a33be3f8e7601575dd1bbf9cb73">ScoreChangedDelegate</a> (int score, int apples)</td></tr>
+<tr class="memitem:a22e40b3f9319f0337f4a29ff3575847f" id="r_a22e40b3f9319f0337f4a29ff3575847f"><td class="memItemLeft">delegate void&#160;</td><td class="memItemRight"><a class="el" href="#a22e40b3f9319f0337f4a29ff3575847f">SpeedChangedDelegate</a> (int newSpeedMs)</td></tr>
+<tr class="memitem:a1bedcb32a4a0d61e639ca550e48efafa" id="r_a1bedcb32a4a0d61e639ca550e48efafa"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1bedcb32a4a0d61e639ca550e48efafa">SnakeGame</a> ()</td></tr>
+<tr class="memitem:adb4607736a8172e8625a6309dcaccb46" id="r_adb4607736a8172e8625a6309dcaccb46"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adb4607736a8172e8625a6309dcaccb46">SetSnakeSkin</a> (Color primary, Color secondary, Color head)</td></tr>
+<tr class="memitem:a090a23d719799ca840e33d28723b1c1b" id="r_a090a23d719799ca840e33d28723b1c1b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a090a23d719799ca840e33d28723b1c1b">SetBoardSize</a> (<a class="el" href="namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07a">BoardSize</a> size)</td></tr>
+<tr class="memitem:a12e7f5462ecb3c59b11e881d47b90619" id="r_a12e7f5462ecb3c59b11e881d47b90619"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a12e7f5462ecb3c59b11e881d47b90619">SetGameMode</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> mode)</td></tr>
+<tr class="memitem:acaf6c20448b6719ddaf4e1fa97e7edde" id="r_acaf6c20448b6719ddaf4e1fa97e7edde"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acaf6c20448b6719ddaf4e1fa97e7edde">Reset</a> ()</td></tr>
+<tr class="memitem:a7a016637e2f2105e3f8cab326dfcaf5a" id="r_a7a016637e2f2105e3f8cab326dfcaf5a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7a016637e2f2105e3f8cab326dfcaf5a">SetDirection</a> (int newDx, int newDy)</td></tr>
+<tr class="memitem:ada9d9b757e2182b4467263bb97725a25" id="r_ada9d9b757e2182b4467263bb97725a25"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ada9d9b757e2182b4467263bb97725a25">Tick</a> ()</td></tr>
+<tr class="memitem:a59f30711f858932fed92e16c1fa1624a" id="r_a59f30711f858932fed92e16c1fa1624a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a59f30711f858932fed92e16c1fa1624a">Draw</a> (Graphics^ g, System::Drawing::Size clientSize)</td></tr>
+<tr class="memitem:a6ece3376b5092aca73f5456f36a9b81c" id="r_a6ece3376b5092aca73f5456f36a9b81c"><td class="memItemLeft">List&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6ece3376b5092aca73f5456f36a9b81c">SaveAndGetRanking</a> (int finalScore)</td></tr>
+<tr class="memitem:a93b5a04c07553df9189895e023ae718a" id="r_a93b5a04c07553df9189895e023ae718a"><td class="memItemLeft">List&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a93b5a04c07553df9189895e023ae718a">LoadScores</a> ()</td></tr>
+<tr class="memitem:a7f835e2ee6a79852969200f726064201" id="r_a7f835e2ee6a79852969200f726064201"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7f835e2ee6a79852969200f726064201">TogglePause</a> ()</td></tr>
+<tr class="memitem:ac42df50a19b13b4243c3cbe82ee1bfd5" id="r_ac42df50a19b13b4243c3cbe82ee1bfd5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ac42df50a19b13b4243c3cbe82ee1bfd5">GetSnakeLength</a> ()</td></tr>
+<tr class="memitem:ae8a9c839e04acbb3109ea59f00dca8a6" id="r_ae8a9c839e04acbb3109ea59f00dca8a6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae8a9c839e04acbb3109ea59f00dca8a6">AddWall</a> (int gridX, int gridY)</td></tr>
+<tr class="memitem:a1bedcb32a4a0d61e639ca550e48efafa" id="r_a1bedcb32a4a0d61e639ca550e48efafa"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1bedcb32a4a0d61e639ca550e48efafa">SnakeGame</a> ()</td></tr>
+<tr class="memdesc:a1bedcb32a4a0d61e639ca550e48efafa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor: inicializa estado y carga el HighScore del CSV.  <br /></td></tr>
+<tr class="memitem:adb4607736a8172e8625a6309dcaccb46" id="r_adb4607736a8172e8625a6309dcaccb46"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adb4607736a8172e8625a6309dcaccb46">SetSnakeSkin</a> (Color primary, Color secondary, Color head)</td></tr>
+<tr class="memdesc:adb4607736a8172e8625a6309dcaccb46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cambia los colores de la serpiente (skin).  <br /></td></tr>
+<tr class="memitem:a090a23d719799ca840e33d28723b1c1b" id="r_a090a23d719799ca840e33d28723b1c1b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a090a23d719799ca840e33d28723b1c1b">SetBoardSize</a> (<a class="el" href="namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07a">BoardSize</a> size)</td></tr>
+<tr class="memdesc:a090a23d719799ca840e33d28723b1c1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configura el tamaño del tablero y reinicia la partida.  <br /></td></tr>
+<tr class="memitem:a12e7f5462ecb3c59b11e881d47b90619" id="r_a12e7f5462ecb3c59b11e881d47b90619"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a12e7f5462ecb3c59b11e881d47b90619">SetGameMode</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> mode)</td></tr>
+<tr class="memdesc:a12e7f5462ecb3c59b11e881d47b90619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aplica un modo de juego (o combinación de flags).  <br /></td></tr>
+<tr class="memitem:acaf6c20448b6719ddaf4e1fa97e7edde" id="r_acaf6c20448b6719ddaf4e1fa97e7edde"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acaf6c20448b6719ddaf4e1fa97e7edde">Reset</a> ()</td></tr>
+<tr class="memdesc:acaf6c20448b6719ddaf4e1fa97e7edde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reinicia el estado completo del juego.  <br /></td></tr>
+<tr class="memitem:a7a016637e2f2105e3f8cab326dfcaf5a" id="r_a7a016637e2f2105e3f8cab326dfcaf5a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7a016637e2f2105e3f8cab326dfcaf5a">SetDirection</a> (int newDx, int newDy)</td></tr>
+<tr class="memdesc:a7a016637e2f2105e3f8cab326dfcaf5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encola un cambio de dirección.  <br /></td></tr>
+<tr class="memitem:ada9d9b757e2182b4467263bb97725a25" id="r_ada9d9b757e2182b4467263bb97725a25"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ada9d9b757e2182b4467263bb97725a25">Tick</a> ()</td></tr>
+<tr class="memdesc:ada9d9b757e2182b4467263bb97725a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avanza un tick lógico del juego.  <br /></td></tr>
+<tr class="memitem:a59f30711f858932fed92e16c1fa1624a" id="r_a59f30711f858932fed92e16c1fa1624a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a59f30711f858932fed92e16c1fa1624a">Draw</a> (Graphics^ g, System::Drawing::Size clientSize)</td></tr>
+<tr class="memdesc:a59f30711f858932fed92e16c1fa1624a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renderiza el estado completo del juego.  <br /></td></tr>
+<tr class="memitem:a7f835e2ee6a79852969200f726064201" id="r_a7f835e2ee6a79852969200f726064201"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7f835e2ee6a79852969200f726064201">TogglePause</a> ()</td></tr>
+<tr class="memdesc:a7f835e2ee6a79852969200f726064201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alterna el estado de pausa.  <br /></td></tr>
+<tr class="memitem:ac42df50a19b13b4243c3cbe82ee1bfd5" id="r_ac42df50a19b13b4243c3cbe82ee1bfd5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ac42df50a19b13b4243c3cbe82ee1bfd5">GetSnakeLength</a> ()</td></tr>
+<tr class="memdesc:ac42df50a19b13b4243c3cbe82ee1bfd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retorna la longitud actual de la serpiente.  <br /></td></tr>
+<tr class="memitem:ae8a9c839e04acbb3109ea59f00dca8a6" id="r_ae8a9c839e04acbb3109ea59f00dca8a6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae8a9c839e04acbb3109ea59f00dca8a6">AddWall</a> (int gridX, int gridY)</td></tr>
+<tr class="memdesc:ae8a9c839e04acbb3109ea59f00dca8a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Agrega un obstáculo manual en la posición (gridX, gridY).  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Atributos públicos</h2></td></tr>
+<tr class="memitem:a9f97441d877f05e573055f6b99dcbcd8" id="r_a9f97441d877f05e573055f6b99dcbcd8"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9f97441d877f05e573055f6b99dcbcd8">WallPassThrough</a></td></tr>
+<tr class="memdesc:a9f97441d877f05e573055f6b99dcbcd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Si true, la serpiente atraviesa bordes.  <br /></td></tr>
+<tr class="memitem:aa8fd5a57d7ab55d025c0d2c214ac60dc" id="r_aa8fd5a57d7ab55d025c0d2c214ac60dc"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aa8fd5a57d7ab55d025c0d2c214ac60dc">SpeedMs</a></td></tr>
+<tr class="memdesc:aa8fd5a57d7ab55d025c0d2c214ac60dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Intervalo actual del temporizador (ms).  <br /></td></tr>
+<tr class="memitem:af47070e075c5332c0d714437a5b0d1b7" id="r_af47070e075c5332c0d714437a5b0d1b7"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#af47070e075c5332c0d714437a5b0d1b7">GrowAmount</a></td></tr>
+<tr class="memdesc:af47070e075c5332c0d714437a5b0d1b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Segmentos a crecer en modo Normal.  <br /></td></tr>
+<tr class="memitem:a43ba72ff7538d4af9c6614e9fbfe7890" id="r_a43ba72ff7538d4af9c6614e9fbfe7890"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a43ba72ff7538d4af9c6614e9fbfe7890">HasStarted</a></td></tr>
+<tr class="memdesc:a43ba72ff7538d4af9c6614e9fbfe7890"><td class="mdescLeft">&#160;</td><td class="mdescRight">true tras el primer movimiento.  <br /></td></tr>
+<tr class="memitem:ada6234ae58a06e909f70ad646cc97712" id="r_ada6234ae58a06e909f70ad646cc97712"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ada6234ae58a06e909f70ad646cc97712">IsGameOver</a></td></tr>
+<tr class="memdesc:ada6234ae58a06e909f70ad646cc97712"><td class="mdescLeft">&#160;</td><td class="mdescRight">true cuando la partida ha terminado.  <br /></td></tr>
+<tr class="memitem:a64312ff3b2b9082ea32990a2199aeeef" id="r_a64312ff3b2b9082ea32990a2199aeeef"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a64312ff3b2b9082ea32990a2199aeeef">IsPaused</a></td></tr>
+<tr class="memdesc:a64312ff3b2b9082ea32990a2199aeeef"><td class="mdescLeft">&#160;</td><td class="mdescRight">true cuando la partida está en pausa.  <br /></td></tr>
+<tr class="memitem:ad1fcb65d22f2adcf555d19478e5ed74d" id="r_ad1fcb65d22f2adcf555d19478e5ed74d"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ad1fcb65d22f2adcf555d19478e5ed74d">Score</a></td></tr>
+<tr class="memdesc:ad1fcb65d22f2adcf555d19478e5ed74d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puntaje acumulado en la partida actual.  <br /></td></tr>
+<tr class="memitem:a7f2dd1bb52720903049f2f174ec6dd3a" id="r_a7f2dd1bb52720903049f2f174ec6dd3a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a7f2dd1bb52720903049f2f174ec6dd3a">ApplesEaten</a></td></tr>
+<tr class="memdesc:a7f2dd1bb52720903049f2f174ec6dd3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manzanas consumidas en la partida.  <br /></td></tr>
+<tr class="memitem:afadfd784b1b2d4202e7530365a80c281" id="r_afadfd784b1b2d4202e7530365a80c281"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#afadfd784b1b2d4202e7530365a80c281">HighScore</a></td></tr>
+<tr class="memdesc:afadfd784b1b2d4202e7530365a80c281"><td class="mdescLeft">&#160;</td><td class="mdescRight">Máxima puntuación histórica cargada del CSV.  <br /></td></tr>
+<tr class="memitem:a7ea9eb3526c64a88d6d1398625b1e962" id="r_a7ea9eb3526c64a88d6d1398625b1e962"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a7ea9eb3526c64a88d6d1398625b1e962">CurrentCols</a></td></tr>
+<tr class="memdesc:a7ea9eb3526c64a88d6d1398625b1e962"><td class="mdescLeft">&#160;</td><td class="mdescRight">Columnas activas del tablero.  <br /></td></tr>
+<tr class="memitem:a2ad7ccde45ee14e8d6169190bfd7f978" id="r_a2ad7ccde45ee14e8d6169190bfd7f978"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a2ad7ccde45ee14e8d6169190bfd7f978">CurrentRows</a></td></tr>
+<tr class="memdesc:a2ad7ccde45ee14e8d6169190bfd7f978"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filas activas del tablero.  <br /></td></tr>
+<tr class="memitem:a82f10494cc12ebd1c916b40c3605ddf5" id="r_a82f10494cc12ebd1c916b40c3605ddf5"><td class="memItemLeft"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a82f10494cc12ebd1c916b40c3605ddf5">CurrentMode</a></td></tr>
+<tr class="memdesc:a82f10494cc12ebd1c916b40c3605ddf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modo(s) de juego activo(s) (flags combinados).  <br /></td></tr>
+<tr class="memitem:a6a74537148ea86081daab3a077e0cefd" id="r_a6a74537148ea86081daab3a077e0cefd"><td class="memItemLeft">Color&#160;</td><td class="memItemRight"><a class="el" href="#a6a74537148ea86081daab3a077e0cefd">SnakePrimaryColor</a></td></tr>
+<tr class="memdesc:a6a74537148ea86081daab3a077e0cefd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Color de los segmentos pares.  <br /></td></tr>
+<tr class="memitem:a261fa159893d358b3230752401e93e89" id="r_a261fa159893d358b3230752401e93e89"><td class="memItemLeft">Color&#160;</td><td class="memItemRight"><a class="el" href="#a261fa159893d358b3230752401e93e89">SnakeSecondaryColor</a></td></tr>
+<tr class="memdesc:a261fa159893d358b3230752401e93e89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Color de los segmentos impares.  <br /></td></tr>
+<tr class="memitem:a21821bd8b669d742fde1e9c5c1fe1dce" id="r_a21821bd8b669d742fde1e9c5c1fe1dce"><td class="memItemLeft">Color&#160;</td><td class="memItemRight"><a class="el" href="#a21821bd8b669d742fde1e9c5c1fe1dce">SnakeHeadColor</a></td></tr>
+<tr class="memdesc:a21821bd8b669d742fde1e9c5c1fe1dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Color de la cabeza.  <br /></td></tr>
+<tr class="memitem:a8f4530c6e2faae53bf410bc87b568627" id="r_a8f4530c6e2faae53bf410bc87b568627"><td class="memItemLeft">event <a class="el" href="#a44f267bac86ff5bdf217f671f61b544e">GameOverDelegate</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8f4530c6e2faae53bf410bc87b568627">OnGameOver</a></td></tr>
+<tr class="memdesc:a8f4530c6e2faae53bf410bc87b568627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegado emitido cuando la partida termina.  <br /></td></tr>
+<tr class="memitem:a369637cc50215a7c897d66e840023401" id="r_a369637cc50215a7c897d66e840023401"><td class="memItemLeft">event <a class="el" href="#a95227a33be3f8e7601575dd1bbf9cb73">ScoreChangedDelegate</a>&#160;</td><td class="memItemRight"><a class="el" href="#a369637cc50215a7c897d66e840023401">OnScoreChanged</a></td></tr>
+<tr class="memdesc:a369637cc50215a7c897d66e840023401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegado emitido cuando cambia la puntuación.  <br /></td></tr>
+<tr class="memitem:a7a6eb5859545fa665896c001969ec834" id="r_a7a6eb5859545fa665896c001969ec834"><td class="memItemLeft">event <a class="el" href="#a22e40b3f9319f0337f4a29ff3575847f">SpeedChangedDelegate</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7a6eb5859545fa665896c001969ec834">OnSpeedChanged</a></td></tr>
+<tr class="memdesc:a7a6eb5859545fa665896c001969ec834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegado emitido cuando cambia la velocidad.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Métodos privados</h2></td></tr>
+<tr class="memitem:afc135ef20234588542e3dd64defd9cd4" id="r_afc135ef20234588542e3dd64defd9cd4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#afc135ef20234588542e3dd64defd9cd4">HasMode</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> flag)</td></tr>
+<tr class="memitem:a66d72b5bb4736087ec936ac8791962f7" id="r_a66d72b5bb4736087ec936ac8791962f7"><td class="memItemLeft">List&lt; <a class="el" href="struct_mi_proyecto_1_1_grid_point.html">GridPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a66d72b5bb4736087ec936ac8791962f7">GetOccupiedCells</a> ()</td></tr>
+<tr class="memitem:ab9c60d79837f8539f22e2095f6683afa" id="r_ab9c60d79837f8539f22e2095f6683afa"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab9c60d79837f8539f22e2095f6683afa">TriggerGameOver</a> ()</td></tr>
+<tr class="memitem:a554ab4e29b5f40fe96d7a79b67c40ae5" id="r_a554ab4e29b5f40fe96d7a79b67c40ae5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a554ab4e29b5f40fe96d7a79b67c40ae5">LoadHighScore</a> ()</td></tr>
+<tr class="memitem:ad4207efa4cc83156f487fe25c7b710a8" id="r_ad4207efa4cc83156f487fe25c7b710a8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad4207efa4cc83156f487fe25c7b710a8">UpdateByScore</a> ()</td></tr>
+<tr class="memitem:a6409e5cbf66380f0c149b98fad924161" id="r_a6409e5cbf66380f0c149b98fad924161"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6409e5cbf66380f0c149b98fad924161">GenerateObstacle</a> ()</td></tr>
+<tr class="memitem:a355ee13845dfcdbe286b2d34aa35b120" id="r_a355ee13845dfcdbe286b2d34aa35b120"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a355ee13845dfcdbe286b2d34aa35b120">BuildBorderWalls</a> ()</td></tr>
+<tr class="memitem:ac52dbaf65a5688bb77a5bf3dc70cbd7f" id="r_ac52dbaf65a5688bb77a5bf3dc70cbd7f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac52dbaf65a5688bb77a5bf3dc70cbd7f">DrawEyes</a> (Graphics^ g, int px, int py)</td></tr>
+<tr class="memitem:a0cd29139e278647f878525beddbe9526" id="r_a0cd29139e278647f878525beddbe9526"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0cd29139e278647f878525beddbe9526">DrawGameOverOverlay</a> (Graphics^ g, System::Drawing::Size clientSize)</td></tr>
+<tr class="memitem:a260e96413e183720273b75cce65eed58" id="r_a260e96413e183720273b75cce65eed58"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a260e96413e183720273b75cce65eed58">DrawPauseOverlay</a> (Graphics^ g, System::Drawing::Size clientSize)</td></tr>
+<tr class="memitem:a6409e5cbf66380f0c149b98fad924161" id="r_a6409e5cbf66380f0c149b98fad924161"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6409e5cbf66380f0c149b98fad924161">GenerateObstacle</a> ()</td></tr>
+<tr class="memdesc:a6409e5cbf66380f0c149b98fad924161"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genera una celda de obstáculo aleatoria y libre.  <br /></td></tr>
+<tr class="memitem:a355ee13845dfcdbe286b2d34aa35b120" id="r_a355ee13845dfcdbe286b2d34aa35b120"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a355ee13845dfcdbe286b2d34aa35b120">BuildBorderWalls</a> ()</td></tr>
+<tr class="memdesc:a355ee13845dfcdbe286b2d34aa35b120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construye las paredes de borde del tablero.  <br /></td></tr>
+<tr class="memitem:ad4207efa4cc83156f487fe25c7b710a8" id="r_ad4207efa4cc83156f487fe25c7b710a8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad4207efa4cc83156f487fe25c7b710a8">UpdateByScore</a> ()</td></tr>
+<tr class="memdesc:ad4207efa4cc83156f487fe25c7b710a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actualiza obstáculos y velocidad según el puntaje actual.  <br /></td></tr>
+<tr class="memitem:ab9c60d79837f8539f22e2095f6683afa" id="r_ab9c60d79837f8539f22e2095f6683afa"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab9c60d79837f8539f22e2095f6683afa">TriggerGameOver</a> ()</td></tr>
+<tr class="memdesc:ab9c60d79837f8539f22e2095f6683afa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Activa el estado de Game Over y emite el evento OnGameOver.  <br /></td></tr>
+<tr class="memitem:a66d72b5bb4736087ec936ac8791962f7" id="r_a66d72b5bb4736087ec936ac8791962f7"><td class="memItemLeft">List&lt; <a class="el" href="struct_mi_proyecto_1_1_grid_point.html">GridPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a66d72b5bb4736087ec936ac8791962f7">GetOccupiedCells</a> ()</td></tr>
+<tr class="memdesc:a66d72b5bb4736087ec936ac8791962f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retorna la lista unificada de celdas ocupadas (cuerpo + paredes).  <br /></td></tr>
+<tr class="memitem:ac52dbaf65a5688bb77a5bf3dc70cbd7f" id="r_ac52dbaf65a5688bb77a5bf3dc70cbd7f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac52dbaf65a5688bb77a5bf3dc70cbd7f">DrawEyes</a> (Graphics^ g, int px, int py)</td></tr>
+<tr class="memdesc:ac52dbaf65a5688bb77a5bf3dc70cbd7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dibuja los ojos de la cabeza de la serpiente.  <br /></td></tr>
+<tr class="memitem:a0cd29139e278647f878525beddbe9526" id="r_a0cd29139e278647f878525beddbe9526"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0cd29139e278647f878525beddbe9526">DrawGameOverOverlay</a> (Graphics^ g, System::Drawing::Size clientSize)</td></tr>
+<tr class="memdesc:a0cd29139e278647f878525beddbe9526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dibuja el overlay semitransparente de Game Over.  <br /></td></tr>
+<tr class="memitem:a260e96413e183720273b75cce65eed58" id="r_a260e96413e183720273b75cce65eed58"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a260e96413e183720273b75cce65eed58">DrawPauseOverlay</a> (Graphics^ g, System::Drawing::Size clientSize)</td></tr>
+<tr class="memdesc:a260e96413e183720273b75cce65eed58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dibuja el overlay semitransparente de Pausa.  <br /></td></tr>
+<tr class="memitem:a6ece3376b5092aca73f5456f36a9b81c" id="r_a6ece3376b5092aca73f5456f36a9b81c"><td class="memItemLeft">List&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6ece3376b5092aca73f5456f36a9b81c">SaveAndGetRanking</a> (int finalScore)</td></tr>
+<tr class="memdesc:a6ece3376b5092aca73f5456f36a9b81c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Guarda la puntuación final y devuelve el ranking ordenado.  <br /></td></tr>
+<tr class="memitem:a93b5a04c07553df9189895e023ae718a" id="r_a93b5a04c07553df9189895e023ae718a"><td class="memItemLeft">List&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a93b5a04c07553df9189895e023ae718a">LoadScores</a> ()</td></tr>
+<tr class="memdesc:a93b5a04c07553df9189895e023ae718a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lee las puntuaciones del CSV y devuelve solo los valores enteros.  <br /></td></tr>
+<tr class="memitem:a554ab4e29b5f40fe96d7a79b67c40ae5" id="r_a554ab4e29b5f40fe96d7a79b67c40ae5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a554ab4e29b5f40fe96d7a79b67c40ae5">LoadHighScore</a> ()</td></tr>
+<tr class="memdesc:a554ab4e29b5f40fe96d7a79b67c40ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carga el HighScore desde el CSV al iniciar la instancia.  <br /></td></tr>
+<tr class="memitem:afc135ef20234588542e3dd64defd9cd4" id="r_afc135ef20234588542e3dd64defd9cd4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#afc135ef20234588542e3dd64defd9cd4">HasMode</a> (<a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> flag)</td></tr>
+<tr class="memdesc:afc135ef20234588542e3dd64defd9cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comprueba si el flag <span class="tt">flag</span> está activo en CurrentMode.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Atributos privados</h2></td></tr>
+<tr class="memitem:aad35ee0c86fbc90ac9383ec2932baaf9" id="r_aad35ee0c86fbc90ac9383ec2932baaf9"><td class="memItemLeft">List&lt; <a class="el" href="struct_mi_proyecto_1_1_grid_point.html">GridPoint</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aad35ee0c86fbc90ac9383ec2932baaf9">snakeBody</a></td></tr>
+<tr class="memitem:a4b559eb2ee2fcc2a4cf147d317c0aaf7" id="r_a4b559eb2ee2fcc2a4cf147d317c0aaf7"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a4b559eb2ee2fcc2a4cf147d317c0aaf7">dx</a></td></tr>
+<tr class="memitem:a5a1855f2b79c4b0db5eb905d762813d3" id="r_a5a1855f2b79c4b0db5eb905d762813d3"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5a1855f2b79c4b0db5eb905d762813d3">dy</a></td></tr>
+<tr class="memitem:a32ca7b6225031b2b058d3af69adc2234" id="r_a32ca7b6225031b2b058d3af69adc2234"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a32ca7b6225031b2b058d3af69adc2234">pendingDx</a></td></tr>
+<tr class="memitem:a32cf0ed622dfcb08aa9d7cf960ca38e5" id="r_a32cf0ed622dfcb08aa9d7cf960ca38e5"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a32cf0ed622dfcb08aa9d7cf960ca38e5">pendingDy</a></td></tr>
+<tr class="memitem:aebf8161ffe9be973e269a27c11862f87" id="r_aebf8161ffe9be973e269a27c11862f87"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aebf8161ffe9be973e269a27c11862f87">growPending</a></td></tr>
+<tr class="memitem:aae38c38d1083feb2107ea6513fb36456" id="r_aae38c38d1083feb2107ea6513fb36456"><td class="memItemLeft"><a class="el" href="class_mi_proyecto_1_1_apple.html">Apple</a>&#160;</td><td class="memItemRight"><a class="el" href="#aae38c38d1083feb2107ea6513fb36456">apple</a></td></tr>
+<tr class="memitem:a51b73e46101dfab3ec49d8a3c2dc46bd" id="r_a51b73e46101dfab3ec49d8a3c2dc46bd"><td class="memItemLeft">List&lt; <a class="el" href="class_mi_proyecto_1_1_wall.html">Wall</a>^&gt;&#160;</td><td class="memItemRight"><a class="el" href="#a51b73e46101dfab3ec49d8a3c2dc46bd">walls</a></td></tr>
+<tr class="memitem:ab60dd633002d875d478a51320ee0a25f" id="r_ab60dd633002d875d478a51320ee0a25f"><td class="memItemLeft">Random&#160;</td><td class="memItemRight"><a class="el" href="#ab60dd633002d875d478a51320ee0a25f">rnd</a></td></tr>
+<tr class="memitem:a5b5ca77ad8e5b221ac709f3c3a504891" id="r_a5b5ca77ad8e5b221ac709f3c3a504891"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a5b5ca77ad8e5b221ac709f3c3a504891">baseSpeedMs</a></td></tr>
+<tr class="memitem:a6811978d51bc587bdcf6016081adb467" id="r_a6811978d51bc587bdcf6016081adb467"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a6811978d51bc587bdcf6016081adb467">lastObstacleScore</a></td></tr>
+<tr class="memitem:a3c75103c87f7c414eb6ab33969e427bc" id="r_a3c75103c87f7c414eb6ab33969e427bc"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a3c75103c87f7c414eb6ab33969e427bc">lastSpeedScore</a></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descripción detallada</h2>
+<div class="textblock"><p>Motor principal del juego Snake. </p>
+<p>Encapsula la lógica completa de una instancia de juego: movimiento de la serpiente, detección de colisiones, sistema de modos combinables, renderizado escalado y gestión de puntuaciones.</p>
+<p>Se instancia una vez por jugador (<span class="tt">game1</span>, <span class="tt">game2</span> en <a class="el" href="class_mi_proyecto_1_1_form1.html" title="Ventana principal de la aplicación.">Form1</a>).</p>
+<dl class="section user"><dt>Eventos</dt><dd><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Evento  </th><th class="markdownTableHeadNone">Cuándo se dispara  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">OnGameOver  </td><td class="markdownTableBodyNone">Al colisionar con pared o con sí misma  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">OnScoreChanged  </td><td class="markdownTableBodyNone">Al consumir una manzana  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">OnSpeedChanged  </td><td class="markdownTableBodyNone">Al incrementar velocidad (modo SpeedIncrease)  </td></tr>
+</table>
+</dd></dl>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Documentación de constructores y destructores</h2>
+<a id="a1bedcb32a4a0d61e639ca550e48efafa" name="a1bedcb32a4a0d61e639ca550e48efafa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bedcb32a4a0d61e639ca550e48efafa">&#9670;&#160;</a></span>SnakeGame() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MiProyecto::SnakeGame::SnakeGame </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1bedcb32a4a0d61e639ca550e48efafa" name="a1bedcb32a4a0d61e639ca550e48efafa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bedcb32a4a0d61e639ca550e48efafa">&#9670;&#160;</a></span>SnakeGame() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MiProyecto::SnakeGame::SnakeGame </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor: inicializa estado y carga el HighScore del CSV. </p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentación de funciones miembro</h2>
+<a id="ae8a9c839e04acbb3109ea59f00dca8a6" name="ae8a9c839e04acbb3109ea59f00dca8a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8a9c839e04acbb3109ea59f00dca8a6">&#9670;&#160;</a></span>AddWall() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::AddWall </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>gridX</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>gridY</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae8a9c839e04acbb3109ea59f00dca8a6" name="ae8a9c839e04acbb3109ea59f00dca8a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8a9c839e04acbb3109ea59f00dca8a6">&#9670;&#160;</a></span>AddWall() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::AddWall </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>gridX</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>gridY</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Agrega un obstáculo manual en la posición (gridX, gridY). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gridX</td><td>Columna de la cuadrícula. </td></tr>
+    <tr><td class="paramname">gridY</td><td>Fila de la cuadrícula. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a355ee13845dfcdbe286b2d34aa35b120" name="a355ee13845dfcdbe286b2d34aa35b120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a355ee13845dfcdbe286b2d34aa35b120">&#9670;&#160;</a></span>BuildBorderWalls() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::BuildBorderWalls </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a355ee13845dfcdbe286b2d34aa35b120" name="a355ee13845dfcdbe286b2d34aa35b120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a355ee13845dfcdbe286b2d34aa35b120">&#9670;&#160;</a></span>BuildBorderWalls() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::BuildBorderWalls </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construye las paredes de borde del tablero. </p>
+<p>Crea <a class="el" href="class_mi_proyecto_1_1_wall.html" title="Representa una celda bloqueada en el tablero (borde o obstáculo).">Wall</a> con <span class="tt">IsBorder = true</span> en todo el perímetro (fila 0, fila N-1, columna 0, columna N-1). </p>
+
+</div>
+</div>
+<a id="a59f30711f858932fed92e16c1fa1624a" name="a59f30711f858932fed92e16c1fa1624a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59f30711f858932fed92e16c1fa1624a">&#9670;&#160;</a></span>Draw() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::Draw </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">System::Drawing::Size</td>          <td class="paramname"><span class="paramname"><em>clientSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a59f30711f858932fed92e16c1fa1624a" name="a59f30711f858932fed92e16c1fa1624a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59f30711f858932fed92e16c1fa1624a">&#9670;&#160;</a></span>Draw() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::Draw </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">System::Drawing::Size</td>          <td class="paramname"><span class="paramname"><em>clientSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Renderiza el estado completo del juego. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Contexto GDI+ del evento Paint. </td></tr>
+    <tr><td class="paramname">clientSize</td><td>Tamaño en píxeles del panel contenedor.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Aplica una transformación de escala uniforme para que el tablero ocupe el máximo espacio disponible sin distorsión. Dibuja: fondo, paredes, manzana, serpiente, ojos de la cabeza. Si la partida terminó o está pausada, superpone el overlay correspondiente. </p>
+
+</div>
+</div>
+<a id="ac52dbaf65a5688bb77a5bf3dc70cbd7f" name="ac52dbaf65a5688bb77a5bf3dc70cbd7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac52dbaf65a5688bb77a5bf3dc70cbd7f">&#9670;&#160;</a></span>DrawEyes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::DrawEyes </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>px</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>py</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac52dbaf65a5688bb77a5bf3dc70cbd7f" name="ac52dbaf65a5688bb77a5bf3dc70cbd7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac52dbaf65a5688bb77a5bf3dc70cbd7f">&#9670;&#160;</a></span>DrawEyes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::DrawEyes </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>px</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>py</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dibuja los ojos de la cabeza de la serpiente. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td>Contexto gráfico. </td></tr>
+    <tr><td class="paramname">px</td><td>Coordenada X en píxeles de la celda de la cabeza. </td></tr>
+    <tr><td class="paramname">py</td><td>Coordenada Y en píxeles de la celda de la cabeza. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0cd29139e278647f878525beddbe9526" name="a0cd29139e278647f878525beddbe9526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cd29139e278647f878525beddbe9526">&#9670;&#160;</a></span>DrawGameOverOverlay() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::DrawGameOverOverlay </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">System::Drawing::Size</td>          <td class="paramname"><span class="paramname"><em>clientSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0cd29139e278647f878525beddbe9526" name="a0cd29139e278647f878525beddbe9526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cd29139e278647f878525beddbe9526">&#9670;&#160;</a></span>DrawGameOverOverlay() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::DrawGameOverOverlay </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">System::Drawing::Size</td>          <td class="paramname"><span class="paramname"><em>clientSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dibuja el overlay semitransparente de Game Over. </p>
+
+</div>
+</div>
+<a id="a260e96413e183720273b75cce65eed58" name="a260e96413e183720273b75cce65eed58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a260e96413e183720273b75cce65eed58">&#9670;&#160;</a></span>DrawPauseOverlay() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::DrawPauseOverlay </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">System::Drawing::Size</td>          <td class="paramname"><span class="paramname"><em>clientSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a260e96413e183720273b75cce65eed58" name="a260e96413e183720273b75cce65eed58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a260e96413e183720273b75cce65eed58">&#9670;&#160;</a></span>DrawPauseOverlay() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::DrawPauseOverlay </td>
+          <td>(</td>
+          <td class="paramtype">Graphics^</td>          <td class="paramname"><span class="paramname"><em>g</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">System::Drawing::Size</td>          <td class="paramname"><span class="paramname"><em>clientSize</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dibuja el overlay semitransparente de Pausa. </p>
+
+</div>
+</div>
+<a id="a44f267bac86ff5bdf217f671f61b544e" name="a44f267bac86ff5bdf217f671f61b544e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44f267bac86ff5bdf217f671f61b544e">&#9670;&#160;</a></span>GameOverDelegate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delegate void MiProyecto::SnakeGame::GameOverDelegate </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>finalScore</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6409e5cbf66380f0c149b98fad924161" name="a6409e5cbf66380f0c149b98fad924161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6409e5cbf66380f0c149b98fad924161">&#9670;&#160;</a></span>GenerateObstacle() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::GenerateObstacle </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6409e5cbf66380f0c149b98fad924161" name="a6409e5cbf66380f0c149b98fad924161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6409e5cbf66380f0c149b98fad924161">&#9670;&#160;</a></span>GenerateObstacle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::GenerateObstacle </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Genera una celda de obstáculo aleatoria y libre. </p>
+<p>Realiza hasta 100 intentos para encontrar una posición no ocupada por la serpiente, las paredes existentes o la manzana. </p>
+
+</div>
+</div>
+<a id="a66d72b5bb4736087ec936ac8791962f7" name="a66d72b5bb4736087ec936ac8791962f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66d72b5bb4736087ec936ac8791962f7">&#9670;&#160;</a></span>GetOccupiedCells() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt; <a class="el" href="struct_mi_proyecto_1_1_grid_point.html">GridPoint</a> &gt; MiProyecto::SnakeGame::GetOccupiedCells </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a66d72b5bb4736087ec936ac8791962f7" name="a66d72b5bb4736087ec936ac8791962f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66d72b5bb4736087ec936ac8791962f7">&#9670;&#160;</a></span>GetOccupiedCells() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt; <a class="el" href="struct_mi_proyecto_1_1_grid_point.html">GridPoint</a> &gt; MiProyecto::SnakeGame::GetOccupiedCells </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retorna la lista unificada de celdas ocupadas (cuerpo + paredes). </p>
+
+</div>
+</div>
+<a id="ac42df50a19b13b4243c3cbe82ee1bfd5" name="ac42df50a19b13b4243c3cbe82ee1bfd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac42df50a19b13b4243c3cbe82ee1bfd5">&#9670;&#160;</a></span>GetSnakeLength() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::GetSnakeLength </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac42df50a19b13b4243c3cbe82ee1bfd5" name="ac42df50a19b13b4243c3cbe82ee1bfd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac42df50a19b13b4243c3cbe82ee1bfd5">&#9670;&#160;</a></span>GetSnakeLength() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::GetSnakeLength </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retorna la longitud actual de la serpiente. </p>
+
+</div>
+</div>
+<a id="afc135ef20234588542e3dd64defd9cd4" name="afc135ef20234588542e3dd64defd9cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc135ef20234588542e3dd64defd9cd4">&#9670;&#160;</a></span>HasMode() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::SnakeGame::HasMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>flag</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc135ef20234588542e3dd64defd9cd4" name="afc135ef20234588542e3dd64defd9cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc135ef20234588542e3dd64defd9cd4">&#9670;&#160;</a></span>HasMode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::SnakeGame::HasMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>flag</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Comprueba si el flag <span class="tt">flag</span> está activo en CurrentMode. </p>
+
+</div>
+</div>
+<a id="a554ab4e29b5f40fe96d7a79b67c40ae5" name="a554ab4e29b5f40fe96d7a79b67c40ae5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a554ab4e29b5f40fe96d7a79b67c40ae5">&#9670;&#160;</a></span>LoadHighScore() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::LoadHighScore </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a554ab4e29b5f40fe96d7a79b67c40ae5" name="a554ab4e29b5f40fe96d7a79b67c40ae5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a554ab4e29b5f40fe96d7a79b67c40ae5">&#9670;&#160;</a></span>LoadHighScore() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::LoadHighScore </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Carga el HighScore desde el CSV al iniciar la instancia. </p>
+
+</div>
+</div>
+<a id="a93b5a04c07553df9189895e023ae718a" name="a93b5a04c07553df9189895e023ae718a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93b5a04c07553df9189895e023ae718a">&#9670;&#160;</a></span>LoadScores() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt; int &gt; MiProyecto::SnakeGame::LoadScores </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93b5a04c07553df9189895e023ae718a" name="a93b5a04c07553df9189895e023ae718a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93b5a04c07553df9189895e023ae718a">&#9670;&#160;</a></span>LoadScores() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt; int &gt; MiProyecto::SnakeGame::LoadScores </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lee las puntuaciones del CSV y devuelve solo los valores enteros. </p>
+<dl class="section return"><dt>Devuelve</dt><dd>Lista de enteros extraídos del CSV (compatible con formato antiguo). </dd></dl>
+
+</div>
+</div>
+<a id="acaf6c20448b6719ddaf4e1fa97e7edde" name="acaf6c20448b6719ddaf4e1fa97e7edde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaf6c20448b6719ddaf4e1fa97e7edde">&#9670;&#160;</a></span>Reset() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::Reset </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acaf6c20448b6719ddaf4e1fa97e7edde" name="acaf6c20448b6719ddaf4e1fa97e7edde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaf6c20448b6719ddaf4e1fa97e7edde">&#9670;&#160;</a></span>Reset() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::Reset </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reinicia el estado completo del juego. </p>
+<p>Limpia serpiente, paredes y obstáculos. Posiciona la serpiente en el centro del tablero y genera la primera manzana. </p>
+
+</div>
+</div>
+<a id="a6ece3376b5092aca73f5456f36a9b81c" name="a6ece3376b5092aca73f5456f36a9b81c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ece3376b5092aca73f5456f36a9b81c">&#9670;&#160;</a></span>SaveAndGetRanking() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt; int &gt; MiProyecto::SnakeGame::SaveAndGetRanking </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>finalScore</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ece3376b5092aca73f5456f36a9b81c" name="a6ece3376b5092aca73f5456f36a9b81c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ece3376b5092aca73f5456f36a9b81c">&#9670;&#160;</a></span>SaveAndGetRanking() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt; int &gt; MiProyecto::SnakeGame::SaveAndGetRanking </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>finalScore</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Guarda la puntuación final y devuelve el ranking ordenado. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalScore</td><td>Puntaje al finalizar la partida. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>Lista de puntuaciones ordenada de mayor a menor. </dd></dl>
+
+</div>
+</div>
+<a id="a95227a33be3f8e7601575dd1bbf9cb73" name="a95227a33be3f8e7601575dd1bbf9cb73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95227a33be3f8e7601575dd1bbf9cb73">&#9670;&#160;</a></span>ScoreChangedDelegate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delegate void MiProyecto::SnakeGame::ScoreChangedDelegate </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>score</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>apples</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a090a23d719799ca840e33d28723b1c1b" name="a090a23d719799ca840e33d28723b1c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a090a23d719799ca840e33d28723b1c1b">&#9670;&#160;</a></span>SetBoardSize() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetBoardSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07a">BoardSize</a></td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a090a23d719799ca840e33d28723b1c1b" name="a090a23d719799ca840e33d28723b1c1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a090a23d719799ca840e33d28723b1c1b">&#9670;&#160;</a></span>SetBoardSize() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetBoardSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07a">BoardSize</a></td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configura el tamaño del tablero y reinicia la partida. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>Enum <a class="el" href="namespace_mi_proyecto.html#ae78b22e467a8d643baafcaeec38cd07a" title="Tamaños de tablero disponibles en el menú.">BoardSize</a> (Small/Medium/Large). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7a016637e2f2105e3f8cab326dfcaf5a" name="a7a016637e2f2105e3f8cab326dfcaf5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a016637e2f2105e3f8cab326dfcaf5a">&#9670;&#160;</a></span>SetDirection() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetDirection </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newDx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newDy</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7a016637e2f2105e3f8cab326dfcaf5a" name="a7a016637e2f2105e3f8cab326dfcaf5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a016637e2f2105e3f8cab326dfcaf5a">&#9670;&#160;</a></span>SetDirection() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetDirection </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newDx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newDy</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Encola un cambio de dirección. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newDx</td><td>Componente X de la nueva dirección (-1, 0 o 1). </td></tr>
+    <tr><td class="paramname">newDy</td><td>Componente Y de la nueva dirección (-1, 0 o 1). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Nota</dt><dd>No permite inversión de 180° inmediata. </dd></dl>
+
+</div>
+</div>
+<a id="a12e7f5462ecb3c59b11e881d47b90619" name="a12e7f5462ecb3c59b11e881d47b90619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12e7f5462ecb3c59b11e881d47b90619">&#9670;&#160;</a></span>SetGameMode() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetGameMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12e7f5462ecb3c59b11e881d47b90619" name="a12e7f5462ecb3c59b11e881d47b90619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12e7f5462ecb3c59b11e881d47b90619">&#9670;&#160;</a></span>SetGameMode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetGameMode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aplica un modo de juego (o combinación de flags). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>Combinación de valores <a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e" title="Modos de juego combinables mediante operador OR a nivel de bits.">GameMode</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Nota</dt><dd>Ajusta SpeedMs base si SpeedIncrease está activo. </dd></dl>
+
+</div>
+</div>
+<a id="adb4607736a8172e8625a6309dcaccb46" name="adb4607736a8172e8625a6309dcaccb46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb4607736a8172e8625a6309dcaccb46">&#9670;&#160;</a></span>SetSnakeSkin() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetSnakeSkin </td>
+          <td>(</td>
+          <td class="paramtype">Color</td>          <td class="paramname"><span class="paramname"><em>primary</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Color</td>          <td class="paramname"><span class="paramname"><em>secondary</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Color</td>          <td class="paramname"><span class="paramname"><em>head</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb4607736a8172e8625a6309dcaccb46" name="adb4607736a8172e8625a6309dcaccb46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb4607736a8172e8625a6309dcaccb46">&#9670;&#160;</a></span>SetSnakeSkin() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::SetSnakeSkin </td>
+          <td>(</td>
+          <td class="paramtype">Color</td>          <td class="paramname"><span class="paramname"><em>primary</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Color</td>          <td class="paramname"><span class="paramname"><em>secondary</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Color</td>          <td class="paramname"><span class="paramname"><em>head</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Cambia los colores de la serpiente (skin). </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">primary</td><td>Color de segmentos pares. </td></tr>
+    <tr><td class="paramname">secondary</td><td>Color de segmentos impares. </td></tr>
+    <tr><td class="paramname">head</td><td>Color de la cabeza. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a22e40b3f9319f0337f4a29ff3575847f" name="a22e40b3f9319f0337f4a29ff3575847f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22e40b3f9319f0337f4a29ff3575847f">&#9670;&#160;</a></span>SpeedChangedDelegate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">delegate void MiProyecto::SnakeGame::SpeedChangedDelegate </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>newSpeedMs</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada9d9b757e2182b4467263bb97725a25" name="ada9d9b757e2182b4467263bb97725a25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada9d9b757e2182b4467263bb97725a25">&#9670;&#160;</a></span>Tick() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::Tick </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada9d9b757e2182b4467263bb97725a25" name="ada9d9b757e2182b4467263bb97725a25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada9d9b757e2182b4467263bb97725a25">&#9670;&#160;</a></span>Tick() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::Tick </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Avanza un tick lógico del juego. </p>
+<p>Secuencia por tick:</p><ol type="1">
+<li>Aplica la dirección pendiente.</li>
+<li>Calcula la nueva posición de la cabeza.</li>
+<li>Verifica colisión con paredes o cuerpo propio.</li>
+<li>Verifica colisión con la manzana.</li>
+<li>Llama a <span class="tt"><a class="el" href="#ad4207efa4cc83156f487fe25c7b710a8">UpdateByScore()</a></span> si se comió una manzana. </li>
+</ol>
+
+</div>
+</div>
+<a id="a7f835e2ee6a79852969200f726064201" name="a7f835e2ee6a79852969200f726064201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f835e2ee6a79852969200f726064201">&#9670;&#160;</a></span>TogglePause() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::TogglePause </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f835e2ee6a79852969200f726064201" name="a7f835e2ee6a79852969200f726064201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f835e2ee6a79852969200f726064201">&#9670;&#160;</a></span>TogglePause() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::TogglePause </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alterna el estado de pausa. </p>
+
+</div>
+</div>
+<a id="ab9c60d79837f8539f22e2095f6683afa" name="ab9c60d79837f8539f22e2095f6683afa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9c60d79837f8539f22e2095f6683afa">&#9670;&#160;</a></span>TriggerGameOver() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::TriggerGameOver </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab9c60d79837f8539f22e2095f6683afa" name="ab9c60d79837f8539f22e2095f6683afa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9c60d79837f8539f22e2095f6683afa">&#9670;&#160;</a></span>TriggerGameOver() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::TriggerGameOver </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Activa el estado de Game Over y emite el evento OnGameOver. </p>
+<dl class="section note"><dt>Nota</dt><dd>También llama a <span class="tt"><a class="el" href="#a6ece3376b5092aca73f5456f36a9b81c">SaveAndGetRanking()</a></span> para actualizar el CSV. </dd></dl>
+
+</div>
+</div>
+<a id="ad4207efa4cc83156f487fe25c7b710a8" name="ad4207efa4cc83156f487fe25c7b710a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4207efa4cc83156f487fe25c7b710a8">&#9670;&#160;</a></span>UpdateByScore() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::UpdateByScore </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4207efa4cc83156f487fe25c7b710a8" name="ad4207efa4cc83156f487fe25c7b710a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4207efa4cc83156f487fe25c7b710a8">&#9670;&#160;</a></span>UpdateByScore() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MiProyecto::SnakeGame::UpdateByScore </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Actualiza obstáculos y velocidad según el puntaje actual. </p>
+<p>Llamado tras cada manzana consumida. Comprueba si el puntaje cruzó un umbral nuevo para cada modo activo:</p><ul>
+<li>Obstacles → <span class="tt"><a class="el" href="#a6409e5cbf66380f0c149b98fad924161">GenerateObstacle()</a></span></li>
+<li>SpeedIncrease → <span class="tt"><a class="el" href="#aa8fd5a57d7ab55d025c0d2c214ac60dc" title="Intervalo actual del temporizador (ms).">SpeedMs</a> *= 0.90</span> (mín. MIN_SPEED_MS) + evento </li>
+</ul>
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Documentación de datos miembro</h2>
+<a id="aae38c38d1083feb2107ea6513fb36456" name="aae38c38d1083feb2107ea6513fb36456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae38c38d1083feb2107ea6513fb36456">&#9670;&#160;</a></span>apple</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_mi_proyecto_1_1_apple.html">Apple</a> MiProyecto::SnakeGame::apple</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7f2dd1bb52720903049f2f174ec6dd3a" name="a7f2dd1bb52720903049f2f174ec6dd3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f2dd1bb52720903049f2f174ec6dd3a">&#9670;&#160;</a></span>ApplesEaten</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::ApplesEaten</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Manzanas consumidas en la partida. </p>
+
+</div>
+</div>
+<a id="a5b5ca77ad8e5b221ac709f3c3a504891" name="a5b5ca77ad8e5b221ac709f3c3a504891"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b5ca77ad8e5b221ac709f3c3a504891">&#9670;&#160;</a></span>baseSpeedMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::baseSpeedMs</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ea9eb3526c64a88d6d1398625b1e962" name="a7ea9eb3526c64a88d6d1398625b1e962"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ea9eb3526c64a88d6d1398625b1e962">&#9670;&#160;</a></span>CurrentCols</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::CurrentCols</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Columnas activas del tablero. </p>
+
+</div>
+</div>
+<a id="a82f10494cc12ebd1c916b40c3605ddf5" name="a82f10494cc12ebd1c916b40c3605ddf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82f10494cc12ebd1c916b40c3605ddf5">&#9670;&#160;</a></span>CurrentMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespace_mi_proyecto.html#a9a322777839cd5cbb9bc87566fa94a1e">GameMode</a> MiProyecto::SnakeGame::CurrentMode</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Modo(s) de juego activo(s) (flags combinados). </p>
+
+</div>
+</div>
+<a id="a2ad7ccde45ee14e8d6169190bfd7f978" name="a2ad7ccde45ee14e8d6169190bfd7f978"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ad7ccde45ee14e8d6169190bfd7f978">&#9670;&#160;</a></span>CurrentRows</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::CurrentRows</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Filas activas del tablero. </p>
+
+</div>
+</div>
+<a id="a4b559eb2ee2fcc2a4cf147d317c0aaf7" name="a4b559eb2ee2fcc2a4cf147d317c0aaf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b559eb2ee2fcc2a4cf147d317c0aaf7">&#9670;&#160;</a></span>dx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::dx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5a1855f2b79c4b0db5eb905d762813d3" name="a5a1855f2b79c4b0db5eb905d762813d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a1855f2b79c4b0db5eb905d762813d3">&#9670;&#160;</a></span>dy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::dy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af47070e075c5332c0d714437a5b0d1b7" name="af47070e075c5332c0d714437a5b0d1b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af47070e075c5332c0d714437a5b0d1b7">&#9670;&#160;</a></span>GrowAmount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::GrowAmount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Segmentos a crecer en modo Normal. </p>
+
+</div>
+</div>
+<a id="aebf8161ffe9be973e269a27c11862f87" name="aebf8161ffe9be973e269a27c11862f87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf8161ffe9be973e269a27c11862f87">&#9670;&#160;</a></span>growPending</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::growPending</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43ba72ff7538d4af9c6614e9fbfe7890" name="a43ba72ff7538d4af9c6614e9fbfe7890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43ba72ff7538d4af9c6614e9fbfe7890">&#9670;&#160;</a></span>HasStarted</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::SnakeGame::HasStarted</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>true tras el primer movimiento. </p>
+
+</div>
+</div>
+<a id="afadfd784b1b2d4202e7530365a80c281" name="afadfd784b1b2d4202e7530365a80c281"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afadfd784b1b2d4202e7530365a80c281">&#9670;&#160;</a></span>HighScore</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::HighScore</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Máxima puntuación histórica cargada del CSV. </p>
+
+</div>
+</div>
+<a id="ada6234ae58a06e909f70ad646cc97712" name="ada6234ae58a06e909f70ad646cc97712"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada6234ae58a06e909f70ad646cc97712">&#9670;&#160;</a></span>IsGameOver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::SnakeGame::IsGameOver</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>true cuando la partida ha terminado. </p>
+
+</div>
+</div>
+<a id="a64312ff3b2b9082ea32990a2199aeeef" name="a64312ff3b2b9082ea32990a2199aeeef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64312ff3b2b9082ea32990a2199aeeef">&#9670;&#160;</a></span>IsPaused</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::SnakeGame::IsPaused</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>true cuando la partida está en pausa. </p>
+
+</div>
+</div>
+<a id="a6811978d51bc587bdcf6016081adb467" name="a6811978d51bc587bdcf6016081adb467"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6811978d51bc587bdcf6016081adb467">&#9670;&#160;</a></span>lastObstacleScore</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::lastObstacleScore</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3c75103c87f7c414eb6ab33969e427bc" name="a3c75103c87f7c414eb6ab33969e427bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c75103c87f7c414eb6ab33969e427bc">&#9670;&#160;</a></span>lastSpeedScore</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::lastSpeedScore</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f4530c6e2faae53bf410bc87b568627" name="a8f4530c6e2faae53bf410bc87b568627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f4530c6e2faae53bf410bc87b568627">&#9670;&#160;</a></span>OnGameOver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">event <a class="el" href="#a44f267bac86ff5bdf217f671f61b544e">GameOverDelegate</a> MiProyecto::SnakeGame::OnGameOver</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delegado emitido cuando la partida termina. </p>
+
+</div>
+</div>
+<a id="a369637cc50215a7c897d66e840023401" name="a369637cc50215a7c897d66e840023401"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369637cc50215a7c897d66e840023401">&#9670;&#160;</a></span>OnScoreChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">event <a class="el" href="#a95227a33be3f8e7601575dd1bbf9cb73">ScoreChangedDelegate</a> MiProyecto::SnakeGame::OnScoreChanged</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delegado emitido cuando cambia la puntuación. </p>
+
+</div>
+</div>
+<a id="a7a6eb5859545fa665896c001969ec834" name="a7a6eb5859545fa665896c001969ec834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a6eb5859545fa665896c001969ec834">&#9670;&#160;</a></span>OnSpeedChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">event <a class="el" href="#a22e40b3f9319f0337f4a29ff3575847f">SpeedChangedDelegate</a> MiProyecto::SnakeGame::OnSpeedChanged</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Delegado emitido cuando cambia la velocidad. </p>
+
+</div>
+</div>
+<a id="a32ca7b6225031b2b058d3af69adc2234" name="a32ca7b6225031b2b058d3af69adc2234"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32ca7b6225031b2b058d3af69adc2234">&#9670;&#160;</a></span>pendingDx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::pendingDx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a32cf0ed622dfcb08aa9d7cf960ca38e5" name="a32cf0ed622dfcb08aa9d7cf960ca38e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32cf0ed622dfcb08aa9d7cf960ca38e5">&#9670;&#160;</a></span>pendingDy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::pendingDy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab60dd633002d875d478a51320ee0a25f" name="ab60dd633002d875d478a51320ee0a25f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab60dd633002d875d478a51320ee0a25f">&#9670;&#160;</a></span>rnd</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Random MiProyecto::SnakeGame::rnd</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1fcb65d22f2adcf555d19478e5ed74d" name="ad1fcb65d22f2adcf555d19478e5ed74d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1fcb65d22f2adcf555d19478e5ed74d">&#9670;&#160;</a></span>Score</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::Score</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Puntaje acumulado en la partida actual. </p>
+
+</div>
+</div>
+<a id="aad35ee0c86fbc90ac9383ec2932baaf9" name="aad35ee0c86fbc90ac9383ec2932baaf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad35ee0c86fbc90ac9383ec2932baaf9">&#9670;&#160;</a></span>snakeBody</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="struct_mi_proyecto_1_1_grid_point.html">GridPoint</a>&gt; MiProyecto::SnakeGame::snakeBody</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a21821bd8b669d742fde1e9c5c1fe1dce" name="a21821bd8b669d742fde1e9c5c1fe1dce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21821bd8b669d742fde1e9c5c1fe1dce">&#9670;&#160;</a></span>SnakeHeadColor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Color MiProyecto::SnakeGame::SnakeHeadColor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Color de la cabeza. </p>
+
+</div>
+</div>
+<a id="a6a74537148ea86081daab3a077e0cefd" name="a6a74537148ea86081daab3a077e0cefd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a74537148ea86081daab3a077e0cefd">&#9670;&#160;</a></span>SnakePrimaryColor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Color MiProyecto::SnakeGame::SnakePrimaryColor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Color de los segmentos pares. </p>
+
+</div>
+</div>
+<a id="a261fa159893d358b3230752401e93e89" name="a261fa159893d358b3230752401e93e89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a261fa159893d358b3230752401e93e89">&#9670;&#160;</a></span>SnakeSecondaryColor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Color MiProyecto::SnakeGame::SnakeSecondaryColor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Color de los segmentos impares. </p>
+
+</div>
+</div>
+<a id="aa8fd5a57d7ab55d025c0d2c214ac60dc" name="aa8fd5a57d7ab55d025c0d2c214ac60dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8fd5a57d7ab55d025c0d2c214ac60dc">&#9670;&#160;</a></span>SpeedMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MiProyecto::SnakeGame::SpeedMs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Intervalo actual del temporizador (ms). </p>
+
+</div>
+</div>
+<a id="a9f97441d877f05e573055f6b99dcbcd8" name="a9f97441d877f05e573055f6b99dcbcd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f97441d877f05e573055f6b99dcbcd8">&#9670;&#160;</a></span>WallPassThrough</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MiProyecto::SnakeGame::WallPassThrough</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Si true, la serpiente atraviesa bordes. </p>
+
+</div>
+</div>
+<a id="a51b73e46101dfab3ec49d8a3c2dc46bd" name="a51b73e46101dfab3ec49d8a3c2dc46bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51b73e46101dfab3ec49d8a3c2dc46bd">&#9670;&#160;</a></span>walls</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="class_mi_proyecto_1_1_wall.html">Wall</a>^&gt; MiProyecto::SnakeGame::walls</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>La documentación de esta clase está generada de los siguientes archivos:<ul>
+<li><a class="el" href="_snake_8h_source.html">Snake.h</a></li>
+<li><a class="el" href="snake__doxygen_8h_source.html">snake_doxygen.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespace_mi_proyecto.html">MiProyecto</a></li><li class="navelem"><a href="class_mi_proyecto_1_1_snake_game.html">SnakeGame</a></li>
+    <li class="footer">Generado el <span class="timestamp"></span> para Snake Evolution por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

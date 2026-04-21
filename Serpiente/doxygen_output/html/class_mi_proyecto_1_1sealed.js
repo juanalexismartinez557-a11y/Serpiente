@@ -1,0 +1,25 @@
+var class_mi_proyecto_1_1sealed =
+[
+    [ "CompareByScoreDesc", "class_mi_proyecto_1_1sealed.html#a83d5d302325a3627317f19a7fa35ab69", null ],
+    [ "CompareByScoreDesc", "class_mi_proyecto_1_1sealed.html#a83d5d302325a3627317f19a7fa35ab69", null ],
+    [ "EnsureFileHasHeader", "class_mi_proyecto_1_1sealed.html#a517a285bb04a471b2864b2f22e6bcc63", null ],
+    [ "EnsureFileHasHeader", "class_mi_proyecto_1_1sealed.html#a517a285bb04a471b2864b2f22e6bcc63", null ],
+    [ "GetBestScorePerPlayer", "class_mi_proyecto_1_1sealed.html#a13fa980ec1ffaa956dda22395dc76e59", null ],
+    [ "GetBestScorePerPlayer", "class_mi_proyecto_1_1sealed.html#a13fa980ec1ffaa956dda22395dc76e59", null ],
+    [ "GetHighestScore", "class_mi_proyecto_1_1sealed.html#a4d1e3983372bb27ef0866eac5b1af517", null ],
+    [ "GetHighestScore", "class_mi_proyecto_1_1sealed.html#a4d1e3983372bb27ef0866eac5b1af517", null ],
+    [ "GetScoreFilePath", "class_mi_proyecto_1_1sealed.html#a3836e59a03024bf6e889cce222601609", null ],
+    [ "GetScoreFilePath", "class_mi_proyecto_1_1sealed.html#a3836e59a03024bf6e889cce222601609", null ],
+    [ "GetTopScores", "class_mi_proyecto_1_1sealed.html#ac343ded2c41205c5acc60c011b32d231", null ],
+    [ "GetTopScores", "class_mi_proyecto_1_1sealed.html#ac343ded2c41205c5acc60c011b32d231", null ],
+    [ "LoadScores", "class_mi_proyecto_1_1sealed.html#acee4f4b8514f70bfa6bcbffdd9736bfd", null ],
+    [ "LoadScores", "class_mi_proyecto_1_1sealed.html#acee4f4b8514f70bfa6bcbffdd9736bfd", null ],
+    [ "NormalizeUsername", "class_mi_proyecto_1_1sealed.html#abfa020b515dfe87b60fe27b916c20a16", null ],
+    [ "NormalizeUsername", "class_mi_proyecto_1_1sealed.html#abfa020b515dfe87b60fe27b916c20a16", null ],
+    [ "ParseScoreLine", "class_mi_proyecto_1_1sealed.html#a373632d957126f4a87695c3a45d39171", null ],
+    [ "ParseScoreLine", "class_mi_proyecto_1_1sealed.html#a373632d957126f4a87695c3a45d39171", null ],
+    [ "SanitizeCsvField", "class_mi_proyecto_1_1sealed.html#a30066955ffafaaee3b7559966dd99bcb", null ],
+    [ "SanitizeCsvField", "class_mi_proyecto_1_1sealed.html#a30066955ffafaaee3b7559966dd99bcb", null ],
+    [ "SaveScore", "class_mi_proyecto_1_1sealed.html#a5ac16322ded3a2c4d837cdd97dcfddae", null ],
+    [ "SaveScore", "class_mi_proyecto_1_1sealed.html#a5ac16322ded3a2c4d837cdd97dcfddae", null ]
+];

@@ -29,3 +29,5 @@ Jugador 1,0,25x25,Normal
 Jugador 1,0,25x25,Normal
 Jugador 1,0,25x25,Normal
 Jugador 1,0,25x25,Normal
+Jugador 1,40,50x50,Obstaculos+RandomGrowth+SpeedIncrease
+Pedrin,130,50x50,Obstaculos+RandomGrowth+SpeedIncrease

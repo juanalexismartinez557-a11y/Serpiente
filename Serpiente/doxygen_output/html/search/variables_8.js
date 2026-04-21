@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['lastobstaclescore_0',['lastObstacleScore',['../class_mi_proyecto_1_1_snake_game.html#a6811978d51bc587bdcf6016081adb467',1,'MiProyecto::SnakeGame']]],
+  ['lastspeedscore_1',['lastSpeedScore',['../class_mi_proyecto_1_1_snake_game.html#a3c75103c87f7c414eb6ab33969e427bc',1,'MiProyecto::SnakeGame']]],
+  ['lblhighscore_2',['lblHighScore',['../class_mi_proyecto_1_1_form1.html#a5242c694c7b3af75fc01c32433b5bedc',1,'MiProyecto::Form1']]],
+  ['lblmodo_3',['lblModo',['../class_mi_proyecto_1_1_form1.html#aa0edf8a64224defc970a9b4fb864ae8b',1,'MiProyecto::Form1']]],
+  ['lblnumjugadores_4',['lblNumJugadores',['../class_mi_proyecto_1_1_form1.html#a7d969bf5aa609a9a606aa6729ae0c058',1,'MiProyecto::Form1']]],
+  ['lblp1tag_5',['lblP1Tag',['../class_mi_proyecto_1_1_form1.html#a2567bda6c5fb8b2e1aeb69dbdf5cc716',1,'MiProyecto::Form1']]],
+  ['lblp2tag_6',['lblP2Tag',['../class_mi_proyecto_1_1_form1.html#a041cf62c93c8e5cc713f86c4d846b0aa',1,'MiProyecto::Form1']]],
+  ['lblprice1_7',['lblPrice1',['../class_mi_proyecto_1_1_form_tienda.html#a6979bec15daff8e74ca88c92afa50f51',1,'MiProyecto::FormTienda']]],
+  ['lblprice2_8',['lblPrice2',['../class_mi_proyecto_1_1_form_tienda.html#a25365c830f826ed2b9a913d0a88b16b7',1,'MiProyecto::FormTienda']]],
+  ['lblprice3_9',['lblPrice3',['../class_mi_proyecto_1_1_form_tienda.html#a43e6d2826ab3b2c5cd65a670742d7c55',1,'MiProyecto::FormTienda']]],
+  ['lblprice4_10',['lblPrice4',['../class_mi_proyecto_1_1_form_tienda.html#a6e1d252ec62a63b32b50f291d345e5f6',1,'MiProyecto::FormTienda']]],
+  ['lblprice5_11',['lblPrice5',['../class_mi_proyecto_1_1_form_tienda.html#a4b4b50d0daf46ed6d526b81508292722',1,'MiProyecto::FormTienda']]],
+  ['lblprice6_12',['lblPrice6',['../class_mi_proyecto_1_1_form_tienda.html#a247b7ff4a7002975e167fed4c2e30948',1,'MiProyecto::FormTienda']]],
+  ['lblscore1_13',['lblScore1',['../class_mi_proyecto_1_1_form1.html#a607475bdccd71a1ccc079a5f10c09a85',1,'MiProyecto::Form1']]],
+  ['lblscore2_14',['lblScore2',['../class_mi_proyecto_1_1_form1.html#ab589a9c4a7b7c0da24be09710c12ac19',1,'MiProyecto::Form1']]],
+  ['lbltamano_15',['lblTamano',['../class_mi_proyecto_1_1_form1.html#a7a0493f0522e6e7e26949b5cd3a4a185',1,'MiProyecto::Form1']]],
+  ['lbltitle_16',['lblTitle',['../class_mi_proyecto_1_1_form1.html#abcf68c0f13c077296e438adf8e669a42',1,'MiProyecto::Form1::lblTitle'],['../class_mi_proyecto_1_1_leaderboard_form.html#acb9af474815d4e70ca5c1b2a430c7422',1,'MiProyecto::LeaderboardForm::lblTitle']]]
+];

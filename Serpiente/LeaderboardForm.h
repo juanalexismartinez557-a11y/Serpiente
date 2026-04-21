@@ -52,7 +52,7 @@ namespace MiProyecto {
             this->MinimizeBox = false;
 
             // --- Título ---
-            lblTitle->Text = L"* TOP 10  LEADERBOARD *";
+            lblTitle->Text = L" TOP 10  LEADERBOARD ";
             lblTitle->Font = gcnew System::Drawing::Font(L"Consolas", 18, System::Drawing::FontStyle::Bold);
             lblTitle->ForeColor = Color::White;
             lblTitle->AutoSize = true;

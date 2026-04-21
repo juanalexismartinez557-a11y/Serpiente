@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snake Evolution: Archivo de cÃ³digo fuente modos.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Snake Evolution<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Juego Snake multijugador con modos combinables, leaderboard y tienda de skins</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('modos_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">modos.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="modos_8h.html">Ir a la documentaciÃ³n de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// ============================================================</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//  modos.h  —  Gestor de modos de juego (C++ nativo)</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">//  NOTA DE INTEGRACIÓN:</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">//  Esta clase usa std::deque / std::vector (C++ nativo) y no</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">//  puede conectarse directamente a SnakeGame (C++/CLI ref class)</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">//  sin un adaptador. Su lógica ha sido reimplementada dentro de</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">//  SnakeGame usando tipos administrados (List&lt;GridPoint&gt;^), en</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">//  los métodos UpdateByScore() y GenerateObstacle().</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">//</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">//  Este archivo se mantiene tal cual porque:</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">//   - Es correcto y compila de forma independiente.</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">//   - Sirve como referencia de diseño del sistema de modos.</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">//   - Puede usarse en futuras versiones nativas del proyecto.</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// ============================================================</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;deque&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;random&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">struct </span><a class="code hl_struct" href="struct_point.html">Point</a> {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_point.html#a8c779e11e694b20e0946105a9f5de842">x</a>, <a class="code hl_variable" href="struct_point.html#a2e1b5fb2b2a83571f5c0bc0f66a73cf7">y</a>;</div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="struct_point.html#a9c29cd36d1ce448b8e1e56a204fe2b95">   25</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="struct_point.html#a9c29cd36d1ce448b8e1e56a204fe2b95">operator==</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_point.html">Point</a>&amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="struct_point.html#a8c779e11e694b20e0946105a9f5de842">x</a> == other.<a class="code hl_variable" href="struct_point.html#a8c779e11e694b20e0946105a9f5de842">x</a> &amp;&amp; <a class="code hl_variable" href="struct_point.html#a2e1b5fb2b2a83571f5c0bc0f66a73cf7">y</a> == other.<a class="code hl_variable" href="struct_point.html#a2e1b5fb2b2a83571f5c0bc0f66a73cf7">y</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    }</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>};</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="};">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589de">   30</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="modos_8cpp.html#aaf5ef5a17b53e9997c837b07015589de">GameMode</a> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="modos_8cpp.html#aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0">   31</a></span>    <a class="code hl_enumvalue" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0">Normal</a>,        <span class="comment">// Sin modificadores especiales</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="modos_8cpp.html#aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3">   32</a></span>    <a class="code hl_enumvalue" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3">Obstacles</a>,     <span class="comment">// Genera obstáculos en el mapa</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="modos_8cpp.html#aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b">   33</a></span>    <a class="code hl_enumvalue" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b">RandomGrowth</a>,  <span class="comment">// Crecimiento aleatorio al comer</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="modos_8cpp.html#aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0">   34</a></span>    <a class="code hl_enumvalue" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0">SpeedIncrease</a>  <span class="comment">// Incrementa velocidad con el puntaje</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">class </span><a class="code hl_class" href="class_game_modes.html">GameModes</a> {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="class_game_modes.html#a9235fce6d98c7a3162ab3e8898015115">   39</a></span>    <a class="code hl_function" href="class_game_modes.html#a9235fce6d98c7a3162ab3e8898015115">GameModes</a>(</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        std::deque&lt;Point&gt;&amp; snake,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        std::vector&lt;Point&gt;&amp; obstacles,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordtype">int</span>&amp; timerInterval,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordtype">int</span> boardWidth,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordtype">int</span> boardHeight,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <a class="code hl_struct" href="struct_point.html">Point</a>&amp; foodPos</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    );</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_game_modes.html#ae9d886aa49d31586b5885135b579171c">   48</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game_modes.html#ae9d886aa49d31586b5885135b579171c">applyMode</a>(<a class="code hl_enumeration" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589de">GameMode</a> mode);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="class_game_modes.html#a71d1cd7321b1a6ce4a86b6b3ce06fb83">   49</a></span>    <span class="keywordtype">int</span>  <a class="code hl_function" href="class_game_modes.html#a71d1cd7321b1a6ce4a86b6b3ce06fb83">handleFoodEaten</a>(<a class="code hl_enumeration" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589de">GameMode</a> mode);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="class_game_modes.html#ae4c4de879d23856cc58f8209828f5225">   50</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game_modes.html#ae4c4de879d23856cc58f8209828f5225">updateByScore</a>(<a class="code hl_enumeration" href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589de">GameMode</a> mode, <span class="keywordtype">int</span> score);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="class_game_modes.html#a60634c9bd84f797a6be5a340ecce4867">   51</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_game_modes.html#a60634c9bd84f797a6be5a340ecce4867">isPositionValid</a>(<a class="code hl_struct" href="struct_point.html">Point</a> p) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="class_game_modes.html#a2a230ab3aaad3df2ceac5ffc372cd963">   52</a></span>    <span class="keywordtype">int</span>  <a class="code hl_function" href="class_game_modes.html#a2a230ab3aaad3df2ceac5ffc372cd963">getRandomGrowthAmount</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_game_modes.html#a3e137224b64319e5f3452d878c41ff87">   53</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_game_modes.html#a3e137224b64319e5f3452d878c41ff87">clearObstacles</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="class_game_modes.html#ada00546fd275f827a7717ed44168b6ad">   54</a></span>    <span class="keywordtype">int</span>  <a class="code hl_function" href="class_game_modes.html#ada00546fd275f827a7717ed44168b6ad">getTimerInterval</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    std::deque&lt;Point&gt;&amp; <a class="code hl_variable" href="class_game_modes.html#a5d49251a08cf024fb8eb7be04c216289">m_snake</a>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::vector&lt;Point&gt;&amp; <a class="code hl_variable" href="class_game_modes.html#a636227e3c3f4e53bbd3d9365beb56d7e">m_obstacles</a>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">int</span>&amp; <a class="code hl_variable" href="class_game_modes.html#a809a584ce20233d7946c51c83ae96142">m_timerInterval</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">int</span>                 <a class="code hl_variable" href="class_game_modes.html#a02f04aecef500a1484b435989200919d">m_boardWidth</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">int</span>                 <a class="code hl_variable" href="class_game_modes.html#a70b373e6c58c261601c3c32e8010fa50">m_boardHeight</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <a class="code hl_struct" href="struct_point.html">Point</a>&amp; <a class="code hl_variable" href="class_game_modes.html#acbb1fa16b1b65e70b754b3c6522b560d">m_foodPos</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">mutable</span> std::mt19937 <a class="code hl_variable" href="class_game_modes.html#ae53e6020b42687042579a9778a57935b">m_rng</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="class_game_modes.html#a6d3413a3912d40e0558032171949b62c">m_lastObstacleScore</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="class_game_modes.html#a2aabf8ba1789e235c07acd9a1f464228">m_lastSpeedScore</a>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="class_game_modes.html#af3638f49767c7c54c8b338df35970b8d">   69</a></span>    <span class="keywordtype">void</span>  <a class="code hl_function" href="class_game_modes.html#af3638f49767c7c54c8b338df35970b8d">generateObstacle</a>();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="class_game_modes.html#ae2bc35fc80a899fc5dff684a19ce2a7c">   70</a></span>    <a class="code hl_struct" href="struct_point.html">Point</a> <a class="code hl_function" href="class_game_modes.html#ae2bc35fc80a899fc5dff684a19ce2a7c">randomPoint</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>};</div>
+<div class="ttc" id="aclass_game_modes_html"><div class="ttname"><a href="class_game_modes.html">GameModes</a></div><div class="ttdef"><b>Definition</b> modos.cpp:37</div></div>
+<div class="ttc" id="aclass_game_modes_html_a02f04aecef500a1484b435989200919d"><div class="ttname"><a href="class_game_modes.html#a02f04aecef500a1484b435989200919d">GameModes::m_boardWidth</a></div><div class="ttdeci">int m_boardWidth</div><div class="ttdef"><b>Definition</b> modos.cpp:60</div></div>
+<div class="ttc" id="aclass_game_modes_html_a2a230ab3aaad3df2ceac5ffc372cd963"><div class="ttname"><a href="class_game_modes.html#a2a230ab3aaad3df2ceac5ffc372cd963">GameModes::getRandomGrowthAmount</a></div><div class="ttdeci">int getRandomGrowthAmount() const</div></div>
+<div class="ttc" id="aclass_game_modes_html_a2aabf8ba1789e235c07acd9a1f464228"><div class="ttname"><a href="class_game_modes.html#a2aabf8ba1789e235c07acd9a1f464228">GameModes::m_lastSpeedScore</a></div><div class="ttdeci">int m_lastSpeedScore</div><div class="ttdef"><b>Definition</b> modos.cpp:67</div></div>
+<div class="ttc" id="aclass_game_modes_html_a3e137224b64319e5f3452d878c41ff87"><div class="ttname"><a href="class_game_modes.html#a3e137224b64319e5f3452d878c41ff87">GameModes::clearObstacles</a></div><div class="ttdeci">void clearObstacles()</div></div>
+<div class="ttc" id="aclass_game_modes_html_a5d49251a08cf024fb8eb7be04c216289"><div class="ttname"><a href="class_game_modes.html#a5d49251a08cf024fb8eb7be04c216289">GameModes::m_snake</a></div><div class="ttdeci">std::deque&lt; Point &gt; &amp; m_snake</div><div class="ttdef"><b>Definition</b> modos.cpp:57</div></div>
+<div class="ttc" id="aclass_game_modes_html_a60634c9bd84f797a6be5a340ecce4867"><div class="ttname"><a href="class_game_modes.html#a60634c9bd84f797a6be5a340ecce4867">GameModes::isPositionValid</a></div><div class="ttdeci">bool isPositionValid(Point p) const</div></div>
+<div class="ttc" id="aclass_game_modes_html_a636227e3c3f4e53bbd3d9365beb56d7e"><div class="ttname"><a href="class_game_modes.html#a636227e3c3f4e53bbd3d9365beb56d7e">GameModes::m_obstacles</a></div><div class="ttdeci">std::vector&lt; Point &gt; &amp; m_obstacles</div><div class="ttdef"><b>Definition</b> modos.cpp:58</div></div>
+<div class="ttc" id="aclass_game_modes_html_a6d3413a3912d40e0558032171949b62c"><div class="ttname"><a href="class_game_modes.html#a6d3413a3912d40e0558032171949b62c">GameModes::m_lastObstacleScore</a></div><div class="ttdeci">int m_lastObstacleScore</div><div class="ttdef"><b>Definition</b> modos.cpp:66</div></div>
+<div class="ttc" id="aclass_game_modes_html_a70b373e6c58c261601c3c32e8010fa50"><div class="ttname"><a href="class_game_modes.html#a70b373e6c58c261601c3c32e8010fa50">GameModes::m_boardHeight</a></div><div class="ttdeci">int m_boardHeight</div><div class="ttdef"><b>Definition</b> modos.cpp:61</div></div>
+<div class="ttc" id="aclass_game_modes_html_a71d1cd7321b1a6ce4a86b6b3ce06fb83"><div class="ttname"><a href="class_game_modes.html#a71d1cd7321b1a6ce4a86b6b3ce06fb83">GameModes::handleFoodEaten</a></div><div class="ttdeci">int handleFoodEaten(GameMode mode)</div></div>
+<div class="ttc" id="aclass_game_modes_html_a809a584ce20233d7946c51c83ae96142"><div class="ttname"><a href="class_game_modes.html#a809a584ce20233d7946c51c83ae96142">GameModes::m_timerInterval</a></div><div class="ttdeci">int &amp; m_timerInterval</div><div class="ttdef"><b>Definition</b> modos.cpp:59</div></div>
+<div class="ttc" id="aclass_game_modes_html_a9235fce6d98c7a3162ab3e8898015115"><div class="ttname"><a href="class_game_modes.html#a9235fce6d98c7a3162ab3e8898015115">GameModes::GameModes</a></div><div class="ttdeci">GameModes(std::deque&lt; Point &gt; &amp;snake, std::vector&lt; Point &gt; &amp;obstacles, int &amp;timerInterval, int boardWidth, int boardHeight, Point &amp;foodPos)</div></div>
+<div class="ttc" id="aclass_game_modes_html_acbb1fa16b1b65e70b754b3c6522b560d"><div class="ttname"><a href="class_game_modes.html#acbb1fa16b1b65e70b754b3c6522b560d">GameModes::m_foodPos</a></div><div class="ttdeci">Point &amp; m_foodPos</div><div class="ttdef"><b>Definition</b> modos.cpp:62</div></div>
+<div class="ttc" id="aclass_game_modes_html_ada00546fd275f827a7717ed44168b6ad"><div class="ttname"><a href="class_game_modes.html#ada00546fd275f827a7717ed44168b6ad">GameModes::getTimerInterval</a></div><div class="ttdeci">int getTimerInterval() const</div></div>
+<div class="ttc" id="aclass_game_modes_html_ae2bc35fc80a899fc5dff684a19ce2a7c"><div class="ttname"><a href="class_game_modes.html#ae2bc35fc80a899fc5dff684a19ce2a7c">GameModes::randomPoint</a></div><div class="ttdeci">Point randomPoint() const</div></div>
+<div class="ttc" id="aclass_game_modes_html_ae4c4de879d23856cc58f8209828f5225"><div class="ttname"><a href="class_game_modes.html#ae4c4de879d23856cc58f8209828f5225">GameModes::updateByScore</a></div><div class="ttdeci">void updateByScore(GameMode mode, int score)</div></div>
+<div class="ttc" id="aclass_game_modes_html_ae53e6020b42687042579a9778a57935b"><div class="ttname"><a href="class_game_modes.html#ae53e6020b42687042579a9778a57935b">GameModes::m_rng</a></div><div class="ttdeci">std::mt19937 m_rng</div><div class="ttdef"><b>Definition</b> modos.cpp:64</div></div>
+<div class="ttc" id="aclass_game_modes_html_ae9d886aa49d31586b5885135b579171c"><div class="ttname"><a href="class_game_modes.html#ae9d886aa49d31586b5885135b579171c">GameModes::applyMode</a></div><div class="ttdeci">void applyMode(GameMode mode)</div></div>
+<div class="ttc" id="aclass_game_modes_html_af3638f49767c7c54c8b338df35970b8d"><div class="ttname"><a href="class_game_modes.html#af3638f49767c7c54c8b338df35970b8d">GameModes::generateObstacle</a></div><div class="ttdeci">void generateObstacle()</div></div>
+<div class="ttc" id="amodos_8cpp_html_aaf5ef5a17b53e9997c837b07015589de"><div class="ttname"><a href="modos_8cpp.html#aaf5ef5a17b53e9997c837b07015589de">GameMode</a></div><div class="ttdeci">GameMode</div><div class="ttdef"><b>Definition</b> modos.cpp:30</div></div>
+<div class="ttc" id="amodos_8h_html_aaf5ef5a17b53e9997c837b07015589de"><div class="ttname"><a href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589de">GameMode</a></div><div class="ttdeci">GameMode</div><div class="ttdef"><b>Definition</b> modos.h:30</div></div>
+<div class="ttc" id="amodos_8h_html_aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0"><div class="ttname"><a href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589dea1f8ae3d764dfb83466da0385fb79c2f0">GameMode::SpeedIncrease</a></div><div class="ttdeci">@ SpeedIncrease</div><div class="ttdef"><b>Definition</b> modos.cpp:34</div></div>
+<div class="ttc" id="amodos_8h_html_aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b"><div class="ttname"><a href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589dea327fd62ef7d6502face12a42e7381b0b">GameMode::RandomGrowth</a></div><div class="ttdeci">@ RandomGrowth</div><div class="ttdef"><b>Definition</b> modos.cpp:33</div></div>
+<div class="ttc" id="amodos_8h_html_aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0"><div class="ttname"><a href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589dea960b44c579bc2f6818d2daaf9e4c16f0">GameMode::Normal</a></div><div class="ttdeci">@ Normal</div><div class="ttdef"><b>Definition</b> modos.cpp:31</div></div>
+<div class="ttc" id="amodos_8h_html_aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3"><div class="ttname"><a href="modos_8h.html#aaf5ef5a17b53e9997c837b07015589deaf029790813fb7e6632338c7ae5c4f1e3">GameMode::Obstacles</a></div><div class="ttdeci">@ Obstacles</div><div class="ttdef"><b>Definition</b> modos.cpp:32</div></div>
+<div class="ttc" id="astruct_point_html"><div class="ttname"><a href="struct_point.html">Point</a></div><div class="ttdef"><b>Definition</b> modos.cpp:23</div></div>
+<div class="ttc" id="astruct_point_html_a2e1b5fb2b2a83571f5c0bc0f66a73cf7"><div class="ttname"><a href="struct_point.html#a2e1b5fb2b2a83571f5c0bc0f66a73cf7">Point::y</a></div><div class="ttdeci">int y</div><div class="ttdef"><b>Definition</b> modos.cpp:24</div></div>
+<div class="ttc" id="astruct_point_html_a8c779e11e694b20e0946105a9f5de842"><div class="ttname"><a href="struct_point.html#a8c779e11e694b20e0946105a9f5de842">Point::x</a></div><div class="ttdeci">int x</div><div class="ttdef"><b>Definition</b> modos.cpp:24</div></div>
+<div class="ttc" id="astruct_point_html_a9c29cd36d1ce448b8e1e56a204fe2b95"><div class="ttname"><a href="struct_point.html#a9c29cd36d1ce448b8e1e56a204fe2b95">Point::operator==</a></div><div class="ttdeci">bool operator==(const Point &amp;other) const</div><div class="ttdef"><b>Definition</b> modos.h:25</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="modos_8h.html">modos.h</a></li>
+    <li class="footer">Generado el <span class="timestamp"></span> para Snake Evolution por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>
