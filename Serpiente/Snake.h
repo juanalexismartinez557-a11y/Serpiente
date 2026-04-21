@@ -471,6 +471,8 @@ namespace MiProyecto {
         // -------------------------------------------------------
         void GenerateObstacle() {
             List<GridPoint>^ occupied = GetOccupiedCells();
+			occupied->Add(apple->Position);  // <-- Aquí se incluye la manzana como celda ocupada para evitar generar obstáculos encima
+
             for (int attempt = 0; attempt < 100; attempt++) {
                 GridPoint candidate(
                     rnd->Next(1, CurrentCols - 1),
@@ -486,7 +488,7 @@ namespace MiProyecto {
                     return;
                 }
             }
-            // Si no hay lugar libre, no se genera (igual que modos.cpp)
+            // Si no hay lugar libre, no se genera
         }
 
         void BuildBorderWalls() {
