@@ -64,6 +64,8 @@ namespace MiProyecto {
             this->KeyPreview = true;
             this->DoubleBuffered = true;   // Reduce el parpadeo
             this->Resize += gcnew EventHandler(this, &Form1::Form1_Resize);
+            // Centrar menú al iniciar
+            CenterMenuControls();
 
             // =====================================================
             //  PANEL MENÚ
@@ -77,18 +79,15 @@ namespace MiProyecto {
             lblTitle->Font = gcnew System::Drawing::Font(L"Segoe UI", 28, FontStyle::Bold);
             lblTitle->ForeColor = Color::White;
             lblTitle->AutoSize = true;
-            lblTitle->Location = System::Drawing::Point(200, 160);
 
             lblModo = gcnew Label();
             lblModo->Text = L"Modo:";
             lblModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
             lblModo->ForeColor = Color::White;
             lblModo->AutoSize = true;
-            lblModo->Location = System::Drawing::Point(260, 310);
 
             comboModo = gcnew ComboBox();
             comboModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
-            comboModo->Location = System::Drawing::Point(390, 306);
             comboModo->Size = System::Drawing::Size(190, 30);
             comboModo->DropDownStyle = ComboBoxStyle::DropDownList;
             comboModo->Items->Add(L"Obstáculos");           // índice 0 → GameMode::Obstacles
@@ -101,11 +100,9 @@ namespace MiProyecto {
             lblTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
             lblTamano->ForeColor = Color::White;
             lblTamano->AutoSize = true;
-            lblTamano->Location = System::Drawing::Point(260, 370);
 
             comboTamano = gcnew ComboBox();
             comboTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
-            comboTamano->Location = System::Drawing::Point(390, 366);
             comboTamano->Size = System::Drawing::Size(190, 30);
             comboTamano->DropDownStyle = ComboBoxStyle::DropDownList;
             comboTamano->Items->Add(L"10×10  (Pequeño)");   // índice 0 → BoardSize::Small
@@ -119,8 +116,7 @@ namespace MiProyecto {
             btnIniciar->BackColor = Color::FromArgb(50, 180, 50);
             btnIniciar->ForeColor = Color::White;
             btnIniciar->FlatStyle = FlatStyle::Flat;
-            btnIniciar->FlatAppearance->BorderSize = 0;
-            btnIniciar->Location = System::Drawing::Point(300, 430);
+            btnIniciar->FlatAppearance->BorderSize = 0; 
             btnIniciar->Size = System::Drawing::Size(220, 52);
             btnIniciar->Click += gcnew EventHandler(this, &Form1::IniciarJuego);
 
@@ -131,7 +127,6 @@ namespace MiProyecto {
             btnTienda->ForeColor = Color::White;
             btnTienda->FlatStyle = FlatStyle::Flat;
             btnTienda->FlatAppearance->BorderSize = 0;
-            btnTienda->Location = System::Drawing::Point(355, 500);
             btnTienda->Size = System::Drawing::Size(110, 40);
             btnTienda->Click += gcnew EventHandler(this, &Form1::AbrirTienda);
 
@@ -290,17 +285,21 @@ namespace MiProyecto {
         // =========================================================
         void Form1_Resize(Object^ sender, EventArgs^ e)
         {
-            if (panelGame == nullptr) return;
+            // --- Ajustar panel de juego ---
+            if (panelGame != nullptr) {
+                int sideMargin = 10;
+                int topMargin = 55;
+                int bottomMargin = 10;
 
-            int sideMargin = 10;          // margen izquierdo y derecho
-            int topMargin = 55;          // debajo de las labels (Y=22 + alto ~30 + separación)
-            int bottomMargin = 10;        // margen inferior
+                int newWidth = Math::Max(100, this->ClientSize.Width - sideMargin * 2);
+                int newHeight = Math::Max(100, this->ClientSize.Height - topMargin - bottomMargin);
 
-            int newWidth = Math::Max(100, this->ClientSize.Width - sideMargin * 2);
-            int newHeight = Math::Max(100, this->ClientSize.Height - topMargin - bottomMargin);
+                panelGame->Location = System::Drawing::Point(sideMargin, topMargin);
+                panelGame->Size = System::Drawing::Size(newWidth, newHeight);
+            }
 
-            panelGame->Location = System::Drawing::Point(sideMargin, topMargin);
-            panelGame->Size = System::Drawing::Size(newWidth, newHeight);
+            // --- Centrar menú ---
+            CenterMenuControls();
         }
 
         // Llamado cuando la serpiente muere
@@ -323,6 +322,60 @@ namespace MiProyecto {
         void Game_OnSpeedChanged(int newSpeedMs)
         {
             gameTimer->Interval = newSpeedMs;  // *** Actualiza el Timer en tiempo real ***
+        }
+
+        // =========================================================
+        //  CENTRAR CONTROLES DEL MENÚ
+        // =========================================================
+        void CenterMenuControls()
+        {
+            if (panelMenu == nullptr) return;
+
+            int cw = panelMenu->ClientSize.Width;
+            int ch = panelMenu->ClientSize.Height;
+
+            // Título arriba, centrado horizontalmente
+            lblTitle->Location = System::Drawing::Point(
+                (cw - lblTitle->Width) / 2,
+                (int)(ch * 0.15)           // 15% desde arriba
+            );
+
+            // Columna de labels (Modo, Tamaño) alineada a la derecha del centro
+            int centerX = cw / 2;
+            int labelRightX = centerX - 10;   // 10px a la izquierda del centro
+            int controlLeftX = centerX + 10; // 10px a la derecha del centro
+
+            // Modo
+            lblModo->Location = System::Drawing::Point(
+                labelRightX - lblModo->Width,
+                (int)(ch * 0.35)
+            );
+            comboModo->Location = System::Drawing::Point(
+                controlLeftX,
+                lblModo->Top + (lblModo->Height - comboModo->Height) / 2
+            );
+
+            // Tamaño
+            lblTamano->Location = System::Drawing::Point(
+                labelRightX - lblTamano->Width,
+                (int)(ch * 0.45)
+            );
+            comboTamano->Location = System::Drawing::Point(
+                controlLeftX,
+                lblTamano->Top + (lblTamano->Height - comboTamano->Height) / 2
+            );
+
+            // Botón Iniciar
+            btnIniciar->Location = System::Drawing::Point(
+                (cw - btnIniciar->Width) / 2,
+                (int)(ch * 0.58)
+            );
+
+            // Botón Tienda
+            btnTienda->Location = System::Drawing::Point(
+                (cw - btnTienda->Width) / 2,
+                btnIniciar->Bottom + 20
+            );
         }
 
         // =========================================================
