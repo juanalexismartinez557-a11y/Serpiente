@@ -5,6 +5,8 @@
 #using <System.Drawing.dll>
 
 #include "Snake.h"
+#include "ScoreManager.h"
+#include "LeaderboardForm.h"
 #include "formtienda.h"
 
 namespace MiProyecto {
@@ -32,6 +34,8 @@ namespace MiProyecto {
         ComboBox^ comboModo;
         ComboBox^ comboTamano;
         Button^ btnIniciar;
+        Button^ btnLeaderboard;
+        Button^ btnSalir;
         Button^ btnTienda;
 
         // --- Panel de juego ---
@@ -64,7 +68,8 @@ namespace MiProyecto {
             this->KeyPreview = true;
             this->DoubleBuffered = true;   // Reduce el parpadeo
             this->Resize += gcnew EventHandler(this, &Form1::Form1_Resize);
-            this->Shown += gcnew EventHandler(this, &Form1::Form1_Shown);
+            // Centrar menú al iniciar
+            CenterMenuControls();
 
             // =====================================================
             //  PANEL MENÚ
@@ -74,7 +79,7 @@ namespace MiProyecto {
             panelMenu->Dock = DockStyle::Fill;
 
             lblTitle = gcnew Label();
-            lblTitle->Text = L"🐍 Snake Evolution";
+            lblTitle->Text = L"Snake Evolution";
             lblTitle->Font = gcnew System::Drawing::Font(L"Segoe UI", 28, FontStyle::Bold);
             lblTitle->ForeColor = Color::White;
             lblTitle->AutoSize = true;
@@ -89,13 +94,13 @@ namespace MiProyecto {
             comboModo->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
             comboModo->Size = System::Drawing::Size(190, 30);
             comboModo->DropDownStyle = ComboBoxStyle::DropDownList;
-            comboModo->Items->Add(L"Obstáculos");           // índice 0 → GameMode::Obstacles
+            comboModo->Items->Add(L"Obstaculos");           // índice 0 → GameMode::Obstacles
             comboModo->Items->Add(L"Crecimiento Aleatorio"); // índice 1 → GameMode::RandomGrowth
             comboModo->Items->Add(L"Velocidad Creciente");  // índice 2 → GameMode::SpeedIncrease
             comboModo->SelectedIndex = 0;
 
             lblTamano = gcnew Label();
-            lblTamano->Text = L"Tamaño:";
+            lblTamano->Text = L"Tamano:";
             lblTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
             lblTamano->ForeColor = Color::White;
             lblTamano->AutoSize = true;
@@ -104,23 +109,33 @@ namespace MiProyecto {
             comboTamano->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
             comboTamano->Size = System::Drawing::Size(190, 30);
             comboTamano->DropDownStyle = ComboBoxStyle::DropDownList;
-            comboTamano->Items->Add(L"10×10  (Pequeño)");   // índice 0 → BoardSize::Small
-            comboTamano->Items->Add(L"25×25  (Mediano)");   // índice 1 → BoardSize::Medium
-            comboTamano->Items->Add(L"50×50  (Grande)");    // índice 2 → BoardSize::Large
+            comboTamano->Items->Add(L"10x10  (Pequeno)");   // índice 0 → BoardSize::Small
+            comboTamano->Items->Add(L"25x25  (Mediano)");   // índice 1 → BoardSize::Medium
+            comboTamano->Items->Add(L"50x50  (Grande)");    // índice 2 → BoardSize::Large
             comboTamano->SelectedIndex = 1;
 
             btnIniciar = gcnew Button();
-            btnIniciar->Text = L"▶  Iniciar Juego";
+            btnIniciar->Text = L"Iniciar Juego";
             btnIniciar->Font = gcnew System::Drawing::Font(L"Segoe UI", 14, FontStyle::Bold);
             btnIniciar->BackColor = Color::FromArgb(50, 180, 50);
             btnIniciar->ForeColor = Color::White;
             btnIniciar->FlatStyle = FlatStyle::Flat;
-            btnIniciar->FlatAppearance->BorderSize = 0; 
+            btnIniciar->FlatAppearance->BorderSize = 0;
             btnIniciar->Size = System::Drawing::Size(220, 52);
             btnIniciar->Click += gcnew EventHandler(this, &Form1::IniciarJuego);
 
+            btnLeaderboard = gcnew Button();
+            btnLeaderboard->Text = L"Leaderboard";
+            btnLeaderboard->Font = gcnew System::Drawing::Font(L"Segoe UI", 12, FontStyle::Bold);
+            btnLeaderboard->BackColor = Color::FromArgb(44, 110, 73);
+            btnLeaderboard->ForeColor = Color::White;
+            btnLeaderboard->FlatStyle = FlatStyle::Flat;
+            btnLeaderboard->FlatAppearance->BorderSize = 0;
+            btnLeaderboard->Size = System::Drawing::Size(220, 44);
+            btnLeaderboard->Click += gcnew EventHandler(this, &Form1::AbrirLeaderboard);
+
             btnTienda = gcnew Button();
-            btnTienda->Text = L"🛒  Tienda";
+            btnTienda->Text = L"Tienda";
             btnTienda->Font = gcnew System::Drawing::Font(L"Segoe UI", 12);
             btnTienda->BackColor = Color::FromArgb(220, 140, 20);
             btnTienda->ForeColor = Color::White;
@@ -129,13 +144,25 @@ namespace MiProyecto {
             btnTienda->Size = System::Drawing::Size(110, 40);
             btnTienda->Click += gcnew EventHandler(this, &Form1::AbrirTienda);
 
+            btnSalir = gcnew Button();
+            btnSalir->Text = L"Salir";
+            btnSalir->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, FontStyle::Bold);
+            btnSalir->BackColor = Color::FromArgb(130, 45, 45);
+            btnSalir->ForeColor = Color::White;
+            btnSalir->FlatStyle = FlatStyle::Flat;
+            btnSalir->FlatAppearance->BorderSize = 0;
+            btnSalir->Size = System::Drawing::Size(110, 40);
+            btnSalir->Click += gcnew EventHandler(this, &Form1::SalirAplicacion);
+
             panelMenu->Controls->Add(lblTitle);
             panelMenu->Controls->Add(lblModo);
             panelMenu->Controls->Add(comboModo);
             panelMenu->Controls->Add(lblTamano);
             panelMenu->Controls->Add(comboTamano);
             panelMenu->Controls->Add(btnIniciar);
+            panelMenu->Controls->Add(btnLeaderboard);
             panelMenu->Controls->Add(btnTienda);
+            panelMenu->Controls->Add(btnSalir);
 
             // =====================================================
             //  BARRA SUPERIOR (labels de puntaje)
@@ -163,7 +190,7 @@ namespace MiProyecto {
             lblHighScore->Size = System::Drawing::Size(260, 30);
             lblHighScore->Font = gcnew System::Drawing::Font(L"Segoe UI", 13, FontStyle::Bold);
             lblHighScore->ForeColor = Color::Gold;
-            lblHighScore->Text = L"Récord: 0";
+            lblHighScore->Text = L"Record: 0";
             lblHighScore->Anchor = AnchorStyles::Top | AnchorStyles::Left;
             lblHighScore->Visible = false;
 
@@ -223,15 +250,6 @@ namespace MiProyecto {
         }
 
         // =========================================================
-        //  AL MOSTRAR EL FORM POR PRIMERA VEZ
-        // =========================================================
-        void Form1_Shown(Object^ sender, EventArgs^ e)
-        {
-            // Forzar layout inicial y centrar menú con tamaños reales
-            panelMenu->Size = this->ClientSize;
-            CenterMenuControls();
-        }
-        // =========================================================
         //  INICIALIZAR MOTOR + TIMER
         // =========================================================
         void InitGame()
@@ -273,7 +291,7 @@ namespace MiProyecto {
                 this, &Form1::Game_OnSpeedChanged);
 
             // Actualizar récord en HUD
-            lblHighScore->Text = String::Format(L"Récord: {0}", game->HighScore);
+            lblHighScore->Text = String::Format(L"Record: {0}", game->HighScore);
             lblScore->Text = L"Puntos: 0";
             lblAppleCount->Text = L"Manzanas: 0";
 
@@ -314,8 +332,13 @@ namespace MiProyecto {
         void Game_OnGameOver(int finalScore)
         {
             gameTimer->Stop();
+
+            // INSERTAR AQUI: guardar score al final del flujo de Game Over.
+            String^ username = PromptUsername();
+            SaveScore(username, finalScore);
+
             // Actualizar récord en HUD (puede haber cambiado)
-            lblHighScore->Text = String::Format(L"Récord: {0}", game->HighScore);
+            lblHighScore->Text = String::Format(L"Record: {0}", game->HighScore);
             panelGame->Invalidate();
         }
 
@@ -379,10 +402,20 @@ namespace MiProyecto {
                 (int)(ch * 0.58)
             );
 
+            btnLeaderboard->Location = System::Drawing::Point(
+                (cw - btnLeaderboard->Width) / 2,
+                btnIniciar->Bottom + 16
+            );
+
             // Botón Tienda
             btnTienda->Location = System::Drawing::Point(
-                (cw - btnTienda->Width) / 2,
-                btnIniciar->Bottom + 20
+                centerX - btnTienda->Width - 12,
+                btnLeaderboard->Bottom + 18
+            );
+
+            btnSalir->Location = System::Drawing::Point(
+                centerX + 12,
+                btnLeaderboard->Bottom + 18
             );
         }
 
@@ -456,6 +489,14 @@ namespace MiProyecto {
                     panelMenu->Visible = true;
                 }
                 break;
+
+                // --- Ver Leaderboard (L) — solo disponible tras Game Over ---
+            case Keys::L:
+                if (game->IsGameOver) {
+                    LeaderboardForm^ leaderboard = gcnew LeaderboardForm();
+                    leaderboard->ShowDialog(this);
+                }
+                break;
             }
         }
 
@@ -471,6 +512,105 @@ namespace MiProyecto {
             FormTienda^ tienda = gcnew FormTienda();
             this->Hide();
             tienda->Show();
+        }
+
+        // INSERTAR AQUI: nueva navegación desde menú hacia la UI del leaderboard.
+        void AbrirLeaderboard(Object^ sender, EventArgs^ e)
+        {
+            LeaderboardForm^ leaderboard = gcnew LeaderboardForm();
+            leaderboard->ShowDialog(this);
+        }
+
+        void SalirAplicacion(Object^ sender, EventArgs^ e)
+        {
+            this->Close();
+        }
+
+        String^ PromptUsername()
+        {
+            Form^ prompt = gcnew Form();
+            prompt->Text = L"Guardar puntaje";
+            prompt->StartPosition = FormStartPosition::CenterParent;
+            prompt->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+            prompt->ClientSize = System::Drawing::Size(340, 150);
+            prompt->MinimizeBox = false;
+            prompt->MaximizeBox = false;
+            prompt->BackColor = Color::WhiteSmoke;
+
+            Label^ lblPrompt = gcnew Label();
+            lblPrompt->Text = L"Ingresa tu username:";
+            lblPrompt->Font = gcnew System::Drawing::Font(L"Segoe UI", 11, FontStyle::Bold);
+            lblPrompt->Location = System::Drawing::Point(18, 18);
+            lblPrompt->Size = System::Drawing::Size(280, 24);
+
+            TextBox^ txtUsername = gcnew TextBox();
+            txtUsername->Font = gcnew System::Drawing::Font(L"Segoe UI", 11);
+            txtUsername->Location = System::Drawing::Point(22, 52);
+            txtUsername->Size = System::Drawing::Size(292, 27);
+            txtUsername->MaxLength = 24;
+            txtUsername->Text = L"Jugador";
+
+            Button^ btnOk = gcnew Button();
+            btnOk->Text = L"Guardar";
+            btnOk->BackColor = Color::FromArgb(50, 180, 50);
+            btnOk->ForeColor = Color::White;
+            btnOk->FlatStyle = FlatStyle::Flat;
+            btnOk->FlatAppearance->BorderSize = 0;
+            btnOk->Location = System::Drawing::Point(146, 98);
+            btnOk->Size = System::Drawing::Size(80, 32);
+            btnOk->DialogResult = System::Windows::Forms::DialogResult::OK;
+
+            Button^ btnCancel = gcnew Button();
+            btnCancel->Text = L"Omitir";
+            btnCancel->Location = System::Drawing::Point(234, 98);
+            btnCancel->Size = System::Drawing::Size(80, 32);
+            btnCancel->DialogResult = System::Windows::Forms::DialogResult::Cancel;
+
+            prompt->AcceptButton = btnOk;
+            prompt->CancelButton = btnCancel;
+            prompt->Controls->Add(lblPrompt);
+            prompt->Controls->Add(txtUsername);
+            prompt->Controls->Add(btnOk);
+            prompt->Controls->Add(btnCancel);
+
+            String^ username = L"Jugador";
+            if (prompt->ShowDialog(this) == System::Windows::Forms::DialogResult::OK &&
+                !String::IsNullOrWhiteSpace(txtUsername->Text)) {
+                username = txtUsername->Text->Trim();
+            }
+
+            delete prompt;
+            return username;
+        }
+
+        void SaveScore(String^ username, int score)
+        {
+            if (game == nullptr)
+                return;
+
+            String^ boardSize = GetBoardSizeLabel(game->CurrentCols, game->CurrentRows);
+            String^ gameMode = GetGameModeLabel(game->CurrentMode);
+
+            // INSERTAR AQUI: nueva llamada centralizada para persistencia del leaderboard.
+            ScoreManager::SaveScore(username, score, boardSize, gameMode);
+            game->HighScore = ScoreManager::GetHighestScore();
+            lblHighScore->Text = String::Format(L"Record: {0}", ScoreManager::GetHighestScore());
+        }
+
+        String^ GetBoardSizeLabel(int cols, int rows)
+        {
+            return String::Format(L"{0}x{1}", cols, rows);
+        }
+
+        String^ GetGameModeLabel(GameMode mode)
+        {
+            switch (mode)
+            {
+            case GameMode::Obstacles: return L"Obstaculos";
+            case GameMode::RandomGrowth: return L"RandomGrowth";
+            case GameMode::SpeedIncrease: return L"SpeedIncrease";
+            default: return L"Normal";
+            }
         }
     };
 

@@ -9,6 +9,37 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
 	hash=None, flags=None
+Assembly System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class MiProyecto.ScoreEntry: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    Int32 BestScore 'get set' : 
+    System.String GameMode 'get set' : 
+    System.String BoardSize 'get set' : 
+    Int32 Score 'get set' : 
+    System.String Username 'get set' : 
+  Methods:
+    get_Username(): PrivateScope, Public, HideBySig, SpecialName
+    set_Username(String): PrivateScope, Public, HideBySig, SpecialName
+    get_Score(): PrivateScope, Public, HideBySig, SpecialName
+    set_Score(Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_BoardSize(): PrivateScope, Public, HideBySig, SpecialName
+    set_BoardSize(String): PrivateScope, Public, HideBySig, SpecialName
+    get_GameMode(): PrivateScope, Public, HideBySig, SpecialName
+    set_GameMode(String): PrivateScope, Public, HideBySig, SpecialName
+    get_BestScore(): PrivateScope, Public, HideBySig, SpecialName
+    set_BestScore(Int32): PrivateScope, Public, HideBySig, SpecialName
+Class MiProyecto.ScoreManager: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    SaveScore(String, Int32, String, String): PrivateScope, Public, Static, HideBySig
+    LoadScores(): PrivateScope, Public, Static, HideBySig
+    GetTopScores(Int32): PrivateScope, Public, Static, HideBySig
+    GetBestScorePerPlayer(): PrivateScope, Public, Static, HideBySig
+    GetHighestScore(): PrivateScope, Public, Static, HideBySig
+Class MiProyecto.LeaderboardForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class MiProyecto.FormTienda: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

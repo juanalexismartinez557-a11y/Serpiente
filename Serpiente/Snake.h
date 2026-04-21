@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #using <System.dll>
 #using <System.Windows.Forms.dll>
@@ -18,9 +18,9 @@ namespace MiProyecto {
     static const int APPLE_GROW_AMOUNT = 1;
     static const int SCORE_PER_APPLE = 10;
     static const int MAX_RANKING = 5;
-    static const int MIN_SPEED_MS = 50;   // Velocidad máxima (intervalo mínimo)
-    static const int OBSTACLE_SCORE_THRESHOLD = 5;   // Cada cuántos puntos aparece obstáculo
-    static const int SPEED_SCORE_THRESHOLD = 10;   // Cada cuántos puntos aumenta velocidad
+    static const int MIN_SPEED_MS = 50;   // Velocidad mï¿½xima (intervalo mï¿½nimo)
+    static const int OBSTACLE_SCORE_THRESHOLD = 5;   // Cada cuï¿½ntos puntos aparece obstï¿½culo
+    static const int SPEED_SCORE_THRESHOLD = 10;   // Cada cuï¿½ntos puntos aumenta velocidad
 
     ref class ScoreConfig {
     public:
@@ -31,14 +31,14 @@ namespace MiProyecto {
     //  MODOS DE JUEGO
     //  Equivalente al enum GameMode en modos.h, pero en C++/CLI
     //  para ser compatible con SnakeGame (ref class administrada).
-    //  La lógica de cada modo está implementada directamente en
+    //  La lï¿½gica de cada modo estï¿½ implementada directamente en
     //  SnakeGame::UpdateByScore() y SnakeGame::Tick(), replicando
     //  el comportamiento de GameModes::updateByScore() y
     //  GameModes::handleFoodEaten() de modos.cpp.
     // =========================================================
     public enum class GameMode {
         Normal,         // Sin modificadores
-        Obstacles,      // Genera obstáculos cada OBSTACLE_SCORE_THRESHOLD puntos
+        Obstacles,      // Genera obstï¿½culos cada OBSTACLE_SCORE_THRESHOLD puntos
         RandomGrowth,   // Crecimiento aleatorio (1-5) al comer
         SpeedIncrease   // Aumenta velocidad cada SPEED_SCORE_THRESHOLD puntos
     };
@@ -55,19 +55,19 @@ namespace MiProyecto {
     };
 
     // =========================================================
-    //  CLASE: Pared / Obstáculo
+    //  CLASE: Pared / Obstï¿½culo
     // =========================================================
     ref class Wall {
     public:
         GridPoint Position;
         Color     WallColor;
-        bool      IsBorder;  // true = pared de borde, false = obstáculo interior
+        bool      IsBorder;  // true = pared de borde, false = obstï¿½culo interior
 
         Wall(GridPoint pos, Color col, bool isBorder)
             : Position(pos), WallColor(col), IsBorder(isBorder) {
         }
 
-        // Sobrecarga para compatibilidad con código existente
+        // Sobrecarga para compatibilidad con cï¿½digo existente
         Wall(GridPoint pos, Color col) : Position(pos), WallColor(col), IsBorder(false) {}
 
         void Draw(Graphics^ g) {
@@ -111,7 +111,7 @@ namespace MiProyecto {
                 }
                 if (!isOccupied) { Position = newPos; return; }
             }
-            // Fallback si el tablero está casi lleno
+            // Fallback si el tablero estï¿½ casi lleno
             Position = GridPoint(rnd->Next(minX, maxX), rnd->Next(minY, maxY));
         }
 
@@ -136,12 +136,12 @@ namespace MiProyecto {
     // =========================================================
     ref class SnakeGame {
     public:
-        // --- Configuración ---
+        // --- Configuraciï¿½n ---
         bool WallPassThrough;
         int  SpeedMs;       // Intervalo actual del timer (Form1 lo usa para el Timer)
         int  GrowAmount;    // Segmentos que crece al comer (modo Normal/Obstacles)
 
-        // --- Estado público ---
+        // --- Estado pï¿½blico ---
         bool HasStarted;
         bool IsGameOver;
         bool IsPaused;
@@ -171,13 +171,13 @@ namespace MiProyecto {
         Random^ rnd;
 
         int baseSpeedMs;        // Velocidad base del modo (para Reset)
-        int lastObstacleScore;  // Último puntaje donde se generó obstáculo
-        int lastSpeedScore;     // Último puntaje donde aumentó la velocidad
+        int lastObstacleScore;  // ï¿½ltimo puntaje donde se generï¿½ obstï¿½culo
+        int lastSpeedScore;     // ï¿½ltimo puntaje donde aumentï¿½ la velocidad
 
     public:
 
         SnakeGame() {
-            // *** CORRECCIÓN CRÍTICA: inicializar dimensiones ANTES de llamar Reset() ***
+            // *** CORRECCIï¿½N CRï¿½TICA: inicializar dimensiones ANTES de llamar Reset() ***
             CurrentCols = 25;
             CurrentRows = 25;
 
@@ -198,7 +198,7 @@ namespace MiProyecto {
             Reset();
         }
 
-        // Cambia el tamaño del tablero y reinicia (solo antes de empezar)
+        // Cambia el tamaï¿½o del tablero y reinicia (solo antes de empezar)
         void SetBoardSize(BoardSize size) {
             switch (size) {
             case BoardSize::Small:  CurrentCols = 10; CurrentRows = 10; break;
@@ -210,16 +210,16 @@ namespace MiProyecto {
             Reset();
         }
 
-        // Establece el modo de juego y ajusta parámetros iniciales del modo
+        // Establece el modo de juego y ajusta parï¿½metros iniciales del modo
         void SetGameMode(GameMode mode) {
             CurrentMode = mode;
             switch (mode) {
             case GameMode::SpeedIncrease:
-                // Empieza un poco más rápido que el modo Normal
+                // Empieza un poco mï¿½s rï¿½pido que el modo Normal
                 SpeedMs = 120; baseSpeedMs = 120;
                 break;
             case GameMode::Obstacles:
-                WallPassThrough = false; // Obstáculos requieren colisión con paredes
+                WallPassThrough = false; // Obstï¿½culos requieren colisiï¿½n con paredes
                 SpeedMs = SNAKE_SPEED_MS; baseSpeedMs = SNAKE_SPEED_MS;
                 break;
             default:
@@ -245,7 +245,7 @@ namespace MiProyecto {
             lastObstacleScore = -1;
             lastSpeedScore = -1;
 
-            // Serpiente inicial de 3 segmentos en el centro, moviéndose a la derecha
+            // Serpiente inicial de 3 segmentos en el centro, moviï¿½ndose a la derecha
             int midRow = CurrentRows / 2;
             int midCol = CurrentCols / 2;
             snakeBody->Add(GridPoint(midCol, midRow));
@@ -259,14 +259,14 @@ namespace MiProyecto {
             apple->Generate(rnd, CurrentCols, CurrentRows, GetOccupiedCells());
         }
 
-        // Buffer de dirección (evita giro de 180°)
+        // Buffer de direcciï¿½n (evita giro de 180ï¿½)
         void SetDirection(int newDx, int newDy) {
             if (newDx == -dx && newDy == -dy) return;
             pendingDx = newDx;
             pendingDy = newDy;
         }
 
-        // Tick principal — llamado por el Timer de Form1
+        // Tick principal ï¿½ llamado por el Timer de Form1
         void Tick() {
             if (IsGameOver || IsPaused) return;
             HasStarted = true;
@@ -275,7 +275,7 @@ namespace MiProyecto {
             GridPoint head = snakeBody[0];
             GridPoint newHead(head.X + dx, head.Y + dy);
 
-            // Lógica de paredes del borde
+            // Lï¿½gica de paredes del borde
             if (WallPassThrough) {
                 if (newHead.X <= 0)             newHead.X = CurrentCols - 2;
                 else if (newHead.X >= CurrentCols - 1) newHead.X = 1;
@@ -288,7 +288,7 @@ namespace MiProyecto {
                 }
             }
 
-            // Colisión con cuerpo propio
+            // Colisiï¿½n con cuerpo propio
             for (int i = 0; i < snakeBody->Count - 1; i++) {
                 if (snakeBody[i].Equals(newHead)) { TriggerGameOver(); return; }
             }
@@ -298,12 +298,12 @@ namespace MiProyecto {
             if (growPending > 0) growPending--;
             else snakeBody->RemoveAt(snakeBody->Count - 1);
 
-            // ¿Comió manzana?
+            // ï¿½Comiï¿½ manzana?
             if (newHead.Equals(apple->Position)) {
                 ApplesEaten++;
                 Score += SCORE_PER_APPLE;
 
-                // Crecimiento según modo
+                // Crecimiento segï¿½n modo
                 // Equivalente a GameModes::handleFoodEaten() en modos.cpp
                 int grow = GrowAmount;
                 if (CurrentMode == GameMode::RandomGrowth)
@@ -313,7 +313,7 @@ namespace MiProyecto {
                 apple->Generate(rnd, CurrentCols, CurrentRows, GetOccupiedCells());
                 OnScoreChanged(Score, ApplesEaten);
 
-                // Efectos por puntaje según modo
+                // Efectos por puntaje segï¿½n modo
                 UpdateByScore();
             }
         }
@@ -339,7 +339,7 @@ namespace MiProyecto {
                 0, 0, boardPixels.Width, boardPixels.Height
             );
 
-            // Paredes y obstáculos
+            // Paredes y obstï¿½culos
             for each (Wall ^ w in walls) { w->Draw(g); }
 
             // Manzana
@@ -359,7 +359,7 @@ namespace MiProyecto {
                 if (i == 0) DrawEyes(g, px, py);
             }
 
-            // Restaurar transformación para overlays
+            // Restaurar transformaciï¿½n para overlays
             g->Transform = originalTransform;
 
             if (IsGameOver) DrawGameOverOverlay(g, clientSize);
@@ -371,12 +371,6 @@ namespace MiProyecto {
             scores->Add(finalScore);
             scores->Sort();
             scores->Reverse();
-
-            System::IO::StreamWriter^ sw = gcnew System::IO::StreamWriter(
-                ScoreConfig::FILE_NAME, false);
-            for (int i = 0; i < Math::Min(scores->Count, MAX_RANKING); i++)
-                sw->WriteLine(scores[i]);
-            sw->Close();
 
             if (scores->Count > 0) HighScore = scores[0];
             return scores;
@@ -391,7 +385,10 @@ namespace MiProyecto {
                 String^ line;
                 while ((line = sr->ReadLine()) != nullptr) {
                     int val;
+                    array<String^>^ parts = line->Split(',');
                     if (int::TryParse(line->Trim(), val))
+                        scores->Add(val);
+                    else if (parts->Length >= 2 && int::TryParse(parts[1]->Trim(), val))
                         scores->Add(val);
                 }
                 sr->Close();
@@ -403,7 +400,7 @@ namespace MiProyecto {
         void TogglePause() { if (!IsGameOver) IsPaused = !IsPaused; }
         int  GetSnakeLength() { return snakeBody->Count; }
 
-        // Agrega obstáculo manualmente (para uso externo si se desea)
+        // Agrega obstï¿½culo manualmente (para uso externo si se desea)
         void AddWall(int gridX, int gridY) {
             walls->Add(gcnew Wall(GridPoint(gridX, gridY),
                 Color::FromArgb(80, 50, 20), false));
@@ -430,13 +427,13 @@ namespace MiProyecto {
         }
 
         // -------------------------------------------------------
-        //  UpdateByScore — replica GameModes::updateByScore()
+        //  UpdateByScore ï¿½ replica GameModes::updateByScore()
         //  de modos.cpp usando tipos C++/CLI compatibles con
         //  la ref class SnakeGame.
         // -------------------------------------------------------
         void UpdateByScore() {
 
-            // Modo Obstacles: un obstáculo cada OBSTACLE_SCORE_THRESHOLD puntos
+            // Modo Obstacles: un obstï¿½culo cada OBSTACLE_SCORE_THRESHOLD puntos
             if (CurrentMode == GameMode::Obstacles) {
                 int currentBlock = Score / OBSTACLE_SCORE_THRESHOLD;
                 int lastBlock = (lastObstacleScore >= 0)
@@ -448,7 +445,7 @@ namespace MiProyecto {
                 }
             }
 
-            // Modo SpeedIncrease: –10% de intervalo cada SPEED_SCORE_THRESHOLD puntos
+            // Modo SpeedIncrease: ï¿½10% de intervalo cada SPEED_SCORE_THRESHOLD puntos
             if (CurrentMode == GameMode::SpeedIncrease) {
                 int currentBlock = Score / SPEED_SCORE_THRESHOLD;
                 int lastBlock = (lastSpeedScore >= 0)
@@ -467,11 +464,11 @@ namespace MiProyecto {
         }
 
         // -------------------------------------------------------
-        //  GenerateObstacle — replica GameModes::generateObstacle()
+        //  GenerateObstacle ï¿½ replica GameModes::generateObstacle()
         // -------------------------------------------------------
         void GenerateObstacle() {
             List<GridPoint>^ occupied = GetOccupiedCells();
-			occupied->Add(apple->Position);  // <-- Aquí se incluye la manzana como celda ocupada para evitar generar obstáculos encima
+            occupied->Add(apple->Position);  // <-- Aquï¿½ se incluye la manzana como celda ocupada para evitar generar obstï¿½culos encima
 
             for (int attempt = 0; attempt < 100; attempt++) {
                 GridPoint candidate(
@@ -545,7 +542,7 @@ namespace MiProyecto {
                 gcnew SolidBrush(Color::Gold), (float)cx, (float)(cy - 50), center);
             g->DrawString(String::Format(L"Puntaje: {0}", Score), smFont,
                 gcnew SolidBrush(Color::White), (float)cx, (float)(cy + 10), center);
-            g->DrawString(L"R = Reiniciar   M = Menú", smFont,
+            g->DrawString(L"R = Reiniciar   M = Menu   L = Leaderboard", smFont,
                 gcnew SolidBrush(Color::White), (float)cx, (float)(cy + 50), center);
 
             delete bigFont; delete smFont; delete center;

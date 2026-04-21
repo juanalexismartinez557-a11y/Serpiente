@@ -113,11 +113,14 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="modos.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="form.h" />
     <ClInclude Include="formtienda.h" />
+    <ClInclude Include="LeaderboardForm.h" />
     <ClInclude Include="modos.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="Snake.h" />
   </ItemGroup>
   <ItemGroup>
